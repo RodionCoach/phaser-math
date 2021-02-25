@@ -14,10 +14,6 @@ export const BUTTON_STYLE = {
   color: "#FFFFFE",
   align: "center",
   backgroundColor: BUTTON_BACKGROUND_COLOR,
-  fixedWidth: 234,
-  fixedHeight: 44,
-  padding: {
-    top: 15.5,
-    bottom: 15.5,
-  } 
 };
+
+export const PATH_SPRITES = "../assets/sprites"

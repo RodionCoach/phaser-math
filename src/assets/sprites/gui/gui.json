@@ -1,0 +1,230 @@
+{
+	"textures": [
+		{
+			"image": "gui-0.png",
+			"format": "RGBA8888",
+			"size": {
+				"w": 663,
+				"h": 230
+			},
+			"scale": 0.9375,
+			"frames": [
+				{
+					"filename": "input_and_buttons",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 525,
+						"h": 94
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 525,
+						"h": 94
+					},
+					"frame": {
+						"x": 3,
+						"y": 3,
+						"w": 525,
+						"h": 94
+					}
+				},
+				{
+					"filename": "digit_button",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 94,
+						"h": 94
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 94,
+						"h": 94
+					},
+					"frame": {
+						"x": 532,
+						"y": 3,
+						"w": 94,
+						"h": 94
+					}
+				},
+				{
+					"filename": "input_field",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 281,
+						"h": 94
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 281,
+						"h": 94
+					},
+					"frame": {
+						"x": 3,
+						"y": 101,
+						"w": 281,
+						"h": 94
+					}
+				},
+				{
+					"filename": "reset_button",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 94,
+						"h": 94
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 94,
+						"h": 94
+					},
+					"frame": {
+						"x": 288,
+						"y": 101,
+						"w": 94,
+						"h": 94
+					}
+				},
+				{
+					"filename": "submit_button",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 94,
+						"h": 94
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 94,
+						"h": 94
+					},
+					"frame": {
+						"x": 386,
+						"y": 101,
+						"w": 94,
+						"h": 94
+					}
+				},
+				{
+					"filename": "sound_off",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 69,
+						"h": 66
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 69,
+						"h": 66
+					},
+					"frame": {
+						"x": 484,
+						"y": 101,
+						"w": 69,
+						"h": 66
+					}
+				},
+				{
+					"filename": "sound_on",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 64,
+						"h": 66
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 64,
+						"h": 66
+					},
+					"frame": {
+						"x": 557,
+						"y": 101,
+						"w": 64,
+						"h": 66
+					}
+				},
+				{
+					"filename": "pause",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 56,
+						"h": 56
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 56,
+						"h": 56
+					},
+					"frame": {
+						"x": 484,
+						"y": 171,
+						"w": 56,
+						"h": 56
+					}
+				},
+				{
+					"filename": "empty_heart",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 56,
+						"h": 53
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 56,
+						"h": 53
+					},
+					"frame": {
+						"x": 544,
+						"y": 171,
+						"w": 56,
+						"h": 53
+					}
+				},
+				{
+					"filename": "full_heart",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 56,
+						"h": 53
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 56,
+						"h": 53
+					},
+					"frame": {
+						"x": 604,
+						"y": 171,
+						"w": 56,
+						"h": 53
+					}
+				}
+			]
+		}
+	],
+	"meta": {
+		"app": "https://www.codeandweb.com/texturepacker",
+		"version": "3.0",
+		"smartupdate": "$TexturePacker:SmartUpdate:95cd0fda1b9c44981a6040a2c444a621:9a5f842a3ae0b983a355bf3f755eafd9:48f41115e3c5028bd310174ad4d8735a$"
+	}
+}

@@ -1,11 +1,11 @@
 {
 	"textures": [
 		{
-			"image": "actors.png",
+			"image": "actors-0.png",
 			"format": "RGBA8888",
 			"size": {
-				"w": 1548,
-				"h": 432
+				"w": 1842,
+				"h": 350
 			},
 			"scale": 0.83333,
 			"frames": [
@@ -24,18 +24,14 @@
 						"h": 342
 					},
 					"frame": {
-						"x": 3,
-						"y": 3,
+						"x": 4,
+						"y": 4,
 						"w": 150,
 						"h": 342
-					},
-					"anchor": {
-						"x": 0.5,
-						"y": 0.5
 					}
 				},
 				{
-					"filename": "full bridge",
+					"filename": "full_bridge",
 					"rotated": false,
 					"trimmed": false,
 					"sourceSize": {
@@ -49,18 +45,14 @@
 						"h": 252
 					},
 					"frame": {
-						"x": 157,
-						"y": 3,
+						"x": 158,
+						"y": 4,
 						"w": 1388,
 						"h": 252
-					},
-					"anchor": {
-						"x": 0.5,
-						"y": 0.5
 					}
 				},
 				{
-					"filename": "water lily-waves",
+					"filename": "water_lily_waves",
 					"rotated": false,
 					"trimmed": true,
 					"sourceSize": {
@@ -74,43 +66,14 @@
 						"h": 168
 					},
 					"frame": {
-						"x": 157,
-						"y": 259,
+						"x": 1550,
+						"y": 4,
 						"w": 202,
 						"h": 168
-					},
-					"anchor": {
-						"x": 0.5,
-						"y": 0.5
 					}
 				},
 				{
-					"filename": "leaves and stones-right side",
-					"rotated": false,
-					"trimmed": true,
-					"sourceSize": {
-						"w": 147,
-						"h": 183
-					},
-					"spriteSourceSize": {
-						"x": 20,
-						"y": 0,
-						"w": 109,
-						"h": 163
-					},
-					"frame": {
-						"x": 363,
-						"y": 259,
-						"w": 109,
-						"h": 163
-					},
-					"anchor": {
-						"x": 0.5,
-						"y": 0.5
-					}
-				},
-				{
-					"filename": "leaves and stones-left side",
+					"filename": "leaves_and_stones",
 					"rotated": false,
 					"trimmed": true,
 					"sourceSize": {
@@ -124,18 +87,14 @@
 						"h": 160
 					},
 					"frame": {
-						"x": 476,
-						"y": 259,
+						"x": 1550,
+						"y": 176,
 						"w": 106,
 						"h": 160
-					},
-					"anchor": {
-						"x": 0.5,
-						"y": 0.5
 					}
 				},
 				{
-					"filename": "water lily-no waves",
+					"filename": "water_lily_no_waves",
 					"rotated": false,
 					"trimmed": true,
 					"sourceSize": {
@@ -149,264 +108,10 @@
 						"h": 153
 					},
 					"frame": {
-						"x": 586,
-						"y": 259,
+						"x": 1660,
+						"y": 176,
 						"w": 178,
 						"h": 153
-					},
-					"anchor": {
-						"x": 0.5,
-						"y": 0.5
-					}
-				},
-				{
-					"filename": "sound button-off",
-					"rotated": false,
-					"trimmed": false,
-					"sourceSize": {
-						"w": 62,
-						"h": 58
-					},
-					"spriteSourceSize": {
-						"x": 0,
-						"y": 0,
-						"w": 62,
-						"h": 58
-					},
-					"frame": {
-						"x": 3,
-						"y": 349,
-						"w": 62,
-						"h": 58
-					},
-					"anchor": {
-						"x": 0.5,
-						"y": 0.5
-					}
-				},
-				{
-					"filename": "sound button-on",
-					"rotated": false,
-					"trimmed": false,
-					"sourceSize": {
-						"w": 57,
-						"h": 58
-					},
-					"spriteSourceSize": {
-						"x": 0,
-						"y": 0,
-						"w": 57,
-						"h": 58
-					},
-					"frame": {
-						"x": 69,
-						"y": 349,
-						"w": 57,
-						"h": 58
-					},
-					"anchor": {
-						"x": 0.5,
-						"y": 0.5
-					}
-				},
-				{
-					"filename": "input and buttons",
-					"rotated": false,
-					"trimmed": false,
-					"sourceSize": {
-						"w": 467,
-						"h": 83
-					},
-					"spriteSourceSize": {
-						"x": 0,
-						"y": 0,
-						"w": 467,
-						"h": 83
-					},
-					"frame": {
-						"x": 768,
-						"y": 259,
-						"w": 467,
-						"h": 83
-					},
-					"anchor": {
-						"x": 0.5,
-						"y": 0.5
-					}
-				},
-				{
-					"filename": "input field",
-					"rotated": false,
-					"trimmed": false,
-					"sourceSize": {
-						"w": 250,
-						"h": 83
-					},
-					"spriteSourceSize": {
-						"x": 0,
-						"y": 0,
-						"w": 250,
-						"h": 83
-					},
-					"frame": {
-						"x": 768,
-						"y": 346,
-						"w": 250,
-						"h": 83
-					},
-					"anchor": {
-						"x": 0.5,
-						"y": 0.5
-					}
-				},
-				{
-					"filename": "digit button",
-					"rotated": false,
-					"trimmed": false,
-					"sourceSize": {
-						"w": 83,
-						"h": 83
-					},
-					"spriteSourceSize": {
-						"x": 0,
-						"y": 0,
-						"w": 83,
-						"h": 83
-					},
-					"frame": {
-						"x": 1022,
-						"y": 346,
-						"w": 83,
-						"h": 83
-					},
-					"anchor": {
-						"x": 0.5,
-						"y": 0.5
-					}
-				},
-				{
-					"filename": "reset button",
-					"rotated": false,
-					"trimmed": false,
-					"sourceSize": {
-						"w": 83,
-						"h": 83
-					},
-					"spriteSourceSize": {
-						"x": 0,
-						"y": 0,
-						"w": 83,
-						"h": 83
-					},
-					"frame": {
-						"x": 1109,
-						"y": 346,
-						"w": 83,
-						"h": 83
-					},
-					"anchor": {
-						"x": 0.5,
-						"y": 0.5
-					}
-				},
-				{
-					"filename": "submit button",
-					"rotated": false,
-					"trimmed": false,
-					"sourceSize": {
-						"w": 83,
-						"h": 83
-					},
-					"spriteSourceSize": {
-						"x": 0,
-						"y": 0,
-						"w": 83,
-						"h": 83
-					},
-					"frame": {
-						"x": 1196,
-						"y": 346,
-						"w": 83,
-						"h": 83
-					},
-					"anchor": {
-						"x": 0.5,
-						"y": 0.5
-					}
-				},
-				{
-					"filename": "pause",
-					"rotated": false,
-					"trimmed": false,
-					"sourceSize": {
-						"w": 50,
-						"h": 50
-					},
-					"spriteSourceSize": {
-						"x": 0,
-						"y": 0,
-						"w": 50,
-						"h": 50
-					},
-					"frame": {
-						"x": 1239,
-						"y": 259,
-						"w": 50,
-						"h": 50
-					},
-					"anchor": {
-						"x": 0.5,
-						"y": 0.5
-					}
-				},
-				{
-					"filename": "empty heart",
-					"rotated": false,
-					"trimmed": false,
-					"sourceSize": {
-						"w": 50,
-						"h": 47
-					},
-					"spriteSourceSize": {
-						"x": 0,
-						"y": 0,
-						"w": 50,
-						"h": 47
-					},
-					"frame": {
-						"x": 1283,
-						"y": 313,
-						"w": 50,
-						"h": 47
-					},
-					"anchor": {
-						"x": 0.5,
-						"y": 0.5
-					}
-				},
-				{
-					"filename": "full heart",
-					"rotated": false,
-					"trimmed": false,
-					"sourceSize": {
-						"w": 50,
-						"h": 47
-					},
-					"spriteSourceSize": {
-						"x": 0,
-						"y": 0,
-						"w": 50,
-						"h": 47
-					},
-					"frame": {
-						"x": 1293,
-						"y": 259,
-						"w": 50,
-						"h": 47
-					},
-					"anchor": {
-						"x": 0.5,
-						"y": 0.5
 					}
 				}
 			]
@@ -415,6 +120,6 @@
 	"meta": {
 		"app": "https://www.codeandweb.com/texturepacker",
 		"version": "3.0",
-		"smartupdate": "$TexturePacker:SmartUpdate:afc8442358ebac8d94b35a4655068059:63b737de318a0871e6340dad4b72bf2b:2a520dd2fdf06179f8fa589a63518120$"
+		"smartupdate": "$TexturePacker:SmartUpdate:fcfacb88834138b1f0bf8f00d123423b:139f05f0b5db5a886559706da6bceaa2:1ef8618620ec4d9ef28a89e23a02a77b$"
 	}
 }

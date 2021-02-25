@@ -6,7 +6,6 @@ declare class StartScene extends Phaser.Scene {
     create(): void;
     update(): void;
     StartGame(): void;
-    Rules(): void;
     HowToPlay(): void;
 }
 export default StartScene;

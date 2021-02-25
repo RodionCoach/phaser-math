@@ -12,10 +12,5 @@ export declare const BUTTON_STYLE: {
     color: string;
     align: string;
     backgroundColor: string;
-    fixedWidth: number;
-    fixedHeight: number;
-    padding: {
-        top: number;
-        bottom: number;
-    };
 };
+export declare const PATH_SPRITES = "../assets/sprites";

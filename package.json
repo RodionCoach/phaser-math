@@ -18,8 +18,7 @@
         ]
     },
     "dependencies": {
-        "phaser": "^3.50.0",
-        "phaser-ui-tools": "^2.0.0-beta"
+        "phaser": "^3.50.0"
     },
     "devDependencies": {
         "@babel/preset-env": "7.4.5",
