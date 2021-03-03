@@ -2,19 +2,19 @@ import commonjs from "rollup-plugin-commonjs";
 import replace from "@rollup/plugin-replace";
 import serve from "rollup-plugin-serve";
 import resolve from "rollup-plugin-node-resolve";
-import typescript from "rollup-plugin-typescript2";
 import copy from "rollup-plugin-copy-assets";
 import livereload from "rollup-plugin-livereload";
+import path from "path";
 
 export default {
-  input: ["./src/index.ts"],
+  input: ["./src/index.js"],
 
   output: {
     file: "./build/index.js",
     name: "math",
     format: "iife",
     sourcemap: true,
-    intro: 'var global = window;'
+    intro: "var global = window;",
   },
 
   plugins: [
@@ -25,10 +25,11 @@ export default {
       "typeof PLUGIN_CAMERA3D": JSON.stringify(false),
       "typeof PLUGIN_FBINSTANT": JSON.stringify(false),
       "typeof FEATURE_SOUND": JSON.stringify(true),
+      preventAssignment: true,
     }),
 
     resolve({
-      extensions: [".ts", ".tsx"],
+      extensions: [".js"],
     }),
 
     commonjs({
@@ -38,10 +39,8 @@ export default {
       ignoreGlobal: true,
     }),
 
-    typescript(),
-
     copy({
-      assets: ["src/assets"],
+      assets: ["src/assets", "src/index.html"],
     }),
 
     serve({
@@ -54,6 +53,9 @@ export default {
       },
     }),
 
-    livereload(),
+    livereload({
+      watch: path.resolve(__dirname, "src"),
+      exts: ["html", "js"],
+    }),
   ],
 };
