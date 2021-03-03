@@ -1,6 +1,6 @@
 import commonjs from "rollup-plugin-commonjs";
 import replace from "@rollup/plugin-replace";
-import { uglify } from "rollup-plugin-uglify";
+import { terser } from "rollup-plugin-terser";
 import resolve from "rollup-plugin-node-resolve";
 import copy from "rollup-plugin-copy-assets";
 
@@ -23,6 +23,7 @@ export default {
       "typeof PLUGIN_CAMERA3D": JSON.stringify(false),
       "typeof PLUGIN_FBINSTANT": JSON.stringify(false),
       "typeof FEATURE_SOUND": JSON.stringify(true),
+      preventAssignment: true,
     }),
 
     resolve({
@@ -36,12 +37,10 @@ export default {
       ignoreGlobal: true,
     }),
 
-    uglify({
-      mangle: false,
-    }),
+    terser(),
 
     copy({
-      assets: ["src/assets"],
+      assets: ["src/assets", "src/index.html"],
     }),
   ],
 };

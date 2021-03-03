@@ -32,7 +32,8 @@
     },
     "dependencies": {
         "phaser": "^3.50.0",
-        "phaser-ui-tools": "^2.0.0-beta"
+        "phaser-ui-tools": "^2.0.0-beta",
+        "rollup-plugin-terser": "^7.0.2"
     },
     "devDependencies": {
         "@babel/preset-env": "7.4.5",
@@ -50,7 +51,6 @@
         "rollup-plugin-copy-assets": "^2.0.3",
         "rollup-plugin-livereload": "^2.0.0",
         "rollup-plugin-node-resolve": "^5.2.0",
-        "rollup-plugin-serve": "^1.1.0",
-        "rollup-plugin-uglify": "^6.0.4"
+        "rollup-plugin-serve": "^1.1.0"
     }
 }
