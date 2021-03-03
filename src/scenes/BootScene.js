@@ -27,10 +27,10 @@ class BootScene extends Phaser.Scene {
     this.load.multiatlas("actors", `${PATH_SPRITES}/actors/actors.json`, `${PATH_SPRITES}/actors`);
     this.load.multiatlas("background", `${PATH_SPRITES}/background/background.json`, `${PATH_SPRITES}/background`);
     this.load.multiatlas("gui", `${PATH_SPRITES}/gui/gui.json`, `${PATH_SPRITES}/gui`);
-    this.load.image("buttonBackground", "../assets/img/GUI_button_default.png");
-    this.load.image("asnwerButton", "../assets/img/GUI_digit_button.png");
-    this.load.image("resetButton", "../assets/img/GUI_reset_btn.png");
-    this.load.image("setButton", "../assets/img/GUI_submit_btn.png");
+    this.load.image("buttonBackground", "./assets/img/GUI_button_default.png");
+    this.load.image("asnwerButton", "./assets/img/GUI_digit_button.png");
+    this.load.image("resetButton", "./assets/img/GUI_reset_btn.png");
+    this.load.image("setButton", "./assets/img/GUI_submit_btn.png");
 
     // this.load.audio("mars-slow", "assets/sounds/Mars.wav");
     // this.load.audio("intro", "assets/sounds/Intro.wav");

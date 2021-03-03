@@ -36,4 +36,4 @@ export const TOTAL_LILIES = 4;
 
 export const LILY_BONDARY_LIMIT = 70;
 
-export const PATH_SPRITES = "../assets/sprites";
+export const PATH_SPRITES = "./assets/sprites";

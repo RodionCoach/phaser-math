@@ -31,7 +31,6 @@
         }
     },
     "dependencies": {
-        "express": "^4.17.1",
         "phaser": "^3.50.0",
         "phaser-ui-tools": "^2.0.0-beta",
         "rollup-plugin-terser": "^7.0.2"
