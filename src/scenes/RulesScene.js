@@ -1,46 +1,79 @@
-class EndScene extends Phaser.Scene {
-  constructor() {
-      super({
-          key: 'EndScene'
-      });
-  }
+import "phaser-ui-tools";
+import { BUTTON_STYLE, RULES_STYLE, RULES_TEXT, GAME_RESOLUTION, TEXT_AREA_CONFIG_FOR_RULES } from "../utils/constants";
 
-  init(data) {
-      this.score = data.score;
+class RulesScene extends Phaser.Scene {
+  constructor() {
+    super({
+      key: "RulesScene",
+    });
   }
 
   create() {
-      const text = 'SCORE: ' + this.score + ' \n\n PRESS SPACE \n TO RESTART';
+    this.add.image(0, 0, "background", "background.png").setOrigin(0);
+    this.add.image(349, 85, "background", "wave1.png").setOrigin(0);
+    this.add.image(136, 97, "background", "wave2.png").setOrigin(0);
+    this.add.image(429, 141, "background", "wave2.png").setOrigin(0);
+    this.add.image(702, 217, "background", "wave3.png").setOrigin(0);
+    this.add.image(615, 430, "background", "wave4.png").setOrigin(0);
+    this.add.image(128, 443, "background", "wave5.png").setOrigin(0);
+    this.add.image(632, 72, "background", "wave6.png").setOrigin(0);
+    this.add.image(149, 207, "background", "wave6.png").setOrigin(0);
+    this.add.image(371, 229, "background", "wave6.png").setOrigin(0);
+    this.add.image(301, 351, "background", "wave7.png").setOrigin(0);
+    this.add.image(608, 316, "background", "wave7.png").setOrigin(0);
+    this.add.image(770, 670, "actors", "water_lily.png").setOrigin(0).setAngle(-135.0).setFlipY(true);
+    const rulesText = this.add.text(44, 32, RULES_TEXT, RULES_STYLE);
+    const soundControl = this.add
+      .image(20, 20, "gui", "sound_on.svg")
+      .setOrigin(0)
+      .setInteractive({ useHandCursor: true });
 
-      this.startGameKey = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
+    const container = this.add
+      .container(TEXT_AREA_CONFIG_FOR_RULES.x, TEXT_AREA_CONFIG_FOR_RULES.y)
+      .setName("textArea");
 
-      this.textObject = this.make.text({
-          x: this.game.renderer.width / 2,
-          y: this.game.renderer.height / 2,
-          text: text,
-          origin: 0.5,
-          style: {
-              fontSize: '24px',
-              fontFamily: 'Arial',
-              color: '#ffffff',
-              align: 'center',
-              wordWrap: {
-                  width: this.game.renderer.width / 2, useAdvancedWrap: true
-              }
-          },
-          add: true
-      });
+    const graphics = this.add.graphics();
+    graphics.fillStyle(0xffffff, 1);
+    graphics.fillRoundedRect(0, 0, TEXT_AREA_CONFIG_FOR_RULES.width, TEXT_AREA_CONFIG_FOR_RULES.height, 8);
+    container.add(graphics);
+    container.add(rulesText);
+
+    const buttonForReturnToMAinMenu = new uiWidgets.TextButton(
+      this,
+      0,
+      0,
+      "buttonBackground",
+      this.ReturnToMainMenu,
+      this,
+    ).setText("MAIN MENU", BUTTON_STYLE);
+    const halfHeightOfButton = this.textures.get("buttonBackground").source[0].height / 2;
+    const column = new uiWidgets.Column(
+      this,
+      GAME_RESOLUTION.width / 2,
+      TEXT_AREA_CONFIG_FOR_RULES.y + TEXT_AREA_CONFIG_FOR_RULES.height + halfHeightOfButton + 40,
+    );
+    column.addNode(buttonForReturnToMAinMenu, 0, 0);
+
+    //this.SetAudio();
   }
 
   update() {
-      if (Phaser.Input.Keyboard.JustDown(this.startGameKey)) {
-          this.StartGame();
-      }
+    // if (this.startGameKey && Phaser.Input.Keyboard.JustDown(this.startGameKey)) {
+    //   this.StartGame();
+    // }
   }
 
-  StartGame() {
-      this.scene.start('GameScene');
+  SetAudio() {
+    // Add and play the music
+    this.music = this.sound.add("intro");
+    this.music.play({
+      loop: true,
+    });
+  }
+
+  ReturnToMainMenu() {
+    this.scene.start("StartScene");
   }
 }
 
-export default EndScene;
+export default RulesScene;
