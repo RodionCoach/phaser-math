@@ -38,21 +38,17 @@ class RulesScene extends Phaser.Scene {
     container.add(graphics);
     container.add(rulesText);
 
-    const buttonForReturnToMAinMenu = new uiWidgets.TextButton(
-      this,
-      0,
-      0,
-      "buttonBackground",
-      this.ReturnToMainMenu,
-      this,
-    ).setText("MAIN MENU", BUTTON_STYLE);
+    const buttonReturn = new uiWidgets.TextButton(this, 0, 0, "buttonBackground", this.ReturnToMainMenu, this).setText(
+      "MAIN MENU",
+      BUTTON_STYLE,
+    );
     const halfHeightOfButton = this.textures.get("buttonBackground").source[0].height / 2;
     const column = new uiWidgets.Column(
       this,
       GAME_RESOLUTION.width / 2,
       TEXT_AREA_CONFIG_FOR_RULES.y + TEXT_AREA_CONFIG_FOR_RULES.height + halfHeightOfButton + 40,
     );
-    column.addNode(buttonForReturnToMAinMenu, 0, 0);
+    column.addNode(buttonReturn, 0, 0);
 
     //this.SetAudio();
   }
