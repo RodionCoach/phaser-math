@@ -4,6 +4,7 @@ import StartScene from "./scenes/StartScene";
 import GameScene from "./scenes/GameScene";
 import PauseScene from "./scenes/PauseScene";
 import RulesScene from "./scenes/RulesScene";
+import CountdownScene from "./scenes/CountdownScene";
 import EndScene from "./scenes/EndScene";
 
 import { GAME_RESOLUTION, BACKGROUND_COLOR } from "./utils/constants";
@@ -28,6 +29,7 @@ const config = {
   },
   scene: [
     BootScene,
+    CountdownScene,
     StartScene,
     GameScene,
     //PauseScene,

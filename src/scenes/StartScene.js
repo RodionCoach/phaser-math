@@ -22,6 +22,8 @@ class StartScene extends Phaser.Scene {
     this.add.image(371, 229, "background", "wave6.png").setOrigin(0);
     this.add.image(301, 351, "background", "wave7.png").setOrigin(0);
     this.add.image(608, 316, "background", "wave7.png").setOrigin(0);
+    this.add.image(770, 670, "actors", "water_lily.png").setOrigin(0).setAngle(-135.0).setFlipY(true);
+
     const soundControl = this.add
       .image(20, 20, "gui", "sound_on.svg")
       .setOrigin(0)
@@ -58,7 +60,8 @@ class StartScene extends Phaser.Scene {
   }
 
   StartGame() {
-    this.scene.start("GameScene");
+    // this.scene.start("GameScene");
+    this.scene.start("CountdownScene");
   }
 
   HowToPlay() {
