@@ -32,7 +32,7 @@ const config = {
     GameScene,
     //PauseScene,
     //EndScene,
-    //RulesScene,
+    RulesScene,
   ],
 };
 
