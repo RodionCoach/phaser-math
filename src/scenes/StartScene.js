@@ -1,4 +1,4 @@
-import "phaser-ui-tools";
+import uiWidgets from "phaser-ui-tools";
 import { BUTTON_STYLE, GAME_RESOLUTION } from "../utils/constants";
 class StartScene extends Phaser.Scene {
   startGameKey = null;

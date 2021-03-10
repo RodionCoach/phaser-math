@@ -1,4 +1,3 @@
-import "phaser-ui-tools";
 import { COUNTDOWN_STYLE, GAME_RESOLUTION } from "../utils/constants";
 
 class CountdownScene extends Phaser.Scene {
@@ -27,7 +26,7 @@ class CountdownScene extends Phaser.Scene {
 
     const halfScreenWidth = GAME_RESOLUTION.width / 2;
     const halfScreenHeight = GAME_RESOLUTION.height / 2;
-    const countdownText = this.add.text(0, 0, count.toString(), COUNTDOWN_STYLE);
+    const countdownText = this.add.text(0, 0, `${count}`, COUNTDOWN_STYLE);
     countdownText.setPosition(halfScreenWidth, halfScreenHeight).setOrigin(0.5, 0.5);
     countdownText.setScale(0.4, 0.4);
     this.tweens.add({
@@ -35,10 +34,10 @@ class CountdownScene extends Phaser.Scene {
       props: {
         alpha: {
           value: {
-            getStart: function (target, key, value) {
+            getStart: (target, key, value) => {
               return value + 0.75;
             },
-            getEnd: function () {
+            getEnd: () => {
               return 0;
             },
           },
@@ -68,25 +67,15 @@ class CountdownScene extends Phaser.Scene {
       loop: count - 1,
       onLoop: () => {
         count--;
-        countdownText.setText(count.toString());
+        countdownText.setText(`${count}`);
       },
       onComplete: () => {
         this.scene.start("GameScene");
       },
     });
-
-    // const soundControl = this.add
-    //   .image(20, 20, "gui", "sound_on.svg")
-    //   .setOrigin(0)
-    //   .setInteractive({ useHandCursor: true });
-    //this.SetAudio();
   }
 
-  update() {
-    // if (this.startGameKey && Phaser.Input.Keyboard.JustDown(this.startGameKey)) {
-    //   this.StartGame();
-    // }
-  }
+  update() {}
 
   SetAudio() {
     // Add and play the music

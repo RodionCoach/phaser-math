@@ -28,7 +28,7 @@ export const COUNTDOWN_STYLE = {
 
 export const RULES_STYLE = {
   fontFamily: "Lato",
-  fontSize: "16px",
+  fontSize: "17px",
   fontWeight: "900",
   fontStyle: "bold",
   lineSpacing: 4,

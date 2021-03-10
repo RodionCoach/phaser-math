@@ -1,5 +1,5 @@
 import LilySpawner from "../sprites/lilySpawner";
-
+import uiWidgets from "phaser-ui-tools";
 import { BUTTON_NUMBER_STYLE, SCORE_STYLE } from "../utils/constants";
 
 class GameScene extends Phaser.Scene {

@@ -3,17 +3,6 @@ class BootScene extends Phaser.Scene {
   constructor() {
     super({
       key: "BootScene",
-      pack: {
-        files: [
-          {
-            type: "plugin",
-            key: "rexwebfontloaderplugin",
-            url:
-              "https://raw.githubusercontent.com/rexrainbow/phaser3-rex-notes/master/dist/rexwebfontloaderplugin.min.js",
-            start: true,
-          },
-        ],
-      },
     });
   }
   preload() {
@@ -43,7 +32,7 @@ class BootScene extends Phaser.Scene {
     this.load.image("resetButton", "./assets/img/GUI_reset_btn.png");
     this.load.image("setButton", "./assets/img/GUI_submit_btn.png");
 
-    this.plugins.get("rexwebfontloaderplugin").addToScene(this);
+    // this.plugins.get("rexwebfontloaderplugin").addToScene(this);
     this.load.rexWebFont({
       google: {
         families: ["Lato:400,700,900"],
