@@ -60,7 +60,6 @@ class StartScene extends Phaser.Scene {
   }
 
   StartGame() {
-    // this.scene.start("GameScene");
     this.scene.start("CountdownScene");
   }
 

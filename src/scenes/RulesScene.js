@@ -53,12 +53,6 @@ class RulesScene extends Phaser.Scene {
     //this.SetAudio();
   }
 
-  update() {
-    // if (this.startGameKey && Phaser.Input.Keyboard.JustDown(this.startGameKey)) {
-    //   this.StartGame();
-    // }
-  }
-
   SetAudio() {
     // Add and play the music
     this.music = this.sound.add("intro");
