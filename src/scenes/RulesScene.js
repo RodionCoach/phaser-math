@@ -1,4 +1,4 @@
-import "phaser-ui-tools";
+import uiWidgets from "phaser-ui-tools";
 import { BUTTON_STYLE, RULES_STYLE, RULES_TEXT, GAME_RESOLUTION, TEXT_AREA_CONFIG_FOR_RULES } from "../utils/constants";
 
 class RulesScene extends Phaser.Scene {
@@ -51,12 +51,6 @@ class RulesScene extends Phaser.Scene {
     column.addNode(buttonReturn, 0, 0);
 
     //this.SetAudio();
-  }
-
-  update() {
-    // if (this.startGameKey && Phaser.Input.Keyboard.JustDown(this.startGameKey)) {
-    //   this.StartGame();
-    // }
   }
 
   SetAudio() {
