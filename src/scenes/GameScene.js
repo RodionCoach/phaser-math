@@ -1,6 +1,6 @@
 import LilySpawner from "../sprites/lilySpawner";
 import uiWidgets from "phaser-ui-tools";
-import { BUTTON_NUMBER_STYLE, SCORE_STYLE } from "../utils/constants";
+import { BUTTON_NUMBER_STYLE, GAME_RESOLUTION, SCORE_STYLE } from "../utils/constants";
 
 class GameScene extends Phaser.Scene {
   constructor() {
@@ -31,6 +31,7 @@ class GameScene extends Phaser.Scene {
       this.scene.launch("PauseScene");
       this.scene.pause();
     });
+
     this.plusPts = this.add.text(60, 395, "+100", SCORE_STYLE).setOrigin(0.5).setDepth(1).setVisible(false);
     this.add.image(0, 0, "background", "background.png").setOrigin(0);
     this.add.image(349, 85, "background", "wave1.png").setOrigin(0);
@@ -64,19 +65,50 @@ class GameScene extends Phaser.Scene {
 
     const numbersGroup = new uiWidgets.Row(this, 82, 546);
     for (let i = 0; i <= 9; i++) {
-      const buttonOne = new uiWidgets.TextButton(this, 0, 0, "asnwerButton", this.StartGame, this).setText(
-        `${i}`,
-        BUTTON_NUMBER_STYLE,
-      );
-
+      const buttonOne = new uiWidgets.TextButton(
+        this,
+        0,
+        0,
+        "answerButton",
+        () => {
+          this.setAnswerText(i, inputText);
+        },
+        this,
+      ).setText(`${i}`, BUTTON_NUMBER_STYLE);
       numbersGroup.addNode(buttonOne, -5, 0);
     }
+    const widthOfResetButton = this.textures.get("resetButton").source[0].width;
+    const widthOfSetButton = this.textures.get("setButton").source[0].width;
+    const widthOfInputField = this.textures.get("setButton").source[0].width;
+    const halfWidthInputGroup = (widthOfResetButton + widthOfSetButton + widthOfInputField) / 2 + 12;
+    const inputText = this.add
+      .text(GAME_RESOLUTION.width / 2, 477, "", BUTTON_NUMBER_STYLE)
+      .setOrigin(0.5)
+      .setDepth(2);
 
-    const resetButton = new uiWidgets.TextButton(this, 0, 0, "resetButton", () => {}, this);
-    const setButton = new uiWidgets.TextButton(this, 0, 0, "setButton", () => {}, this);
+    const resetButton = new uiWidgets.TextButton(
+      this,
+      0,
+      0,
+      "resetButton",
+      () => {
+        inputText.setText("");
+      },
+      this,
+    );
+    const setButton = new uiWidgets.TextButton(
+      this,
+      0,
+      0,
+      "setButton",
+      () => {
+        this.checkAnswer(inputText);
+      },
+      this,
+    );
     const inputField = this.add.sprite(0, 0, "gui", "inpul_field.png").disableInteractive();
 
-    const inputGroup = new uiWidgets.Row(this, 260, 477);
+    const inputGroup = new uiWidgets.Row(this, GAME_RESOLUTION.width / 2 - halfWidthInputGroup, 477);
     inputGroup.addNode(resetButton, 0, 0);
     inputGroup.addNode(inputField, 0, 0);
     inputGroup.addNode(setButton, 0, 0);
@@ -111,11 +143,11 @@ class GameScene extends Phaser.Scene {
       key9: this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.NINE),
       enter: this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.ENTER),
     };
-    let i = 0;
-    setInterval(() => {
-      heartsGroup.list[i].setTexture("gui", "empty_heart.svg");
-      i++;
-    }, 6500);
+    // let i = 0;
+    // setInterval(() => {
+    //   heartsGroup.list[i].setTexture("gui", "empty_heart.svg");
+    //   i++;
+    // }, 6500);
   }
 
   update(time, delta) {
@@ -129,6 +161,23 @@ class GameScene extends Phaser.Scene {
 
   SpawnObjects() {
     this.lilySpawner = new LilySpawner(this);
+  }
+
+  setAnswerText(subString, inputObject) {
+    let text = "";
+    if (inputObject.text.length <= 5) {
+      text = inputObject.text + subString;
+    } else {
+      text = subString;
+    }
+    inputObject.setText(text);
+  }
+
+  checkAnswer(inputObject) {
+    if (inputObject.text !== "") {
+      console.log("Done", Number(inputObject.text));
+    }
+    inputObject.setText("");
   }
 
   SetAudio() {

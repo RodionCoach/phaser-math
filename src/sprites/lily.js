@@ -42,8 +42,10 @@ export default class Lily extends Phaser.GameObjects.Sprite {
       this.allowUpdateScore = false;
     }
 
-    if (this.CheckForReset()) {
+    if (this.canMove && this.CheckForReset()) {
       this.canMove = false;
+      this.anims.stop();
+      this.anims.play("line");
     }
 
     //this.scene.physics.world.overlap(this, this.DidntGuess.bind(this));
