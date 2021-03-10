@@ -27,6 +27,10 @@ class GameScene extends Phaser.Scene {
       .setOrigin(0)
       .setInteractive({ useHandCursor: true })
       ?.setDepth(1);
+    pauseControl.on("pointerdown", () => {
+      this.scene.launch("PauseScene");
+      this.scene.pause();
+    });
     this.plusPts = this.add.text(60, 395, "+100", SCORE_STYLE).setOrigin(0.5).setDepth(1).setVisible(false);
     this.add.image(0, 0, "background", "background.png").setOrigin(0);
     this.add.image(349, 85, "background", "wave1.png").setOrigin(0);

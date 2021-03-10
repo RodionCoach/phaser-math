@@ -42,7 +42,7 @@ const config = {
     CountdownScene,
     StartScene,
     GameScene,
-    //PauseScene,
+    PauseScene,
     //EndScene,
     RulesScene,
   ],
