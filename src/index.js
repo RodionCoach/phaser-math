@@ -4,7 +4,9 @@ import StartScene from "./scenes/StartScene";
 import GameScene from "./scenes/GameScene";
 import PauseScene from "./scenes/PauseScene";
 import RulesScene from "./scenes/RulesScene";
+import CountdownScene from "./scenes/CountdownScene";
 import EndScene from "./scenes/EndScene";
+import WebFontLoaderPlugin from "phaser3-rex-plugins/plugins/webfontloader-plugin.js";
 
 import { GAME_RESOLUTION, BACKGROUND_COLOR } from "./utils/constants";
 
@@ -26,8 +28,18 @@ const config = {
       debug: false,
     },
   },
+  plugins: {
+    global: [
+      {
+        key: "rexWebFontLoader",
+        plugin: WebFontLoaderPlugin,
+        start: true,
+      },
+    ],
+  },
   scene: [
     BootScene,
+    CountdownScene,
     StartScene,
     GameScene,
     //PauseScene,

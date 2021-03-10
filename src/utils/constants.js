@@ -11,14 +11,27 @@ export const BUTTON_STYLE = {
   fontSize: "20px",
   fixedHeight: 20,
   fontFamily: "Lato",
+  fontWeight: "700",
   fontStyle: "bold",
   color: "#FFFFFE",
   align: "center",
 };
 
+export const COUNTDOWN_STYLE = {
+  fontFamily: "Lato",
+  fontSize: "720px",
+  fontWeight: "900",
+  fontStyle: "bold",
+  fill: "#FAEBEB",
+  align: "center",
+};
+
 export const RULES_STYLE = {
   fontFamily: "Lato",
-  fontSize: "20px",
+  fontSize: "17px",
+  fontWeight: "900",
+  fontStyle: "bold",
+  lineSpacing: 4,
   fill: "#006AD2",
   align: "left",
   boundsAlignH: "center", // bounds center align horizontally
@@ -31,6 +44,7 @@ export const RULES_STYLE = {
 export const SCORE_STYLE = {
   fontSize: "16px",
   fontFamily: "Lato",
+  fontWeight: "900",
   fontStyle: "bold",
   color: "#FFFFFE",
   align: "center",
@@ -40,6 +54,7 @@ export const BUTTON_NUMBER_STYLE = {
   fontSize: "24px",
   fixedHeight: 24,
   fontFamily: "Lato",
+  fontWeight: "400",
   color: "#333333",
   align: "center",
 };

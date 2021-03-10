@@ -32,8 +32,11 @@ class BootScene extends Phaser.Scene {
     this.load.image("resetButton", "./assets/img/GUI_reset_btn.png");
     this.load.image("setButton", "./assets/img/GUI_submit_btn.png");
 
-    // this.load.audio("mars-slow", "assets/sounds/Mars.wav");
-    // this.load.audio("intro", "assets/sounds/Intro.wav");
+    this.load.rexWebFont({
+      google: {
+        families: ["Lato:400,700,900"],
+      },
+    });
   }
 }
 
