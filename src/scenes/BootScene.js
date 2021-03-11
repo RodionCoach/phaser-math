@@ -25,6 +25,7 @@ class BootScene extends Phaser.Scene {
     });
 
     this.load.multiatlas("lily", `${PATH_SPRITES}/lily/lily.json`, `${PATH_SPRITES}/lily`);
+    this.load.multiatlas("inputField", `${PATH_SPRITES}/inputField/inputField.json`, `${PATH_SPRITES}/inputField`);
     this.load.multiatlas("actors", `${PATH_SPRITES}/actors/actors.json`, `${PATH_SPRITES}/actors`);
     this.load.multiatlas("background", `${PATH_SPRITES}/background/background.json`, `${PATH_SPRITES}/background`);
     this.load.multiatlas("gui", `${PATH_SPRITES}/gui/gui.json`, `${PATH_SPRITES}/gui`);

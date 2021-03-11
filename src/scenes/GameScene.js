@@ -1,6 +1,7 @@
 import LilySpawner from "../sprites/lilySpawner";
 import uiWidgets from "phaser-ui-tools";
-import { BUTTON_NUMBER_STYLE, GAME_RESOLUTION, SCORE_STYLE } from "../utils/constants";
+import { GUIContainer } from "../objects/GUIContainer";
+import { BUTTON_NUMBER_STYLE, GAME_RESOLUTION, SCORE_STYLE, TEXT_AREA_CONFIG_FOR_RULES } from "../utils/constants";
 
 class GameScene extends Phaser.Scene {
   constructor() {
@@ -63,58 +64,76 @@ class GameScene extends Phaser.Scene {
       heartsGroup.addNode(heartFilled, 0, 0);
     }
 
-    const inputText = this.add
-      .text(GAME_RESOLUTION.width / 2, 477, "", BUTTON_NUMBER_STYLE)
-      .setOrigin(0.5)
-      .setDepth(2);
-    const inputField = this.add.sprite(0, 0, "gui", "inpul_field.png").disableInteractive();
+    const containerInputGUI = this.add
+      .container(GAME_RESOLUTION.width / 2, 477)
+      .setName("containerInputGUI")
+      .setDepth(1);
 
-    const numbersGroup = new uiWidgets.Row(this, 82, 546);
-    for (let i = 0; i <= 9; i++) {
-      const buttonOne = new uiWidgets.TextButton(
-        this,
-        0,
-        0,
-        "answerButton",
-        () => {
-          this.SetAnswerText(i, inputText);
-        },
-        this,
-      ).setText(`${i}`, BUTTON_NUMBER_STYLE);
-      numbersGroup.addNode(buttonOne, -5, 0);
+    const inputField = new GUIContainer({
+      scene: this,
+      x: 0,
+      y: 0,
+    })
+      .setName("setButton")
+      .setDepth(1)
+      .setSize(100, 100)
+      .disableInteractive();
+    inputField.sprite.setTexture("gui", "inpul_field.png");
+    inputField.textObject.setStyle(BUTTON_NUMBER_STYLE).setOrigin(0.5, 0.5);
+    containerInputGUI.add(inputField);
+
+    const resetButton = new GUIContainer({
+      scene: this,
+      x: -inputField.sprite.width / 2 - 40,
+      y: 0,
+    })
+      .setName("resetButton")
+      .setDepth(1)
+      .setSize(100, 100)
+      .setInteractive({ useHandCursor: true })
+      .on("pointerdown", () => {
+        this.ResetAnswerText(inputField.textObject, inputField.sprite);
+      });
+    resetButton.sprite.setTexture("gui", "reset_btn.png");
+    containerInputGUI.add(resetButton);
+
+    const setButton = new GUIContainer({
+      scene: this,
+      x: inputField.sprite.width / 2 + 40,
+      y: 0,
+    })
+      .setName("setButton")
+      .setDepth(1)
+      .setSize(100, 100)
+      .setInteractive({ useHandCursor: true })
+      .on("pointerdown", () => {
+        this.CheckAnswer(inputField.textObject, inputField.sprite);
+      });
+    setButton.sprite.setTexture("gui", "submit_btn.png");
+    containerInputGUI.add(setButton);
+
+    const containerDigitalGUI = this.add
+      .container(GAME_RESOLUTION.width / 2 - 350, 547)
+      .setName("containerDigitalGUI")
+      .setDepth(1);
+    for (let i = 1; i < 10; i++) {
+      const digitalButton = new GUIContainer({
+        scene: this,
+        x: i * 70,
+        y: 0,
+      })
+        .setName("digitalButton")
+        .setDepth(1)
+        .setSize(100, 100)
+        .setInteractive({ useHandCursor: true })
+        .on("pointerdown", () => {
+          this.SetAnswerText(i, inputField.textObject, inputField.sprite);
+        });
+      digitalButton.sprite.setTexture("gui", "digit_button.png");
+      digitalButton.textObject.setStyle(BUTTON_NUMBER_STYLE).setOrigin(0.5, 0.5);
+      digitalButton.textObject.setText(i);
+      containerDigitalGUI.add(digitalButton);
     }
-
-
-    const resetButton = new uiWidgets.TextButton(
-      this,
-      0,
-      0,
-      "resetButton",
-      () => {
-        inputText.setText("");
-      },
-      this,
-    );
-    const setButton = new uiWidgets.TextButton(
-      this,
-      0,
-      0,
-      "setButton",
-      () => {
-        this.CheckAnswer(inputText);
-      },
-      this,
-    );
-
-    const halfWidthInputGroup = (resetButton.width + inputField.width) / 2;
-
-    const inputGroup = new uiWidgets.Row(this, GAME_RESOLUTION.width / 2 - halfWidthInputGroup, 477);
-    inputGroup.addNode(resetButton, 0, 0);
-    inputGroup.addNode(inputField, 0, 0);
-    inputGroup.addNode(setButton, 0, 0);
-
-    numbersGroup.setDepth(1);
-    inputGroup.setDepth(1);
 
     this.SpawnObjects();
     this.SetScore();
@@ -163,21 +182,29 @@ class GameScene extends Phaser.Scene {
     this.lilySpawner = new LilySpawner(this);
   }
 
-  SetAnswerText(subString, inputObject) {
+  ResetAnswerText(inputTextObject, inputFieldObject) {
+    inputTextObject.setText("");
+    inputFieldObject.setTexture("inputField", "0001.png");
+  }
+
+  SetAnswerText(subString, inputTextObject, inputFieldObject) {
     let text = "";
-    if (inputObject.text.length <= 5) {
-      text = inputObject.text + subString;
+    if (inputTextObject.text.length <= 5) {
+      text = inputTextObject.text + subString;
     } else {
       text = subString;
     }
-    inputObject.setText(text);
+    inputTextObject.setText(text);
+    inputFieldObject.setTexture("inputField", "0001.png");
   }
 
-  CheckAnswer(inputObject) {
-    if (inputObject.text !== "") {
+  CheckAnswer(inputTextObject, inputFieldObject) {
+    if (inputTextObject.text !== "") {
       //TO DO
+    } else {
+      inputFieldObject.setTexture("inputField", "0002.png");
     }
-    inputObject.setText("");
+    inputTextObject.setText("");
   }
 
   SetAudio() {
@@ -194,7 +221,7 @@ class GameScene extends Phaser.Scene {
       textObject: this.make.text({
         x: 60,
         y: 355,
-        text: "0",
+        textObject: "0",
         origin: {
           x: 0.5,
           y: 0.5,

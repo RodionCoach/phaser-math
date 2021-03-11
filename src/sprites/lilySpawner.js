@@ -19,7 +19,7 @@ export default class LilySpawner extends Phaser.GameObjects.GameObject {
       prefix: "wave/",
       suffix: ".png",
     });
-    scene.anims.create({ key: "wave", frames: frameNamesWave, frameRate: 7, repeat: -1 });
+    scene.anims.create({ key: "wave", frames: frameNamesWave, frameRate: 4, repeat: -1 });
 
     let frameNamesSolved = scene.anims.generateFrameNames("lily", {
       start: 1,
@@ -80,6 +80,9 @@ export default class LilySpawner extends Phaser.GameObjects.GameObject {
     lily.SetStatus(true);
     lily.x = randInt;
     this.currentLiliesCount++;
-    lily.anims.play("wave");
+    lily.anims.play({
+      key: "wave",
+      frameRate: Phaser.Math.Between(2, 5),
+    });
   }
 }
