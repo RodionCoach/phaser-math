@@ -63,6 +63,12 @@ class GameScene extends Phaser.Scene {
       heartsGroup.addNode(heartFilled, 0, 0);
     }
 
+    const inputText = this.add
+      .text(GAME_RESOLUTION.width / 2, 477, "", BUTTON_NUMBER_STYLE)
+      .setOrigin(0.5)
+      .setDepth(2);
+    const inputField = this.add.sprite(0, 0, "gui", "inpul_field.png").disableInteractive();
+
     const numbersGroup = new uiWidgets.Row(this, 82, 546);
     for (let i = 0; i <= 9; i++) {
       const buttonOne = new uiWidgets.TextButton(
@@ -77,14 +83,7 @@ class GameScene extends Phaser.Scene {
       ).setText(`${i}`, BUTTON_NUMBER_STYLE);
       numbersGroup.addNode(buttonOne, -5, 0);
     }
-    const widthOfResetButton = this.textures.get("resetButton").source[0].width;
-    const widthOfSetButton = this.textures.get("setButton").source[0].width;
-    const widthOfInputField = this.textures.get("setButton").source[0].width;
-    const halfWidthInputGroup = (widthOfResetButton + widthOfSetButton + widthOfInputField) / 2 + 12;
-    const inputText = this.add
-      .text(GAME_RESOLUTION.width / 2, 477, "", BUTTON_NUMBER_STYLE)
-      .setOrigin(0.5)
-      .setDepth(2);
+
 
     const resetButton = new uiWidgets.TextButton(
       this,
@@ -106,7 +105,8 @@ class GameScene extends Phaser.Scene {
       },
       this,
     );
-    const inputField = this.add.sprite(0, 0, "gui", "inpul_field.png").disableInteractive();
+
+    const halfWidthInputGroup = (resetButton.width + inputField.width) / 2;
 
     const inputGroup = new uiWidgets.Row(this, GAME_RESOLUTION.width / 2 - halfWidthInputGroup, 477);
     inputGroup.addNode(resetButton, 0, 0);
