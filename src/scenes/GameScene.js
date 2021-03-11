@@ -77,7 +77,7 @@ class GameScene extends Phaser.Scene {
         0,
         "answerButton",
         () => {
-          this.setAnswerText(i, inputText);
+          this.SetAnswerText(i, inputText);
         },
         this,
       ).setText(`${i}`, BUTTON_NUMBER_STYLE);
@@ -101,7 +101,7 @@ class GameScene extends Phaser.Scene {
       0,
       "setButton",
       () => {
-        this.checkAnswer(inputText);
+        this.CheckAnswer(inputText);
       },
       this,
     );
@@ -163,7 +163,7 @@ class GameScene extends Phaser.Scene {
     this.lilySpawner = new LilySpawner(this);
   }
 
-  setAnswerText(subString, inputObject) {
+  SetAnswerText(subString, inputObject) {
     let text = "";
     if (inputObject.text.length <= 5) {
       text = inputObject.text + subString;
@@ -173,9 +173,9 @@ class GameScene extends Phaser.Scene {
     inputObject.setText(text);
   }
 
-  checkAnswer(inputObject) {
+  CheckAnswer(inputObject) {
     if (inputObject.text !== "") {
-      console.log("Done", Number(inputObject.text));
+      //TO DO
     }
     inputObject.setText("");
   }
