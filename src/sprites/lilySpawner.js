@@ -1,6 +1,7 @@
 import Lily from "./lily";
+import LilyContainer from "./LilyContainer";
 
-import { TOTAL_LILIES } from "../utils/constants";
+import { EXAMPLES_STYLE, EXAMPLES, TOTAL_LILIES } from "../utils/constants";
 
 export default class LilySpawner extends Phaser.GameObjects.GameObject {
   static notGuessedCount = 0;
@@ -11,7 +12,7 @@ export default class LilySpawner extends Phaser.GameObjects.GameObject {
     this.speedIncrementer = 0;
     this.currentLiliesCount = 0;
     this.lilies = [];
-
+    this.indexActiveLily = 0;
     let frameNamesWave = scene.anims.generateFrameNames("lily", {
       start: 1,
       end: 4,
@@ -40,15 +41,22 @@ export default class LilySpawner extends Phaser.GameObjects.GameObject {
     scene.anims.create({ key: "line", frames: frameNamesLine, frameRate: 15, repeat: 0 });
 
     for (let i = 0; i < TOTAL_LILIES; i++) {
-      this.lilies.push(
-        new Lily({
-          scene,
-          texture: "lily",
-          key: "wave/0001.png",
-          x: Lily.config.startPos.x,
-          y: Lily.config.startPos.y,
-        }),
+      let lilyContainer = new LilyContainer({
+        scene,
+        x: LilyContainer.config.startPos.x,
+        y: LilyContainer.config.startPos.y,
+      });
+      lilyContainer.sprite.setTexture("lily", "wave/0001.png");
+      lilyContainer.sprite.on(
+        Phaser.Animations.Events.ANIMATION_COMPLETE,
+        () => {
+          lilyContainer.SetStatus(false);
+        },
+        this,
       );
+      lilyContainer.textObject.setStyle(EXAMPLES_STYLE).setOrigin(0.5, 0.5);
+      lilyContainer.textObject.setText("123");
+      this.lilies.push(lilyContainer);
     }
 
     this.GetLily();
@@ -61,7 +69,13 @@ export default class LilySpawner extends Phaser.GameObjects.GameObject {
       this.GetLily();
     }
 
-    this.speedIncrementer += (delta / 1000) * 0.1;
+    if (this.lilies[this.indexActiveLily].CheckForReset()) {
+      this.indexActiveLily++;
+      this.indexActiveLily %= TOTAL_LILIES;
+      //TO DO
+    }
+
+    this.speedIncrementer += (delta / 1000) * 0.01;
 
     this.lilies.forEach(lily => {
       if (lily.CheckForReset()) {
@@ -72,15 +86,38 @@ export default class LilySpawner extends Phaser.GameObjects.GameObject {
     });
   }
 
+  checkExample(answerText) {
+    if (Number(answerText) === EXAMPLES[this.indexActiveLily].answer) {
+      this.lilies[this.indexActiveLily].textObject.setText("");
+      this.lilies[this.indexActiveLily].sprite.anims.play({
+        key: "solved",
+        frameRate: Phaser.Math.Between(15, 20),
+      });
+      this.indexActiveLily++;
+      this.indexActiveLily %= TOTAL_LILIES;
+      return true;
+    } else {
+      return false;
+    }
+  }
+
   GetLily() {
     this.currentLiliesCount %= TOTAL_LILIES;
-
     const randInt = Phaser.Math.RND.integerInRange(186, 650);
     const lily = this.lilies[this.currentLiliesCount];
     lily.SetStatus(true);
     lily.x = randInt;
+    lily.textObject.setText(
+      EXAMPLES[this.currentLiliesCount].number1 +
+        "\n" +
+        EXAMPLES[this.currentLiliesCount].sign +
+        "\n" +
+        EXAMPLES[this.currentLiliesCount].number2 +
+        "\n" +
+        "-----",
+    );
     this.currentLiliesCount++;
-    lily.anims.play({
+    lily.sprite.anims.play({
       key: "wave",
       frameRate: Phaser.Math.Between(2, 5),
     });
