@@ -33,6 +33,11 @@ class BootScene extends Phaser.Scene {
     this.load.image("answerButton", "./assets/img/GUI_digit_button.png");
     this.load.image("resetButton", "./assets/img/GUI_reset_btn.png");
     this.load.image("setButton", "./assets/img/GUI_submit_btn.png");
+    this.load.image("cartoonWater", "./assets/img/cartoonWater.png");
+    this.load.image("noiseWater", "./assets/img/noiseWater.png");
+    this.load.image("noise", "./assets/img/noise.png");
+
+    this.load.glsl("cartoonWaterShader", "./assets/shaders/cartoonWater.glsl.js");
 
     this.load.rexWebFont({
       google: {
