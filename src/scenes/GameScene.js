@@ -39,7 +39,7 @@ class GameScene extends Phaser.Scene {
       "cartoonWaterShader",
       GAME_RESOLUTION.width / 2,
       GAME_RESOLUTION.height / 2,
-      GAME_RESOLUTION.width,
+      GAME_RESOLUTION.width - 75,
       GAME_RESOLUTION.height,
       ["cartoonWater", "noiseWater", "noise"],
     );

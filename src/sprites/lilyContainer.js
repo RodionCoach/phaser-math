@@ -27,36 +27,15 @@ export default class lilyContainer extends Phaser.GameObjects.Container {
     this.add(this.sprite);
     this.textObject = scene.add.text(0, 0, "", {}).disableInteractive();
     this.add(this.textObject);
+    this.textObjectForSign = scene.add.text(0, 0, "", {}).disableInteractive();
+    this.add(this.textObjectForSign);
+
+    let line = new Phaser.Geom.Line(-30, 35, 20, 35);
+    this.graphics = scene.add.graphics({ lineStyle: { width: 4, color: 0xffffff } });
+    this.graphics.strokeLineShape(line);
+    this.graphics.lineStyle(2, 0x00aa00);
+    this.add(this.graphics);
     this.allowUpdateScore = false;
-  }
-
-  update(delta, speedIncrementer) {
-    if (this.canMove) {
-      const currentSpeed = Phaser.Math.Clamp(
-        lilyContainer.config.moveAmount.min + speedIncrementer,
-        lilyContainer.config.moveAmount.min,
-        lilyContainer.config.moveAmount.max,
-      );
-
-      this.y -= currentSpeed * (delta / 1000);
-    }
-
-    if (this.DidPassedPlayer() && this.allowUpdateScore) {
-      this.scene.UpdateScore();
-      this.allowUpdateScore = false;
-    }
-
-    if (this.canMove && this.CheckForReset()) {
-      this.canMove = false;
-      this.textObject.setText("");
-      this.sprite.anims.stop();
-      this.sprite.anims.play({
-        key: "line",
-        frameRate: 15,
-      });
-    }
-
-    //this.scene.physics.world.overlap(this, this.DidntGuess.bind(this));
   }
 
   CheckForReset() {
