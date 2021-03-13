@@ -41,6 +41,21 @@ export const RULES_STYLE = {
   },
 };
 
+export const EXAMPLES_STYLE = {
+  fontFamily: "Lato",
+  fontSize: "28px",
+  fontWeight: "900",
+  fontStyle: "bold",
+  lineSpacing: 0,
+  fill: "#ffffff",
+  align: "right",
+  boundsAlignH: "center", // bounds center align horizontally
+  boundsAlignV: "middle", // bounds center align vertically
+  wordWrap: {
+    width: 100,
+  },
+};
+
 export const SCORE_STYLE = {
   fontSize: "16px",
   fontFamily: "Lato",
@@ -78,3 +93,34 @@ export const TOTAL_LILIES = 4;
 export const LILY_BONDARY_LIMIT = 70;
 
 export const PATH_SPRITES = "./assets/sprites";
+
+export const EXAMPLES = [
+  {
+    id: 1,
+    number1: 14,
+    sign: "+",
+    number2: 22,
+    answer: 36,
+  },
+  {
+    id: 2,
+    number1: 2,
+    sign: "-",
+    number2: 1,
+    answer: 1,
+  },
+  {
+    id: 3,
+    number1: 2,
+    sign: "/",
+    number2: 1,
+    answer: 2,
+  },
+  {
+    id: 4,
+    number1: 2,
+    sign: "x",
+    number2: 1,
+    answer: 2,
+  },
+];

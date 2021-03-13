@@ -1,7 +1,7 @@
 import LilySpawner from "../sprites/lilySpawner";
 import uiWidgets from "phaser-ui-tools";
 import { GUIContainer } from "../objects/GUIContainer";
-import { BUTTON_NUMBER_STYLE, GAME_RESOLUTION, SCORE_STYLE } from "../utils/constants";
+import { BUTTON_NUMBER_STYLE, GAME_RESOLUTION, SCORE_STYLE, TEXT_AREA_CONFIG_FOR_RULES } from "../utils/constants";
 
 class GameScene extends Phaser.Scene {
   constructor() {
@@ -39,10 +39,11 @@ class GameScene extends Phaser.Scene {
       "cartoonWaterShader",
       GAME_RESOLUTION.width / 2,
       GAME_RESOLUTION.height / 2,
-      GAME_RESOLUTION.width,
+      GAME_RESOLUTION.width - 75,
       GAME_RESOLUTION.height,
       ["cartoonWater", "noiseWater", "noise"],
     );
+
     this.add.image(0, 0, "background", "sand_left_side.png").setOrigin(0);
     this.add.image(698, 0, "background", "sand_right_side.png").setOrigin(0);
     this.add.image(49, 0, "background", "water_foam_dark.png").setOrigin(0);
@@ -179,9 +180,14 @@ class GameScene extends Phaser.Scene {
     this.lilySpawner = new LilySpawner(this);
   }
 
-  ResetAnswerText(inputTextObject, inputFieldObject) {
-    inputTextObject.setText("");
+  ResetAnswerText(inputTextObject, inputFieldObject, text) {
+    inputTextObject.setText(text);
     inputFieldObject.setTexture("inputField", "0001.png");
+  }
+
+  WrongAnswerText(inputTextObject, inputFieldObject) {
+    inputTextObject.setText("");
+    inputFieldObject.setTexture("inputField", "0002.png");
   }
 
   SetAnswerText(subString, inputTextObject, inputFieldObject) {
@@ -191,17 +197,19 @@ class GameScene extends Phaser.Scene {
     } else {
       text = subString;
     }
-    inputTextObject.setText(text);
-    inputFieldObject.setTexture("inputField", "0001.png");
+    this.ResetAnswerText(inputTextObject, inputFieldObject, text);
   }
 
   CheckAnswer(inputTextObject, inputFieldObject) {
     if (inputTextObject.text !== "") {
-      //TO DO
+      if (this.lilySpawner.checkExample(inputTextObject.text)) {
+        this.ResetAnswerText(inputTextObject, inputFieldObject, "");
+      } else {
+        this.WrongAnswerText(inputTextObject, inputFieldObject);
+      }
     } else {
-      inputFieldObject.setTexture("inputField", "0002.png");
+      this.WrongAnswerText(inputTextObject, inputFieldObject);
     }
-    inputTextObject.setText("");
   }
 
   SetAudio() {
