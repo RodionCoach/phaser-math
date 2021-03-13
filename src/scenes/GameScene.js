@@ -1,7 +1,7 @@
 import LilySpawner from "../sprites/lilySpawner";
 import uiWidgets from "phaser-ui-tools";
 import { GUIContainer } from "../objects/GUIContainer";
-import { BUTTON_NUMBER_STYLE, GAME_RESOLUTION, SCORE_STYLE, TEXT_AREA_CONFIG_FOR_RULES } from "../utils/constants";
+import { BUTTON_NUMBER_STYLE, GAME_RESOLUTION, SCORE_STYLE } from "../utils/constants";
 
 class GameScene extends Phaser.Scene {
   constructor() {
@@ -35,17 +35,14 @@ class GameScene extends Phaser.Scene {
 
     this.plusPts = this.add.text(60, 395, "+100", SCORE_STYLE).setOrigin(0.5).setDepth(1).setVisible(false);
     this.add.image(0, 0, "background", "background.png").setOrigin(0);
-    this.add.image(349, 85, "background", "wave1.png").setOrigin(0);
-    this.add.image(136, 97, "background", "wave2.png").setOrigin(0);
-    this.add.image(429, 141, "background", "wave2.png").setOrigin(0);
-    this.add.image(702, 217, "background", "wave3.png").setOrigin(0);
-    this.add.image(615, 430, "background", "wave4.png").setOrigin(0);
-    this.add.image(128, 443, "background", "wave5.png").setOrigin(0);
-    this.add.image(632, 72, "background", "wave6.png").setOrigin(0);
-    this.add.image(149, 207, "background", "wave6.png").setOrigin(0);
-    this.add.image(371, 229, "background", "wave6.png").setOrigin(0);
-    this.add.image(301, 351, "background", "wave7.png").setOrigin(0);
-    this.add.image(608, 316, "background", "wave7.png").setOrigin(0);
+    const shader = this.add.shader(
+      "cartoonWaterShader",
+      GAME_RESOLUTION.width / 2,
+      GAME_RESOLUTION.height / 2,
+      GAME_RESOLUTION.width,
+      GAME_RESOLUTION.height,
+      ["cartoonWater", "noiseWater", "noise"],
+    );
     this.add.image(0, 0, "background", "sand_left_side.png").setOrigin(0);
     this.add.image(698, 0, "background", "sand_right_side.png").setOrigin(0);
     this.add.image(49, 0, "background", "water_foam_dark.png").setOrigin(0);
