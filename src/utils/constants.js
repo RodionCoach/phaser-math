@@ -43,10 +43,10 @@ export const RULES_STYLE = {
 
 export const EXAMPLES_STYLE = {
   fontFamily: "Lato",
-  fontSize: "24px",
+  fontSize: "28px",
   fontWeight: "900",
   fontStyle: "bold",
-  lineSpacing: -1,
+  lineSpacing: 0,
   fill: "#ffffff",
   align: "right",
   boundsAlignH: "center", // bounds center align horizontally
@@ -97,10 +97,10 @@ export const PATH_SPRITES = "./assets/sprites";
 export const EXAMPLES = [
   {
     id: 1,
-    number1: 1,
+    number1: 14,
     sign: "+",
-    number2: 2,
-    answer: 3,
+    number2: 22,
+    answer: 36,
   },
   {
     id: 2,
@@ -119,7 +119,7 @@ export const EXAMPLES = [
   {
     id: 4,
     number1: 2,
-    sign: "*",
+    sign: "x",
     number2: 1,
     answer: 2,
   },
