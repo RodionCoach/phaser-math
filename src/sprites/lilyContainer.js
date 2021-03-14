@@ -29,12 +29,6 @@ export default class lilyContainer extends Phaser.GameObjects.Container {
     this.add(this.textObject);
     this.textObjectForSign = scene.add.text(0, 0, "", {}).disableInteractive();
     this.add(this.textObjectForSign);
-
-    let line = new Phaser.Geom.Line(-30, 35, 20, 35);
-    this.graphics = scene.add.graphics({ lineStyle: { width: 4, color: 0xffffff } });
-    this.graphics.strokeLineShape(line);
-    this.graphics.lineStyle(2, 0x00aa00);
-    this.add(this.graphics);
     this.allowUpdateScore = false;
   }
 

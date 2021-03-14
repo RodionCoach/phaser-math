@@ -81,7 +81,6 @@ export default class LilySpawner extends Phaser.GameObjects.GameObject {
   checkExample(answerText) {
     if (Number(answerText) === EXAMPLES[this.indexActiveLily].answer) {
       this.lilies[this.indexActiveLily].tweenMove.stop();
-      this.lilies[this.indexActiveLily].graphics.setVisible(false);
       this.lilies[this.indexActiveLily].textObject.setText("");
       this.lilies[this.indexActiveLily].textObjectForSign.setText("");
       this.lilies[this.indexActiveLily].sprite.anims.play({
@@ -106,7 +105,6 @@ export default class LilySpawner extends Phaser.GameObjects.GameObject {
       EXAMPLES[this.currentLiliesCount].number1 + "\n" + EXAMPLES[this.currentLiliesCount].number2,
     );
     lily.textObjectForSign.setText(EXAMPLES[this.currentLiliesCount].sign).setPosition(-lily.textObject.width, 0);
-    lily.graphics.setVisible(true);
     this.currentLiliesCount++;
     lily.sprite.anims.play({
       key: "wave",
@@ -119,7 +117,6 @@ export default class LilySpawner extends Phaser.GameObjects.GameObject {
       ease: "Linear",
       onComplete: () => {
         LilySpawner.notGuessedCount++;
-        lily.graphics.setVisible(false);
         lily.textObject.setText("");
         lily.textObjectForSign.setText("");
         lily.sprite.anims.stop();
