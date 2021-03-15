@@ -27,10 +27,6 @@ void main( void ) {
   vec3 colorFoam = (1.0 - texture2D(iChannel1, vec2(vUv.x, vUv.y - time * 0.2)).rgb) * displacement;
   vec3 foam = texture2D(iChannel2, vec2(vUv.x, vUv.y - time * 0.25) + displacement).rgb * 0.05;
   vec3 color = texture2D(iChannel0, vec2(vUv.x, vUv.y - time * 0.25) + displacement).rgb * displacement + 0.4;
-
-  //  vec3 colorWaterFall = mix(texture2D(iChannel2, vec2(vUv.x, vUv.y + time * 0.25) * 0.5).rgb,
-  //  texture2D(iChannel2, vec2(vUv.x, vUv.y - time * 0.25) * 0.5).rgb * gradientFactor, vUv.y);
-
   vec2 position = vUv * 10.0;
   float speed = 5.0;
   float brightness = 5.0;
@@ -50,10 +46,5 @@ void main( void ) {
   0.4*(1.0-smoothstep( 0.0, 0.5, abs(cc-0.4)));
 
   vec3 col = clamp(vec3(1.0, 1.0, 1.0) * cc * pow(vUv.y - 0.8, 30.0), 0.0, 1.0) * 0.5;
-
-  //gl_FragColor = vec4( vec3(255,255,255) * cc * brightness, cc * brightness );
-  //  gl_FragColor = vec4( col, 1.0 );
-
-  //  gl_FragColor = vec4( colorWaterFall, 1.0 );
   gl_FragColor = vec4( color * gradientFactor + colorFoam * colorFoam + foam + col, 1.0 );
 }
