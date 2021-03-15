@@ -144,14 +144,14 @@ export const EXAMPLES = [
   {
     id: 2,
     number1: 2,
-    sign: "/",
+    sign: "÷",
     number2: 1,
     answer: 2,
   },
   {
     id: 3,
     number1: 2,
-    sign: "x",
+    sign: "×",
     number2: 1,
     answer: 2,
   },
