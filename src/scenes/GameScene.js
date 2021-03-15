@@ -46,8 +46,6 @@ class GameScene extends Phaser.Scene {
 
     this.add.image(0, 0, "background", "sand_left_side.png").setOrigin(0);
     this.add.image(698, 0, "background", "sand_right_side.png").setOrigin(0);
-    this.add.image(49, 0, "background", "water_foam_dark.png").setOrigin(0);
-    this.add.image(56, 0, "background", "water_foam_light.png").setOrigin(0).setDepth(1);
     this.add.image(56, 347, "actors", "boat.png").setAngle(-5.5);
     this.add.text(60, 335, "Score", SCORE_STYLE).setOrigin(0.5).setDepth(1);
 
