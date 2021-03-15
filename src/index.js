@@ -37,15 +37,7 @@ const config = {
       },
     ],
   },
-  scene: [
-    BootScene,
-    CountdownScene,
-    StartScene,
-    GameScene,
-    PauseScene,
-    //EndScene,
-    RulesScene,
-  ],
+  scene: [BootScene, CountdownScene, StartScene, GameScene, PauseScene, EndScene, RulesScene],
 };
 
 const game = new Phaser.Game(config); // eslint-disable-line no-unused-vars

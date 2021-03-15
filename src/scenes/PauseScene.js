@@ -1,4 +1,5 @@
 import uiWidgets from "phaser-ui-tools";
+import LilySpawner from "../sprites/lily/lilySpawner";
 import { BUTTON_STYLE, GAME_RESOLUTION } from "../utils/constants";
 class PauseScene extends Phaser.Scene {
   constructor() {
@@ -45,7 +46,7 @@ class PauseScene extends Phaser.Scene {
       BUTTON_STYLE,
     );
 
-    const column = new uiWidgets.Column(this, GAME_RESOLUTION.width / 2, (GAME_RESOLUTION.height / 2) - deltaY);
+    const column = new uiWidgets.Column(this, GAME_RESOLUTION.width / 2, GAME_RESOLUTION.height / 2 - deltaY);
     column.addNode(buttonResume, 0, distanceBetweenButtons);
     column.addNode(buttonRestart, 0, distanceBetweenButtons);
     column.addNode(buttonReturn, 0, distanceBetweenButtons);
@@ -57,7 +58,9 @@ class PauseScene extends Phaser.Scene {
   }
 
   RestartGame() {
-    this.scene.start("GameScene");
+    LilySpawner.notGuessedCount = 0;
+    this.scene.stop("GameScene");
+    this.scene.start("CountdownScene");
   }
 
   ReturnToMainMenu() {
