@@ -41,6 +41,51 @@ export const RULES_STYLE = {
   },
 };
 
+export const SCORE_TITLE_STYLE = {
+  fontFamily: "Lato",
+  fontSize: "28px",
+  fontWeight: "900",
+  fontStyle: "bold",
+  lineSpacing: 4,
+  fill: "#006AD2",
+  align: "center",
+};
+
+export const SCORE_NUMBERS_STYLE = {
+  fontFamily: "Lato",
+  fontSize: "28px",
+  fontWeight: "900",
+  fontStyle: "normal",
+  lineSpacing: 4,
+  fill: "#ffffff",
+  align: "center",
+};
+
+export const SCORE_TEXT_STYLE = {
+  fontFamily: "Lato",
+  fontSize: "28px",
+  fontWeight: "900",
+  fontStyle: "normal",
+  lineSpacing: 4,
+  fill: "#006AD2",
+  align: "center",
+};
+
+export const EXAMPLES_STYLE = {
+  fontFamily: "Lato",
+  fontSize: "28px",
+  fontWeight: "900",
+  fontStyle: "bold",
+  lineSpacing: 0,
+  fill: "#ffffff",
+  align: "right",
+  boundsAlignH: "center", // bounds center align horizontally
+  boundsAlignV: "middle", // bounds center align vertically
+  wordWrap: {
+    width: 100,
+  },
+};
+
 export const SCORE_STYLE = {
   fontSize: "16px",
   fontFamily: "Lato",
@@ -77,4 +122,37 @@ export const TOTAL_LILIES = 4;
 
 export const LILY_BONDARY_LIMIT = 70;
 
+export const GAME_HEALTH_POINTS = 4;
+
 export const PATH_SPRITES = "./assets/sprites";
+
+export const EXAMPLES = [
+  {
+    id: 0,
+    number1: 14,
+    sign: "+",
+    number2: 22,
+    answer: 36,
+  },
+  {
+    id: 1,
+    number1: 2,
+    sign: "-",
+    number2: 1,
+    answer: 1,
+  },
+  {
+    id: 2,
+    number1: 2,
+    sign: "/",
+    number2: 1,
+    answer: 2,
+  },
+  {
+    id: 3,
+    number1: 2,
+    sign: "x",
+    number2: 1,
+    answer: 2,
+  },
+];
