@@ -84,6 +84,7 @@ export default class LilySpawner extends Phaser.GameObjects.GameObject {
 
     if (guessedLilyIndex !== -1) {
       this.lilies[guessedLilyIndex].tweenMove.stop();
+      this.lilies[guessedLilyIndex].spriteText.setVisible(false);
       this.lilies[guessedLilyIndex].textObject.setText("");
       this.lilies[guessedLilyIndex].textObjectForSign.setText("");
       this.lilies[guessedLilyIndex].sprite.anims.play({
@@ -105,6 +106,7 @@ export default class LilySpawner extends Phaser.GameObjects.GameObject {
     const lily = this.lilies[this.currentLiliesCount];
     lily.SetStatus(true, EXAMPLES[this.currentExample].answer);
     lily.x = randInt;
+    lily.spriteText.setVisible(true);
     lily.textObject.setText(`${EXAMPLES[this.currentExample].number1}\n${EXAMPLES[this.currentExample].number2}`);
     lily.textObjectForSign.setText(EXAMPLES[this.currentExample].sign).setPosition(-lily.textObject.width, 0);
     this.currentLiliesCount += 1;
@@ -112,6 +114,8 @@ export default class LilySpawner extends Phaser.GameObjects.GameObject {
       key: "wave",
       frameRate: Phaser.Math.Between(2, 5),
     });
+
+    lily.UpdateExampleTexture();
     lily.tweenMove = this.scene.tweens.add({
       targets: lily,
       y: LILY_BONDARY_LIMIT,
@@ -119,6 +123,7 @@ export default class LilySpawner extends Phaser.GameObjects.GameObject {
       ease: "Linear",
       onComplete: () => {
         LilySpawner.notGuessedCount++;
+        lily.spriteText.setVisible(false);
         lily.textObject.setText("");
         lily.textObjectForSign.setText("");
         lily.sprite.anims.stop();

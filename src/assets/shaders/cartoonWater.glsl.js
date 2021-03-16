@@ -41,13 +41,13 @@ void main( void ) {
 
   float speed2 = 7.0;
   float timeScale2 = time * speed2;
-  float cc2  = 0.55*texture2D( iChannel1, 1.8*0.02*pos.xy - 0.007*timeScale2*vec2( 0.0, 1.0) ).x;
-  cc2 += 0.35*texture2D( iChannel1, 1.8*0.04*pos.xy - 0.011*timeScale2*vec2( -0.15, 1.0) ).x;
-  cc2 += 0.10*texture2D( iChannel1, 1.8*0.08*pos.xy + 0.014*timeScale2*vec2( 0.15, 1.0) ).x;
-  cc2 = 0.6*(1.0-smoothstep( 0.0, 0.0025, abs(cc2-1.0))) +
-  0.4*(1.0-smoothstep( 0.0, 0.150, abs(cc2-0.4)));
+  float cc2  = 0.35*texture2D( iChannel1, 1.8*0.02*pos.xy - 0.007*timeScale2*vec2( 0.0, 1.0) ).x;
+  cc2 += 0.15*texture2D( iChannel1, 1.8*0.04*pos.xy - 0.011*timeScale2*vec2( -0.15, 1.0) ).x;
+  cc2 += 0.05*texture2D( iChannel1, 1.8*0.08*pos.xy + 0.014*timeScale2*vec2( 0.15, 1.0) ).x;
+  cc2 = 0.6*(1.0-smoothstep( 0.0, 0.025, abs(cc2-0.4))) +
+  0.4*(1.0-smoothstep( 0.0, 0.15, abs(cc2-0.4)));
 
   vec3 col2 = vec3(1.0) * cc2;
 
-  gl_FragColor = max(clamp(vec4(col2, cc2), 0.0, 0.25), vec4(col, max(col.r, max(col.g, col.b))));
+  gl_FragColor = max(clamp(vec4(col2, cc2), 0.0, 0.75), vec4(col, max(col.r, max(col.g, col.b))));
 }
