@@ -29,7 +29,7 @@ class BootScene extends Phaser.Scene {
     this.load.multiatlas("actors", `${PATH_SPRITES}/actors/actors.json`, `${PATH_SPRITES}/actors`);
     this.load.multiatlas("background", `${PATH_SPRITES}/background/background.json`, `${PATH_SPRITES}/background`);
     this.load.multiatlas("gui", `${PATH_SPRITES}/gui/gui.json`, `${PATH_SPRITES}/gui`);
-    this.load.image("buttonBackground", "./assets/img/GUI_button_default.png");
+    this.load.multiatlas("buttonBackground", `${PATH_SPRITES}/button/button.json`, `${PATH_SPRITES}/button`);
     this.load.image("answerButton", "./assets/img/GUI_digit_button.png");
     this.load.image("resetButton", "./assets/img/GUI_reset_btn.png");
     this.load.image("setButton", "./assets/img/GUI_submit_btn.png");
@@ -37,10 +37,11 @@ class BootScene extends Phaser.Scene {
     this.load.image("noiseWater", "./assets/img/noiseWater.png");
     this.load.image("noise", "./assets/img/noise.png");
 
-    this.load.audio("intro", "./assets/sounds/Map.wav");
-    this.load.audio("game", "./assets/sounds/Mercury.wav");
-    this.load.audio("guessed", "./assets/sounds/Intro.wav");
-    this.load.audio("gameOver", "./assets/sounds/Venus.wav");
+    this.load.audio("background", "./assets/sounds/background.mp3");
+    this.load.audio("solved", "./assets/sounds/solved_problem.mp3");
+    this.load.audio("wrong", "./assets/sounds/wrong_answer.mp3");
+    this.load.audio("missed", "./assets/sounds/missed_problem.mp3");
+    this.load.audio("gameOver", "./assets/sounds/end_of_the_game.mp3");
 
     this.load.glsl("cartoonWaterShader", "./assets/shaders/cartoonWater.glsl.js");
 
