@@ -168,31 +168,6 @@ class GameScene extends Phaser.Scene {
 
   SpawnObjects() {
     this.lilySpawner = new LilySpawner(this);
-    this.lilySpawner.HeartsCallback = () => {
-      if (this.prevHealthPoints !== LilySpawner.notGuessedCount) {
-        this.prevNotGuessed = LilySpawner.notGuessedCount;
-        this.tweens.add({
-          targets: this.heartsGroup.getAll()[this.prevNotGuessed - 1],
-          scaleX: 1.2,
-          scaleY: 1.2,
-          duration: 170,
-          yoyo: true,
-          ease: "Quad.easeInOut",
-          repeat: 0,
-          onComplete: () => {
-            this.heartsGroup.getAll()[this.prevNotGuessed - 1].setTexture("gui", "empty_heart.svg");
-          },
-        });
-        if (this.prevNotGuessed === this.currentLifes) {
-          //ToDo: move it out
-          this.time.addEvent({
-            delay: 500,
-            callback: () => this.ResetGame(),
-            callbackScope: this,
-          });
-        }
-      }
-    };
   }
 
   ResetAnswerText(inputTextObject, inputFieldObject, text) {
