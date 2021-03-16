@@ -12,10 +12,8 @@ export default class lilyContainer extends Phaser.GameObjects.Container {
 
     this.sprite = scene.add.sprite(0, 0, "", "").disableInteractive();
     this.add(this.sprite);
-    this.textObject = scene.add.text(0, 0, "", {}).disableInteractive().setOrigin(1, 0.5).setVisible(false);
-    // this.add(this.textObject);
-    this.textObjectForSign = scene.add.text(0, 0, "", {}).disableInteractive().setOrigin(1, 0.5).setVisible(false);
-    // this.add(this.textObjectForSign);
+    this.textObject = scene.add.text(0, 0, "", {}).disableInteractive().setVisible(false);
+    this.textObjectForSign = scene.add.text(0, 0, "", {}).disableInteractive().setVisible(false);
 
     this.canMove = false;
     this.answer = null;
