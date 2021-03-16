@@ -71,18 +71,6 @@ class CountdownScene extends Phaser.Scene {
       },
     });
   }
-
-  SetAudio() {
-    // Add and play the music
-    this.music = this.sound.add("intro");
-    this.music.play({
-      loop: true,
-    });
-  }
-
-  ReturnToMainMenu() {
-    this.scene.start("StartScene");
-  }
 }
 
 export default CountdownScene;
