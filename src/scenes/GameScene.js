@@ -218,6 +218,7 @@ class GameScene extends Phaser.Scene {
 
   SetAudio() {
     // Add and play the music
+    this.sound.get("background").play({ loop: true });
     this.sound.get("background").volume = 0.4;
   }
 

@@ -84,7 +84,7 @@ class EndScene extends Phaser.Scene {
 
   IsBestScore() {
     let prevBestScore = window.localStorage.getItem("best_score");
-    if (prevBestScore === "undefined") {
+    if (prevBestScore === "undefined" || prevBestScore === null) {
       prevBestScore = 0;
     }
 
@@ -113,7 +113,6 @@ class EndScene extends Phaser.Scene {
 
   RestartGame() {
     this.sound.stopAll();
-    this.scene.stop("GameScene");
     this.scene.start("CountdownScene");
   }
 
