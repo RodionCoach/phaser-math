@@ -10,9 +10,9 @@ export default class LilySpawner extends Phaser.GameObjects.GameObject {
 
     scene.add.existing(this);
     this.speedIncrementer = 1;
+    this.delta = 1;
     this.currentLiliesCount = 0;
     this.lilies = [];
-    this.indexActiveLily = 0;
     this.currentExample = 0;
 
     let frameNamesWave = scene.anims.generateFrameNames("lily", {
@@ -65,13 +65,12 @@ export default class LilySpawner extends Phaser.GameObjects.GameObject {
   }
 
   update(delta) {
-    const activeLily = Phaser.Math.Clamp(this.currentLiliesCount - 1, 0, TOTAL_LILIES);
+    this.delta = delta;
+    const renderedLily = Phaser.Math.Clamp(this.currentLiliesCount - 1, 0, TOTAL_LILIES);
 
-    if (this.lilies[activeLily].y < this.scene.game?.config?.height - 240) {
+    if (this.lilies[renderedLily].y < this.scene.game?.config?.height - 200) {
       this.GetLily();
     }
-
-    this.speedIncrementer += (delta / 1000) * 0.005;
 
     this.lilies.forEach(lily => {
       if (lily.tweenMove) {
@@ -80,22 +79,23 @@ export default class LilySpawner extends Phaser.GameObjects.GameObject {
     });
   }
 
-  checkExample(answerText) {
-    const currentLiliesAnswer = this.lilies[this.indexActiveLily].answer;
-    if (+answerText === currentLiliesAnswer) {
-      this.lilies[this.indexActiveLily].tweenMove.stop();
-      this.lilies[this.indexActiveLily].textObject.setText("");
-      this.lilies[this.indexActiveLily].textObjectForSign.setText("");
-      this.lilies[this.indexActiveLily].sprite.anims.play({
+  checkSomeExample(answerText) {
+    const guessedLilyIndex = this.lilies.findIndex(lily => lily.answer === answerText);
+
+    if (guessedLilyIndex !== -1) {
+      this.lilies[guessedLilyIndex].tweenMove.stop();
+      this.lilies[guessedLilyIndex].textObject.setText("");
+      this.lilies[guessedLilyIndex].textObjectForSign.setText("");
+      this.lilies[guessedLilyIndex].sprite.anims.play({
         key: "solved",
         frameRate: Phaser.Math.Between(15, 20),
       });
-      this.indexActiveLily += 1;
-      this.indexActiveLily %= TOTAL_LILIES;
+      this.speedIncrementer += (this.delta / 1000) * 0.05;
+
       return true;
-    } else {
-      return false;
     }
+
+    return false;
   }
 
   GetLily() {
@@ -126,8 +126,6 @@ export default class LilySpawner extends Phaser.GameObjects.GameObject {
           key: "line",
           frameRate: 15,
         });
-        this.indexActiveLily += 1;
-        this.indexActiveLily %= TOTAL_LILIES;
       },
     });
   }

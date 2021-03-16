@@ -18,12 +18,14 @@ export default class lilyContainer extends Phaser.GameObjects.Container {
     this.add(this.textObjectForSign);
 
     this.canMove = false;
-    this.answer = 0;
+    this.answer = null;
   }
 
   SetStatus(status, answer) {
     this.canMove = status;
     this.y = lilyContainer.config.startPos.y;
-    this.answer = answer;
+    if (status) {
+      this.answer = answer;
+    }
   }
 }
