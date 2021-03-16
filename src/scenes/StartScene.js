@@ -7,9 +7,19 @@ class StartScene extends Phaser.Scene {
     super({
       key: "StartScene",
     });
+
+    this.soundControl = null;
   }
 
   create() {
+    this.soundControl = this.add
+      .image(20, 20, "gui", "sound_on.svg")
+      .setOrigin(0)
+      .setInteractive({ useHandCursor: true })
+      .on("pointerdown", () => {
+        this.ToggleAudio();
+      })
+      ?.setDepth(1);
     this.add.image(0, 0, "background", "background.png").setOrigin(0);
     this.add.image(349, 85, "background", "wave1.png").setOrigin(0);
     this.add.image(136, 97, "background", "wave2.png").setOrigin(0);
@@ -24,10 +34,7 @@ class StartScene extends Phaser.Scene {
     this.add.image(608, 316, "background", "wave7.png").setOrigin(0);
     this.add.image(770, 670, "actors", "water_lily.png").setOrigin(0).setAngle(-135.0).setFlipY(true);
 
-    const soundControl = this.add
-      .image(20, 20, "gui", "sound_on.svg")
-      .setOrigin(0)
-      .setInteractive({ useHandCursor: true });
+    this.sound.add("intro");
 
     const buttonOne = new uiWidgets.TextButton(this, 0, 0, "buttonBackground", this.StartGame, this).setText(
       "NEW GAME",
@@ -42,7 +49,7 @@ class StartScene extends Phaser.Scene {
     column.addNode(buttonOne, 0, 40);
     column.addNode(buttonTwo, 0, 40);
 
-    //this.SetAudio();
+    this.SetAudio();
   }
 
   update() {
@@ -53,17 +60,25 @@ class StartScene extends Phaser.Scene {
 
   SetAudio() {
     // Add and play the music
-    this.music = this.sound.add("intro");
-    this.music.play({
-      loop: true,
-    });
+    this.sound.get("intro").play({ loop: true });
+  }
+
+  ToggleAudio() {
+    if (!this.sound.mute) {
+      this.soundControl.setTexture("gui", "sound_off_light.svg");
+    } else {
+      this.soundControl.setTexture("gui", "sound_on.svg");
+    }
+    this.sound.mute = !this.sound.mute;
   }
 
   StartGame() {
+    this.sound.stopAll();
     this.scene.start("CountdownScene");
   }
 
   HowToPlay() {
+    this.sound.stopAll();
     this.scene.start("RulesScene");
   }
 }
