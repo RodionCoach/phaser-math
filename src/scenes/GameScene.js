@@ -53,10 +53,13 @@ class GameScene extends Phaser.Scene {
     this.add.image(765, 483, "actors", "leaves_stones_right.png").setOrigin(0).setDepth(1);
     this.add.image(0, 541, "actors", "leaves_stones_left.png").setOrigin(0).setDepth(1);
 
-    this.heartsGroup = new uiWidgets.Column(this, 755, 327);
+    this.heartsGroup = this.add.container(765, 355).setName("heartsGroup").setDepth(1);
     for (let i = 0; i < this.currentLifes; i++) {
-      const heartFilled = this.add.sprite(0, 0, "gui", "filled_heart.svg").setOrigin(0).disableInteractive();
-      this.heartsGroup.addNode(heartFilled, 0, 0);
+      const heartFilled = this.add
+        .sprite(0, i * 30, "gui", "filled_heart.svg")
+        .setOrigin(0.5, 0.5)
+        .disableInteractive();
+      this.heartsGroup.add(heartFilled);
     }
 
     const containerInputGUI = this.add
@@ -108,7 +111,7 @@ class GameScene extends Phaser.Scene {
     containerInputGUI.add(setButton);
 
     const containerDigitalGUI = this.add
-      .container(GAME_RESOLUTION.width / 2 - 350, 547)
+      .container(GAME_RESOLUTION.width / 2 - 340, 547)
       .setName("containerDigitalGUI")
       .setDepth(1);
     for (let i = 0; i < 10; i++) {
@@ -161,19 +164,6 @@ class GameScene extends Phaser.Scene {
 
   update(time, delta) {
     this.lilySpawner.update(delta);
-
-    if (this.prevHealthPoints !== LilySpawner.notGuessedCount) {
-      this.prevNotGuessed = LilySpawner.notGuessedCount;
-      this.heartsGroup.list[this.prevNotGuessed - 1].setTexture("gui", "empty_heart.svg");
-      if (this.prevNotGuessed === this.currentLifes) {
-        //ToDo: move it out
-        this.time.addEvent({
-          delay: 500,
-          callback: () => this.ResetGame(),
-          callbackScope: this,
-        });
-      }
-    }
   }
 
   SpawnObjects() {
