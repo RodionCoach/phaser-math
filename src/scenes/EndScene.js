@@ -30,17 +30,14 @@ class EndScene extends Phaser.Scene {
       })
       ?.setDepth(1);
     this.add.image(0, 0, "background", "background.png").setOrigin(0);
-    this.add.image(349, 85, "background", "wave1.png").setOrigin(0);
-    this.add.image(136, 97, "background", "wave2.png").setOrigin(0);
-    this.add.image(429, 141, "background", "wave2.png").setOrigin(0);
-    this.add.image(702, 217, "background", "wave3.png").setOrigin(0);
-    this.add.image(615, 430, "background", "wave4.png").setOrigin(0);
-    this.add.image(128, 443, "background", "wave5.png").setOrigin(0);
-    this.add.image(632, 72, "background", "wave6.png").setOrigin(0);
-    this.add.image(149, 207, "background", "wave6.png").setOrigin(0);
-    this.add.image(371, 229, "background", "wave6.png").setOrigin(0);
-    this.add.image(301, 351, "background", "wave7.png").setOrigin(0);
-    this.add.image(608, 316, "background", "wave7.png").setOrigin(0);
+    this.add.shader(
+      "cartoonWaterShader",
+      GAME_RESOLUTION.width / 2,
+      GAME_RESOLUTION.height / 2 - 75,
+      GAME_RESOLUTION.width,
+      GAME_RESOLUTION.height + 150,
+      ["cartoonWater", "noiseWater", "noise"],
+    );
     this.add.image(770, 670, "actors", "water_lily.png").setOrigin(0).setAngle(-135.0).setFlipY(true);
 
     this.sound.add("gameOver");
@@ -50,14 +47,30 @@ class EndScene extends Phaser.Scene {
     const yourScoreText = this.add.text(0, 0, "Your Score:", SCORE_TITLE_STYLE);
     const scoreText = this.add.text(0, 0, `${this.currentScore}`, SCORE_NUMBERS_STYLE);
     const bestScoreText = this.add.text(0, 0, this.IsBestScore(), SCORE_TEXT_STYLE);
-    const buttonRestart = new uiWidgets.TextButton(this, 0, 0, "buttonBackground", this.RestartGame, this).setText(
-      "PLAY AGAIN",
-      BUTTON_STYLE,
-    );
-    const buttonReturn = new uiWidgets.TextButton(this, 0, 0, "buttonBackground", this.ReturnToMainMenu, this).setText(
-      "MAIN MENU",
-      BUTTON_STYLE,
-    );
+    const buttonRestart = new uiWidgets.TextButton(
+      this,
+      0,
+      0,
+      "buttonBackground",
+      this.RestartGame,
+      this,
+      "hover.png",
+      "default.png",
+      "pressed.png",
+      "default.png",
+    ).setText("PLAY AGAIN", BUTTON_STYLE);
+    const buttonReturn = new uiWidgets.TextButton(
+      this,
+      0,
+      0,
+      "buttonBackground",
+      this.ReturnToMainMenu,
+      this,
+      "hover.png",
+      "default.png",
+      "pressed.png",
+      "default.png",
+    ).setText("MAIN MENU", BUTTON_STYLE);
 
     const column = new uiWidgets.Column(this, GAME_RESOLUTION.width / 2 - 60, 60);
     column.addNode(yourScoreText, 0, 0);

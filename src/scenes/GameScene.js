@@ -62,10 +62,13 @@ class GameScene extends Phaser.Scene {
     this.sound.add("missed");
     this.sound.add("solved");
 
-    this.heartsGroup = new uiWidgets.Column(this, 755, 327);
+    this.heartsGroup = this.add.container(765, 355).setName("heartsGroup").setDepth(1);
     for (let i = 0; i < this.currentLifes; i++) {
-      const heartFilled = this.add.sprite(0, 0, "gui", "filled_heart.svg").setOrigin(0).disableInteractive();
-      this.heartsGroup.addNode(heartFilled, 0, 0);
+      const heartFilled = this.add
+        .sprite(0, i * 30, "gui", "filled_heart.svg")
+        .setOrigin(0.5, 0.5)
+        .disableInteractive();
+      this.heartsGroup.add(heartFilled);
     }
 
     const containerInputGUI = this.add
@@ -170,19 +173,6 @@ class GameScene extends Phaser.Scene {
 
   update(time, delta) {
     this.lilySpawner.update(delta);
-
-    if (this.prevHealthPoints !== LilySpawner.notGuessedCount) {
-      this.prevNotGuessed = LilySpawner.notGuessedCount;
-      this.heartsGroup.list[this.prevNotGuessed - 1].setTexture("gui", "empty_heart.svg");
-      if (this.prevNotGuessed === this.currentLifes) {
-        //ToDo: move it out
-        this.time.addEvent({
-          delay: 500,
-          callback: () => this.ResetGame(),
-          callbackScope: this,
-        });
-      }
-    }
 
     this.soundControl.setTexture("gui", this.sound.mute ? "sound_off_light.svg" : "sound_on.svg");
   }
