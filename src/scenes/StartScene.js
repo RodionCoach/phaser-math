@@ -13,7 +13,7 @@ class StartScene extends Phaser.Scene {
 
   create() {
     this.soundControl = this.add
-      .image(20, 20, "gui", "sound_on.svg")
+      .image(20, 20, "gui", this.sound.mute ? "sound_off_light.svg" : "sound_on.svg")
       .setOrigin(0)
       .setInteractive({ useHandCursor: true })
       .on("pointerdown", () => {
@@ -34,7 +34,7 @@ class StartScene extends Phaser.Scene {
     this.add.image(608, 316, "background", "wave7.png").setOrigin(0);
     this.add.image(770, 670, "actors", "water_lily.png").setOrigin(0).setAngle(-135.0).setFlipY(true);
 
-    this.sound.add("intro");
+    this.sound.add("background");
 
     const buttonOne = new uiWidgets.TextButton(this, 0, 0, "buttonBackground", this.StartGame, this).setText(
       "NEW GAME",
@@ -60,7 +60,7 @@ class StartScene extends Phaser.Scene {
 
   SetAudio() {
     // Add and play the music
-    this.sound.get("intro").play({ loop: true });
+    this.sound.get("background").play({ loop: true });
   }
 
   ToggleAudio() {
@@ -73,12 +73,10 @@ class StartScene extends Phaser.Scene {
   }
 
   StartGame() {
-    this.sound.stopAll();
     this.scene.start("CountdownScene");
   }
 
   HowToPlay() {
-    this.sound.stopAll();
     this.scene.start("RulesScene");
   }
 }

@@ -20,7 +20,7 @@ class GameScene extends Phaser.Scene {
 
   create() {
     this.soundControl = this.add
-      .image(20, 20, "gui", "sound_on.svg")
+      .image(20, 20, "gui", this.sound.mute ? "sound_off_light.svg" : "sound_on.svg")
       .setOrigin(0)
       .setInteractive({ useHandCursor: true })
       .on("pointerdown", () => {
@@ -57,8 +57,10 @@ class GameScene extends Phaser.Scene {
     this.add.image(765, 483, "actors", "leaves_stones_right.png").setOrigin(0).setDepth(1);
     this.add.image(0, 541, "actors", "leaves_stones_left.png").setOrigin(0).setDepth(1);
 
-    this.sound.add("game");
-    this.sound.add("guessed");
+    this.sound.add("background");
+    this.sound.add("wrong");
+    this.sound.add("missed");
+    this.sound.add("solved");
 
     this.heartsGroup = new uiWidgets.Column(this, 755, 327);
     for (let i = 0; i < this.currentLifes; i++) {
@@ -115,13 +117,13 @@ class GameScene extends Phaser.Scene {
     containerInputGUI.add(setButton);
 
     const containerDigitalGUI = this.add
-      .container(GAME_RESOLUTION.width / 2 - 350, 547)
+      .container(GAME_RESOLUTION.width / 2 - 316, 547)
       .setName("containerDigitalGUI")
       .setDepth(1);
     for (let i = 0; i < 10; i++) {
       const digitalButton = new GUIContainer({
         scene: this,
-        x: i * 75,
+        x: i * 70,
         y: 0,
       })
         .setName("digitalButton")
@@ -181,6 +183,8 @@ class GameScene extends Phaser.Scene {
         });
       }
     }
+
+    this.soundControl.setTexture("gui", this.sound.mute ? "sound_off_light.svg" : "sound_on.svg");
   }
 
   SpawnObjects() {
@@ -210,10 +214,11 @@ class GameScene extends Phaser.Scene {
   CheckAnswer(inputTextObject, inputFieldObject) {
     if (inputTextObject.text !== "") {
       if (this.lilySpawner.checkSomeExample(+inputTextObject.text)) {
-        this.PlayGuessedSound();
+        this.PlaySolvedSound();
         this.UpdateScore(100);
         this.ResetAnswerText(inputTextObject, inputFieldObject, "");
       } else {
+        this.PlayWrongSound();
         this.WrongAnswerText(inputTextObject, inputFieldObject);
       }
     } else {
@@ -223,12 +228,19 @@ class GameScene extends Phaser.Scene {
 
   SetAudio() {
     // Add and play the music
-    this.sound.get("game").play({ loop: true });
-    this.sound.get("game").volume = 0.5;
+    this.sound.get("background").volume = 0.4;
   }
 
-  PlayGuessedSound() {
-    this.sound.get("guessed").play();
+  PlaySolvedSound() {
+    this.sound.get("solved").play();
+  }
+
+  PlayWrongSound() {
+    this.sound.get("wrong").play();
+  }
+
+  PlayMissedSound() {
+    this.sound.get("missed").play();
   }
 
   ToggleAudio() {
@@ -271,7 +283,6 @@ class GameScene extends Phaser.Scene {
   }
 
   ResetGame() {
-    //ToDo: transfer data between scenes
     LilySpawner.notGuessedCount = 0;
     this.sound.stopAll();
     this.scene.start("EndScene", {

@@ -80,7 +80,9 @@ export default class LilySpawner extends Phaser.GameObjects.GameObject {
   }
 
   checkSomeExample(answerText) {
-    const guessedLilyIndex = this.lilies.findIndex(lily => lily.answer === answerText);
+    const guessedLilyIndex = this.lilies.findIndex(
+      (lily, index) => lily.answer === answerText && index !== this.currentLiliesCount,
+    );
 
     if (guessedLilyIndex !== -1) {
       this.lilies[guessedLilyIndex].tweenMove.stop();

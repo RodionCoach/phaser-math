@@ -37,10 +37,11 @@ class BootScene extends Phaser.Scene {
     this.load.image("noiseWater", "./assets/img/noiseWater.png");
     this.load.image("noise", "./assets/img/noise.png");
 
-    this.load.audio("intro", "./assets/sounds/Map.wav");
-    this.load.audio("game", "./assets/sounds/Mercury.wav");
-    this.load.audio("guessed", "./assets/sounds/Intro.wav");
-    this.load.audio("gameOver", "./assets/sounds/Venus.wav");
+    this.load.audio("background", "./assets/sounds/background.mp3");
+    this.load.audio("solved", "./assets/sounds/solved_problem.mp3");
+    this.load.audio("wrong", "./assets/sounds/wrong_answer.mp3");
+    this.load.audio("missed", "./assets/sounds/missed_problem.mp3");
+    this.load.audio("gameOver", "./assets/sounds/end_of_the_game.mp3");
 
     this.load.glsl("cartoonWaterShader", "./assets/shaders/cartoonWater.glsl.js");
 

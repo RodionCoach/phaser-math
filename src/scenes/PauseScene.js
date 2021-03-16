@@ -12,7 +12,7 @@ class PauseScene extends Phaser.Scene {
 
   create() {
     this.soundControl = this.add
-      .image(20, 20, "gui", "sound_on.svg")
+      .image(20, 20, "gui", this.sound.mute ? "sound_off_light.svg" : "sound_on.svg")
       .setOrigin(0)
       .setInteractive({ useHandCursor: true })
       .on("pointerdown", () => {

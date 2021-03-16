@@ -6,9 +6,19 @@ class RulesScene extends Phaser.Scene {
     super({
       key: "RulesScene",
     });
+
+    this.soundControl = null;
   }
 
   create() {
+    this.soundControl = this.add
+      .image(20, 20, "gui", this.sound.mute ? "sound_off_light.svg" : "sound_on.svg")
+      .setOrigin(0)
+      .setInteractive({ useHandCursor: true })
+      .on("pointerdown", () => {
+        this.ToggleAudio();
+      })
+      ?.setDepth(1);
     this.add.image(0, 0, "background", "background.png").setOrigin(0);
     this.add.image(349, 85, "background", "wave1.png").setOrigin(0);
     this.add.image(136, 97, "background", "wave2.png").setOrigin(0);
@@ -23,10 +33,6 @@ class RulesScene extends Phaser.Scene {
     this.add.image(608, 316, "background", "wave7.png").setOrigin(0);
     this.add.image(770, 670, "actors", "water_lily.png").setOrigin(0).setAngle(-135.0).setFlipY(true);
     const rulesText = this.add.text(44, 32, RULES_TEXT, RULES_STYLE);
-    const soundControl = this.add
-      .image(20, 20, "gui", "sound_on.svg")
-      .setOrigin(0)
-      .setInteractive({ useHandCursor: true });
 
     const container = this.add
       .container(TEXT_AREA_CONFIG_FOR_RULES.x, TEXT_AREA_CONFIG_FOR_RULES.y)
@@ -49,16 +55,15 @@ class RulesScene extends Phaser.Scene {
       TEXT_AREA_CONFIG_FOR_RULES.y + TEXT_AREA_CONFIG_FOR_RULES.height + halfHeightOfButton + 40,
     );
     column.addNode(buttonReturn, 0, 0);
-
-    //this.SetAudio();
   }
 
-  SetAudio() {
-    // Add and play the music
-    this.music = this.sound.add("intro");
-    this.music.play({
-      loop: true,
-    });
+  ToggleAudio() {
+    if (!this.sound.mute) {
+      this.soundControl.setTexture("gui", "sound_off_light.svg");
+    } else {
+      this.soundControl.setTexture("gui", "sound_on.svg");
+    }
+    this.sound.mute = !this.sound.mute;
   }
 
   ReturnToMainMenu() {
