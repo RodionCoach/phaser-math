@@ -111,10 +111,10 @@ class GameScene extends Phaser.Scene {
       .container(GAME_RESOLUTION.width / 2 - 350, 547)
       .setName("containerDigitalGUI")
       .setDepth(1);
-    for (let i = 1; i < 10; i++) {
+    for (let i = 0; i < 10; i++) {
       const digitalButton = new GUIContainer({
         scene: this,
-        x: i * 70,
+        x: i * 75,
         y: 0,
       })
         .setName("digitalButton")
@@ -134,29 +134,29 @@ class GameScene extends Phaser.Scene {
     this.SetScore();
     //this.SetAudio();
 
-    this.keys = {
-      num0: this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.NUMPAD_ZERO),
-      num1: this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.NUMPAD_ONE),
-      num3: this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.NUMPAD_THREE),
-      num2: this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.NUMPAD_TWO),
-      num4: this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.NUMPAD_FOUR),
-      num5: this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.NUMPAD_FIVE),
-      num6: this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.NUMPAD_SIX),
-      num7: this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.NUMPAD_SEVEN),
-      num8: this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.NUMPAD_EIGHT),
-      num9: this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.NUMPAD_NINE),
-      key0: this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.ZERO),
-      key1: this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.ONE),
-      key2: this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.TWO),
-      key3: this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.THREE),
-      key4: this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.FOUR),
-      key5: this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.FIVE),
-      key6: this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SIX),
-      key7: this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SEVEN),
-      key8: this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.EIGHT),
-      key9: this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.NINE),
-      enter: this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.ENTER),
-    };
+    // const keys = {
+    //   num0: this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.NUMPAD_ZERO),
+    //   num1: this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.NUMPAD_ONE),
+    //   num3: this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.NUMPAD_THREE),
+    //   num2: this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.NUMPAD_TWO),
+    //   num4: this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.NUMPAD_FOUR),
+    //   num5: this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.NUMPAD_FIVE),
+    //   num6: this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.NUMPAD_SIX),
+    //   num7: this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.NUMPAD_SEVEN),
+    //   num8: this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.NUMPAD_EIGHT),
+    //   num9: this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.NUMPAD_NINE),
+    //   key0: this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.ZERO),
+    //   key1: this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.ONE),
+    //   key2: this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.TWO),
+    //   key3: this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.THREE),
+    //   key4: this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.FOUR),
+    //   key5: this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.FIVE),
+    //   key6: this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SIX),
+    //   key7: this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SEVEN),
+    //   key8: this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.EIGHT),
+    //   key9: this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.NINE),
+    //   enter: this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.ENTER),
+    // };
   }
 
   update(time, delta) {
@@ -202,7 +202,7 @@ class GameScene extends Phaser.Scene {
 
   CheckAnswer(inputTextObject, inputFieldObject) {
     if (inputTextObject.text !== "") {
-      if (this.lilySpawner.checkExample(inputTextObject.text)) {
+      if (this.lilySpawner.checkSomeExample(+inputTextObject.text)) {
         this.UpdateScore(100);
         this.ResetAnswerText(inputTextObject, inputFieldObject, "");
       } else {
