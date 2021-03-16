@@ -18,15 +18,7 @@ vec3 lig = normalize(vec3(0.9,0.35,-0.2));
 
 void main( void ) {
   vec2 vUv = 2.0 * fragCoord.xy/resolution;
-  vec3 gradientFactor = vec3(pow(vUv.y * 1.7, 0.75) * 0.5 + 0.2) * vec3(0.9, 0.9, 1.1);
-  float scattering = 0.2;
-  float wavespeed = 0.15;
-  float intensity = 0.4;
-  vec3 colorNoise = texture2D(iChannel1, vec2(vUv.x, vUv.y - time * 0.15) * 0.35).rgb * 0.2;
-  float displacement = max((length(texture2D(iChannel1, vec2(vUv.x * cos(cos(time) * 0.3) - 0.15, vUv.y * cos(sin(time) * 0.35) * 0.85 - time * 0.35) * 20.0 * scattering * wavespeed + colorNoise.r)) * intensity) - 0.1, 0.0);
-  vec3 colorFoam = (1.0 - texture2D(iChannel1, vec2(vUv.x, vUv.y - time * 0.2)).rgb) * displacement;
-  vec3 foam = texture2D(iChannel2, vec2(vUv.x, vUv.y - time * 0.25) + displacement).rgb * 0.05;
-  vec3 color = texture2D(iChannel0, vec2(vUv.x, vUv.y - time * 0.25) + displacement).rgb * displacement + 0.4;
+
   vec2 position = vUv * 10.0;
   float speed = 5.0;
   float brightness = 5.0;
@@ -45,6 +37,17 @@ void main( void ) {
   cc = 0.6*(1.0-smoothstep( 0.0, 0.1, abs(cc-0.4))) +
   0.4*(1.0-smoothstep( 0.0, 0.5, abs(cc-0.4)));
 
-  vec3 col = clamp(vec3(1.0, 1.0, 1.0) * cc * pow(vUv.y - 0.8, 30.0), 0.0, 1.0) * 0.5;
-  gl_FragColor = vec4( color * gradientFactor + colorFoam * colorFoam + foam + col, 1.0 );
+  vec3 col = clamp(vec3(1.0, 1.0, 1.0) * cc * pow(vUv.y - 0.8, 30.0), 0.0, 1.0) * 0.75;
+
+  float speed2 = 7.0;
+  float timeScale2 = time * speed2;
+  float cc2  = 0.55*texture2D( iChannel1, 1.8*0.02*pos.xy - 0.007*timeScale2*vec2( 0.0, 1.0) ).x;
+  cc2 += 0.35*texture2D( iChannel1, 1.8*0.04*pos.xy - 0.011*timeScale2*vec2( -0.15, 1.0) ).x;
+  cc2 += 0.10*texture2D( iChannel1, 1.8*0.08*pos.xy + 0.014*timeScale2*vec2( 0.15, 1.0) ).x;
+  cc2 = 0.6*(1.0-smoothstep( 0.0, 0.0025, abs(cc2-1.0))) +
+  0.4*(1.0-smoothstep( 0.0, 0.150, abs(cc2-0.4)));
+
+  vec3 col2 = vec3(1.0) * cc2;
+
+  gl_FragColor = max(clamp(vec4(col2, cc2), 0.0, 0.25), vec4(col, max(col.r, max(col.g, col.b))));
 }
