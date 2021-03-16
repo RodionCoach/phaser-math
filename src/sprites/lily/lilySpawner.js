@@ -64,6 +64,8 @@ export default class LilySpawner extends Phaser.GameObjects.GameObject {
     this.GetLily();
   }
 
+  HeartsCallback() {}
+
   update(delta) {
     this.delta = delta;
     const renderedLily = Phaser.Math.Clamp(this.currentLiliesCount - 1, 0, TOTAL_LILIES);
@@ -123,6 +125,7 @@ export default class LilySpawner extends Phaser.GameObjects.GameObject {
       ease: "Linear",
       onComplete: () => {
         LilySpawner.notGuessedCount++;
+        this.HeartsCallback();
         lily.spriteText.setVisible(false);
         lily.textObject.setText("");
         lily.textObjectForSign.setText("");
