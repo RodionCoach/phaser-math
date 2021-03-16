@@ -6,9 +6,19 @@ class PauseScene extends Phaser.Scene {
     super({
       key: "PauseScene",
     });
+
+    this.soundControl = null;
   }
 
   create() {
+    this.soundControl = this.add
+      .image(20, 20, "gui", this.sound.mute ? "sound_off_light.svg" : "sound_on.svg")
+      .setOrigin(0)
+      .setInteractive({ useHandCursor: true })
+      .on("pointerdown", () => {
+        this.ToggleAudio();
+      })
+      ?.setDepth(1);
     this.add.image(0, 0, "background", "background.png").setOrigin(0);
     this.add.shader(
       "cartoonWaterShader",
@@ -35,10 +45,8 @@ class PauseScene extends Phaser.Scene {
       "hover.png",
       "default.png",
       "pressed.png",
-      "default.png",).setText(
-      "RESUME",
-      BUTTON_STYLE,
-    );
+      "default.png",
+    ).setText("RESUME", BUTTON_STYLE);
     const buttonRestart = new uiWidgets.TextButton(
       this,
       0,
@@ -73,18 +81,29 @@ class PauseScene extends Phaser.Scene {
     column.addNode(buttonReturn, 0, distanceBetweenButtons);
   }
 
+  ToggleAudio() {
+    if (!this.sound.mute) {
+      this.soundControl.setTexture("gui", "sound_off_light.svg");
+    } else {
+      this.soundControl.setTexture("gui", "sound_on.svg");
+    }
+    this.sound.mute = !this.sound.mute;
+  }
+
   ResumeGame() {
     this.scene.resume("GameScene");
     this.scene.stop("PauseScene");
   }
 
   RestartGame() {
+    this.sound.stopAll();
     LilySpawner.notGuessedCount = 0;
     this.scene.stop("GameScene");
     this.scene.start("CountdownScene");
   }
 
   ReturnToMainMenu() {
+    this.sound.stopAll();
     this.scene.stop("GameScene");
     this.scene.stop("PauseScene");
     this.scene.start("StartScene");

@@ -15,14 +15,18 @@ class GameScene extends Phaser.Scene {
     this.lilySpawner = null;
     this.music = null;
     this.plusPts = null;
+    this.soundControl = null;
   }
 
   create() {
-    const soundControl = this.add
-      .image(20, 20, "gui", "sound_on.svg")
+    this.soundControl = this.add
+      .image(20, 20, "gui", this.sound.mute ? "sound_off_light.svg" : "sound_on.svg")
       .setOrigin(0)
       .setInteractive({ useHandCursor: true })
-      ?.setDepth(1); //ToDo: sound
+      .on("pointerdown", () => {
+        this.ToggleAudio();
+      })
+      ?.setDepth(1);
     const pauseControl = this.add
       .image(752, 24, "gui", "pause.svg")
       .setOrigin(0)
@@ -52,6 +56,11 @@ class GameScene extends Phaser.Scene {
     this.add.image(0, 449, "actors", "bridge.png").setOrigin(0).setDepth(1);
     this.add.image(765, 483, "actors", "leaves_stones_right.png").setOrigin(0).setDepth(1);
     this.add.image(0, 541, "actors", "leaves_stones_left.png").setOrigin(0).setDepth(1);
+
+    this.sound.add("background");
+    this.sound.add("wrong");
+    this.sound.add("missed");
+    this.sound.add("solved");
 
     this.heartsGroup = this.add.container(765, 355).setName("heartsGroup").setDepth(1);
     for (let i = 0; i < this.currentLifes; i++) {
@@ -111,13 +120,13 @@ class GameScene extends Phaser.Scene {
     containerInputGUI.add(setButton);
 
     const containerDigitalGUI = this.add
-      .container(GAME_RESOLUTION.width / 2 - 340, 547)
+      .container(GAME_RESOLUTION.width / 2 - 316, 547)
       .setName("containerDigitalGUI")
       .setDepth(1);
     for (let i = 0; i < 10; i++) {
       const digitalButton = new GUIContainer({
         scene: this,
-        x: i * 75,
+        x: i * 70,
         y: 0,
       })
         .setName("digitalButton")
@@ -135,7 +144,7 @@ class GameScene extends Phaser.Scene {
 
     this.SpawnObjects();
     this.SetScore();
-    //this.SetAudio();
+    this.SetAudio();
 
     // const keys = {
     //   num0: this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.NUMPAD_ZERO),
@@ -164,6 +173,8 @@ class GameScene extends Phaser.Scene {
 
   update(time, delta) {
     this.lilySpawner.update(delta);
+
+    this.soundControl.setTexture("gui", this.sound.mute ? "sound_off_light.svg" : "sound_on.svg");
   }
 
   SpawnObjects() {
@@ -193,9 +204,11 @@ class GameScene extends Phaser.Scene {
   CheckAnswer(inputTextObject, inputFieldObject) {
     if (inputTextObject.text !== "") {
       if (this.lilySpawner.checkSomeExample(+inputTextObject.text)) {
+        this.PlaySolvedSound();
         this.UpdateScore(100);
         this.ResetAnswerText(inputTextObject, inputFieldObject, "");
       } else {
+        this.PlayWrongSound();
         this.WrongAnswerText(inputTextObject, inputFieldObject);
       }
     } else {
@@ -205,10 +218,28 @@ class GameScene extends Phaser.Scene {
 
   SetAudio() {
     // Add and play the music
-    this.music = this.sound.add("mars-slow");
-    this.music.play({
-      loop: true,
-    });
+    this.sound.get("background").volume = 0.4;
+  }
+
+  PlaySolvedSound() {
+    this.sound.get("solved").play();
+  }
+
+  PlayWrongSound() {
+    this.sound.get("wrong").play();
+  }
+
+  PlayMissedSound() {
+    this.sound.get("missed").play();
+  }
+
+  ToggleAudio() {
+    if (!this.sound.mute) {
+      this.soundControl.setTexture("gui", "sound_off_light.svg");
+    } else {
+      this.soundControl.setTexture("gui", "sound_on.svg");
+    }
+    this.sound.mute = !this.sound.mute;
   }
 
   SetScore() {
@@ -242,17 +273,11 @@ class GameScene extends Phaser.Scene {
   }
 
   ResetGame() {
-    //this.ResetMusic(); // ToDo: check if it needed
-    //ToDo: transfer data between scenes
     LilySpawner.notGuessedCount = 0;
+    this.sound.stopAll();
     this.scene.start("EndScene", {
       currentScore: this.score.pts,
     });
-  }
-
-  ResetMusic() {
-    this.music.pause();
-    this.music.seek = 0;
   }
 }
 

@@ -13,6 +13,7 @@ class EndScene extends Phaser.Scene {
     });
 
     this.currentScore = 0;
+    this.soundControl = null;
   }
 
   init({ currentScore }) {
@@ -20,6 +21,14 @@ class EndScene extends Phaser.Scene {
   }
 
   create() {
+    this.soundControl = this.add
+      .image(20, 20, "gui", this.sound.mute ? "sound_off_light.svg" : "sound_on.svg")
+      .setOrigin(0)
+      .setInteractive({ useHandCursor: true })
+      .on("pointerdown", () => {
+        this.ToggleAudio();
+      })
+      ?.setDepth(1);
     this.add.image(0, 0, "background", "background.png").setOrigin(0);
     this.add.shader(
       "cartoonWaterShader",
@@ -31,10 +40,7 @@ class EndScene extends Phaser.Scene {
     );
     this.add.image(770, 670, "actors", "water_lily.png").setOrigin(0).setAngle(-135.0).setFlipY(true);
 
-    const soundControl = this.add
-      .image(20, 20, "gui", "sound_on.svg")
-      .setOrigin(0)
-      .setInteractive({ useHandCursor: true });
+    this.sound.add("gameOver");
 
     const distanceBetweenButtons = 40;
 
@@ -72,6 +78,8 @@ class EndScene extends Phaser.Scene {
     column.addNode(bestScoreText, 0, 60);
     column.addNode(buttonRestart, 0, 120);
     column.addNode(buttonReturn, 0, distanceBetweenButtons);
+
+    this.SetAudio();
   }
 
   IsBestScore() {
@@ -89,12 +97,28 @@ class EndScene extends Phaser.Scene {
     return `Your best Score is ${prevBestScore}`;
   }
 
+  SetAudio() {
+    // Add and play the music
+    this.sound.get("gameOver").play();
+  }
+
+  ToggleAudio() {
+    if (!this.sound.mute) {
+      this.soundControl.setTexture("gui", "sound_off_light.svg");
+    } else {
+      this.soundControl.setTexture("gui", "sound_on.svg");
+    }
+    this.sound.mute = !this.sound.mute;
+  }
+
   RestartGame() {
+    this.sound.stopAll();
     this.scene.stop("GameScene");
     this.scene.start("CountdownScene");
   }
 
   ReturnToMainMenu() {
+    this.sound.stopAll();
     this.scene.start("StartScene");
   }
 }

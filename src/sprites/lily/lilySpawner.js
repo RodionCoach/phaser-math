@@ -78,7 +78,9 @@ export default class LilySpawner extends Phaser.GameObjects.GameObject {
   }
 
   checkSomeExample(answerText) {
-    const guessedLilyIndex = this.lilies.findIndex(lily => lily.answer === answerText);
+    const guessedLilyIndex = this.lilies.findIndex(
+      (lily, index) => lily.answer === answerText && index !== this.currentLiliesCount,
+    );
 
     if (guessedLilyIndex !== -1) {
       this.lilies[guessedLilyIndex].tweenMove.stop();
@@ -133,6 +135,7 @@ export default class LilySpawner extends Phaser.GameObjects.GameObject {
             ease: "Quad.easeInOut",
             repeat: 0,
             onComplete: () => {
+              this.scene.PlayMissedSound();
               this.scene.heartsGroup.getAll()[this.scene.prevNotGuessed - 1].setTexture("gui", "empty_heart.svg");
             },
           });
