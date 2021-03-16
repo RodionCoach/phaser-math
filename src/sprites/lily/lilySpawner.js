@@ -14,7 +14,6 @@ export default class LilySpawner extends Phaser.GameObjects.GameObject {
     this.currentLiliesCount = 0;
     this.lilies = [];
     this.currentExample = 0;
-    // this.HeartsCallback = HeartsCallback;
     let frameNamesWave = scene.anims.generateFrameNames("lily", {
       start: 1,
       end: 4,
