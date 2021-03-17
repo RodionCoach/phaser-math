@@ -59,22 +59,6 @@ export default class LilySpawner extends Phaser.GameObjects.GameObject {
       lilyContainer.textObjectForSign.setStyle(EXAMPLES_STYLE).setOrigin(0, 0.5);
       this.lilies.push(lilyContainer);
     }
-
-    this.GetLily();
-  }
-
-  update(delta) {
-    this.delta = delta;
-    const renderedLily = Phaser.Math.Clamp(this.currentLiliesCount - 1, 0, TOTAL_LILIES);
-    if (this.lilies[renderedLily].y < this.scene.game?.config?.height - 200) {
-      this.GetLily();
-    }
-
-    this.lilies.forEach(lily => {
-      if (lily.tweenMove) {
-        lily.tweenMove.timeScale = this.speedIncrementer;
-      }
-    });
   }
 
   checkSomeExample(answerText) {
@@ -99,7 +83,7 @@ export default class LilySpawner extends Phaser.GameObjects.GameObject {
     return false;
   }
 
-  GetLily() {
+  GetLily(HeartsCallBack) {
     this.currentExample = Phaser.Math.Between(0, EXAMPLES.length - 1);
     this.currentLiliesCount %= TOTAL_LILIES;
     const randInt = Phaser.Math.RND.integerInRange(186, 650);
@@ -123,31 +107,7 @@ export default class LilySpawner extends Phaser.GameObjects.GameObject {
       ease: "Linear",
       onComplete: () => {
         LilySpawner.notGuessedCount++;
-        //destroy heart
-        if (this.scene.prevHealthPoints !== LilySpawner.notGuessedCount) {
-          this.scene.prevNotGuessed = LilySpawner.notGuessedCount;
-          this.scene.tweens.add({
-            targets: this.scene.heartsGroup.getAll()[this.scene.prevNotGuessed - 1],
-            scaleX: 1.2,
-            scaleY: 1.2,
-            duration: 170,
-            yoyo: true,
-            ease: "Quad.easeInOut",
-            repeat: 0,
-            onComplete: () => {
-              this.scene.PlayMissedSound();
-              this.scene.heartsGroup.getAll()[this.scene.prevNotGuessed - 1].setTexture("gui", "empty_heart.svg");
-            },
-          });
-          if (this.scene.prevNotGuessed === this.scene.currentLifes) {
-            //ToDo: move it out
-            this.scene.time.addEvent({
-              delay: 500,
-              callback: () => this.scene.ResetGame(),
-              callbackScope: this.scene,
-            });
-          }
-        }
+        HeartsCallBack();
         lily.spriteText.setVisible(false);
         lily.textObject.setText("");
         lily.textObjectForSign.setText("");
