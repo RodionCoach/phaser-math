@@ -1,5 +1,4 @@
 import LilySpawner from "../sprites/lily/lilySpawner";
-import uiWidgets from "phaser-ui-tools";
 import { GUIContainer } from "../objects/GUIContainer";
 import {
   BUTTON_NUMBER_STYLE,
@@ -195,8 +194,8 @@ class GameScene extends Phaser.Scene {
   }
 
   HeartsCallBack() {
-    if (this.prevHealthPoints !== LilySpawner.notGuessedCount) {
-      this.prevNotGuessed = LilySpawner.notGuessedCount;
+    if (this.prevHealthPoints !== this.lilySpawner.notGuessedCount) {
+      this.prevNotGuessed = this.lilySpawner.notGuessedCount;
       this.tweens.add({
         targets: this.heartsGroup.getAll()[this.prevNotGuessed - 1],
         scaleX: 1.2,

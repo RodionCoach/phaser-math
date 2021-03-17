@@ -3,9 +3,7 @@ import LilyContainer from "./lilyContainer";
 import { LILY_BONDARY_LIMIT, EXAMPLES_STYLE, EXAMPLES, TOTAL_LILIES } from "../../utils/constants";
 
 export default class LilySpawner extends Phaser.GameObjects.GameObject {
-  static notGuessedCount = 0;
-
-  constructor(scene, HeartsCallback) {
+  constructor(scene) {
     super(scene);
 
     scene.add.existing(this);
@@ -14,6 +12,7 @@ export default class LilySpawner extends Phaser.GameObjects.GameObject {
     this.currentLiliesCount = 0;
     this.lilies = [];
     this.currentExample = 0;
+    this.notGuessedCount = 0;
     let frameNamesWave = scene.anims.generateFrameNames("lily", {
       start: 1,
       end: 4,
@@ -63,7 +62,7 @@ export default class LilySpawner extends Phaser.GameObjects.GameObject {
 
   checkSomeExample(answerText) {
     const guessedLilyIndex = this.lilies.findIndex(
-      (lily, index) => lily.answer === answerText && index !== this.currentLiliesCount,
+      (lily, index) => lily.answer === answerText && index !== this.currentLiliesCount - 1,
     );
 
     if (guessedLilyIndex !== -1) {
@@ -83,7 +82,7 @@ export default class LilySpawner extends Phaser.GameObjects.GameObject {
     return false;
   }
 
-  GetLily(HeartsCallBack) {
+  GetLily(HeartsCallBack = () => {}) {
     this.currentExample = Phaser.Math.Between(0, EXAMPLES.length - 1);
     this.currentLiliesCount %= TOTAL_LILIES;
     const randInt = Phaser.Math.RND.integerInRange(186, 650);
@@ -106,7 +105,7 @@ export default class LilySpawner extends Phaser.GameObjects.GameObject {
       duration: 10000,
       ease: "Linear",
       onComplete: () => {
-        LilySpawner.notGuessedCount++;
+        this.notGuessedCount++;
         HeartsCallBack();
         lily.spriteText.setVisible(false);
         lily.textObject.setText("");
