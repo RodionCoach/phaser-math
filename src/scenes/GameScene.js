@@ -1,7 +1,7 @@
 import LilySpawner from "../sprites/lily/lilySpawner";
 import { GUIContainer } from "../objects/GUIContainer";
 import { SetKeyboardKeys } from "../sceneHooks/SetKeyboardKeys";
-import { SetAudio, ToggleAudio } from "../sceneHooks/SetAudio";
+import { SetAudio } from "../sceneHooks/SetAudio";
 import {
   BUTTON_NUMBER_STYLE,
   GAME_RESOLUTION,
@@ -9,6 +9,7 @@ import {
   GAME_HEALTH_POINTS,
   TOTAL_LILIES,
 } from "../utils/constants";
+import SoundButton from "../objects/soundButton";
 
 class GameScene extends Phaser.Scene {
   constructor() {
@@ -26,14 +27,7 @@ class GameScene extends Phaser.Scene {
   }
 
   create() {
-    this.soundControl = this.add
-      .image(20, 20, "gui", this.sound.mute ? "sound_off_light.svg" : "sound_on.svg")
-      .setOrigin(0)
-      .setInteractive({ useHandCursor: true })
-      .on("pointerdown", () => {
-        ToggleAudio(this);
-      })
-      ?.setDepth(1);
+    this.soundControl = new SoundButton(this, 20, 20, "gui", this.sound.mute ? "sound_off_light.svg" : "sound_on.svg");
     const pauseControl = this.add
       .image(752, 24, "gui", "pause.svg")
       .setOrigin(0)

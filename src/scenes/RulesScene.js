@@ -1,6 +1,6 @@
 import uiWidgets from "phaser-ui-tools";
 import { BUTTON_STYLE, RULES_STYLE, RULES_TEXT, GAME_RESOLUTION, TEXT_AREA_CONFIG_FOR_RULES } from "../utils/constants";
-import { ToggleAudio } from "../sceneHooks/SetAudio";
+import SoundButton from "../objects/soundButton";
 class RulesScene extends Phaser.Scene {
   constructor() {
     super({
@@ -11,14 +11,7 @@ class RulesScene extends Phaser.Scene {
   }
 
   create() {
-    this.soundControl = this.add
-      .image(20, 20, "gui", this.sound.mute ? "sound_off_light.svg" : "sound_on.svg")
-      .setOrigin(0)
-      .setInteractive({ useHandCursor: true })
-      .on("pointerdown", () => {
-        ToggleAudio(this);
-      })
-      ?.setDepth(1);
+    this.soundControl = new SoundButton(this, 20, 20, "gui", this.sound.mute ? "sound_off_light.svg" : "sound_on.svg");
     this.add.image(0, 0, "background", "background.png").setOrigin(0);
     this.add.shader(
       "cartoonWaterShader",

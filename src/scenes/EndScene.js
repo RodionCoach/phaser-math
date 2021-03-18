@@ -6,7 +6,8 @@ import {
   SCORE_NUMBERS_STYLE,
   SCORE_TEXT_STYLE,
 } from "../utils/constants";
-import { SetAudio, ToggleAudio } from "../sceneHooks/SetAudio";
+import { SetAudio } from "../sceneHooks/SetAudio";
+import SoundButton from "../objects/soundButton";
 class EndScene extends Phaser.Scene {
   constructor() {
     super({
@@ -22,14 +23,7 @@ class EndScene extends Phaser.Scene {
   }
 
   create() {
-    this.soundControl = this.add
-      .image(20, 20, "gui", this.sound.mute ? "sound_off_light.svg" : "sound_on.svg")
-      .setOrigin(0)
-      .setInteractive({ useHandCursor: true })
-      .on("pointerdown", () => {
-        ToggleAudio(this);
-      })
-      ?.setDepth(1);
+    this.soundControl = new SoundButton(this, 20, 20, "gui", this.sound.mute ? "sound_off_light.svg" : "sound_on.svg");
     this.add.image(0, 0, "background", "background.png").setOrigin(0);
     this.add.shader(
       "cartoonWaterShader",
