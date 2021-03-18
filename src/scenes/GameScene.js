@@ -1,5 +1,6 @@
 import LilySpawner from "../sprites/lily/lilySpawner";
 import { GUIContainer } from "../objects/GUIContainer";
+import { SetKeyboardKeys } from "../sceneHooks/SetKeyboardKeys";
 import {
   BUTTON_NUMBER_STYLE,
   GAME_RESOLUTION,
@@ -150,30 +151,7 @@ class GameScene extends Phaser.Scene {
     this.SpawnObjects();
     this.SetScore();
     this.SetAudio();
-
-    // const keys = {
-    //   num0: this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.NUMPAD_ZERO),
-    //   num1: this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.NUMPAD_ONE),
-    //   num3: this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.NUMPAD_THREE),
-    //   num2: this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.NUMPAD_TWO),
-    //   num4: this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.NUMPAD_FOUR),
-    //   num5: this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.NUMPAD_FIVE),
-    //   num6: this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.NUMPAD_SIX),
-    //   num7: this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.NUMPAD_SEVEN),
-    //   num8: this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.NUMPAD_EIGHT),
-    //   num9: this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.NUMPAD_NINE),
-    //   key0: this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.ZERO),
-    //   key1: this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.ONE),
-    //   key2: this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.TWO),
-    //   key3: this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.THREE),
-    //   key4: this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.FOUR),
-    //   key5: this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.FIVE),
-    //   key6: this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SIX),
-    //   key7: this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SEVEN),
-    //   key8: this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.EIGHT),
-    //   key9: this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.NINE),
-    //   enter: this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.ENTER),
-    // };
+    SetKeyboardKeys(this, inputField);
   }
 
   update(time, delta) {
