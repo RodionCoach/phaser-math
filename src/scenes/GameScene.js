@@ -1,7 +1,12 @@
 import LilySpawner from "../sprites/lily/lilySpawner";
-import uiWidgets from "phaser-ui-tools";
 import { GUIContainer } from "../objects/GUIContainer";
-import { BUTTON_NUMBER_STYLE, GAME_RESOLUTION, SCORE_STYLE, GAME_HEALTH_POINTS } from "../utils/constants";
+import {
+  BUTTON_NUMBER_STYLE,
+  GAME_RESOLUTION,
+  SCORE_STYLE,
+  GAME_HEALTH_POINTS,
+  TOTAL_LILIES,
+} from "../utils/constants";
 
 class GameScene extends Phaser.Scene {
   constructor() {
@@ -172,13 +177,57 @@ class GameScene extends Phaser.Scene {
   }
 
   update(time, delta) {
-    this.lilySpawner.update(delta);
+    const renderedLily = Phaser.Math.Clamp(this.lilySpawner.currentLiliesCount - 1, 0, TOTAL_LILIES);
+    if (
+      this.lilySpawner.lilies[renderedLily].y < this.game?.config?.height - 200 ||
+      !this.lilySpawner.visibleLiliesCount
+    ) {
+      this.lilySpawner.GetLily(() => {
+        this.HeartsCallBack();
+      });
+    }
+
+    this.lilySpawner.lilies.forEach(lily => {
+      if (lily.tweenMove) {
+        lily.tweenMove.timeScale = this.lilySpawner.speedIncrementer;
+      }
+    });
 
     this.soundControl.setTexture("gui", this.sound.mute ? "sound_off_light.svg" : "sound_on.svg");
   }
 
+  HeartsCallBack() {
+    if (this.prevHealthPoints !== this.lilySpawner.notGuessedCount) {
+      this.prevNotGuessed = this.lilySpawner.notGuessedCount;
+      this.tweens.add({
+        targets: this.heartsGroup.getAll()[this.prevNotGuessed - 1],
+        scaleX: 1.2,
+        scaleY: 1.2,
+        duration: 170,
+        yoyo: true,
+        ease: "Quad.easeInOut",
+        repeat: 0,
+        onComplete: () => {
+          this.PlayMissedSound();
+          this.heartsGroup.getAll()[this.prevNotGuessed - 1].setTexture("gui", "empty_heart.svg");
+        },
+      });
+      if (this.prevNotGuessed === this.currentLifes) {
+        //ToDo: move it out
+        this.time.addEvent({
+          delay: 500,
+          callback: () => this.ResetGame(),
+          callbackScope: this,
+        });
+      }
+    }
+  }
+
   SpawnObjects() {
     this.lilySpawner = new LilySpawner(this);
+    this.lilySpawner.GetLily(() => {
+      this.HeartsCallBack();
+    });
   }
 
   ResetAnswerText(inputTextObject, inputFieldObject, text) {
@@ -203,9 +252,10 @@ class GameScene extends Phaser.Scene {
 
   CheckAnswer(inputTextObject, inputFieldObject) {
     if (inputTextObject.text !== "") {
-      if (this.lilySpawner.checkSomeExample(+inputTextObject.text)) {
+      const guessedCount = this.lilySpawner.checkSomeExample(+inputTextObject.text);
+      if (guessedCount) {
         this.PlaySolvedSound();
-        this.UpdateScore(100);
+        this.UpdateScore(100 * guessedCount);
         this.ResetAnswerText(inputTextObject, inputFieldObject, "");
       } else {
         this.PlayWrongSound();
