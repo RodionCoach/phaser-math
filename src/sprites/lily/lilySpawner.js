@@ -47,7 +47,7 @@ export default class LilySpawner extends Phaser.GameObjects.GameObject {
         x: LilyContainer.config.startPos.x,
         y: LilyContainer.config.startPos.y,
       });
-      lilyContainer.sprite.setTexture("lily", "wave/0001.png").setScale(1.1, 1.1);
+      lilyContainer.sprite.setTexture("lily", "wave/0001.png").setScale(1.2, 1.2);
       lilyContainer.sprite.on(
         Phaser.Animations.Events.ANIMATION_COMPLETE,
         () => {
