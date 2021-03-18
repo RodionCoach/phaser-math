@@ -1,6 +1,6 @@
 import uiWidgets from "phaser-ui-tools";
 import { BUTTON_STYLE, RULES_STYLE, RULES_TEXT, GAME_RESOLUTION, TEXT_AREA_CONFIG_FOR_RULES } from "../utils/constants";
-
+import { ToggleAudio } from "../sceneHooks/SetAudio";
 class RulesScene extends Phaser.Scene {
   constructor() {
     super({
@@ -16,7 +16,7 @@ class RulesScene extends Phaser.Scene {
       .setOrigin(0)
       .setInteractive({ useHandCursor: true })
       .on("pointerdown", () => {
-        this.ToggleAudio();
+        ToggleAudio(this);
       })
       ?.setDepth(1);
     this.add.image(0, 0, "background", "background.png").setOrigin(0);
@@ -60,15 +60,6 @@ class RulesScene extends Phaser.Scene {
       TEXT_AREA_CONFIG_FOR_RULES.y + TEXT_AREA_CONFIG_FOR_RULES.height + halfHeightOfButton + 40,
     );
     column.addNode(buttonReturn, 0, 0);
-  }
-
-  ToggleAudio() {
-    if (!this.sound.mute) {
-      this.soundControl.setTexture("gui", "sound_off_light.svg");
-    } else {
-      this.soundControl.setTexture("gui", "sound_on.svg");
-    }
-    this.sound.mute = !this.sound.mute;
   }
 
   ReturnToMainMenu() {

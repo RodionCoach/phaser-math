@@ -1,7 +1,7 @@
 import LilySpawner from "../sprites/lily/lilySpawner";
 import { GUIContainer } from "../objects/GUIContainer";
 import { SetKeyboardKeys } from "../sceneHooks/SetKeyboardKeys";
-import { SetAudio } from "../sceneHooks/SetAudio";
+import { SetAudio, ToggleAudio } from "../sceneHooks/SetAudio";
 import {
   BUTTON_NUMBER_STYLE,
   GAME_RESOLUTION,
@@ -31,7 +31,7 @@ class GameScene extends Phaser.Scene {
       .setOrigin(0)
       .setInteractive({ useHandCursor: true })
       .on("pointerdown", () => {
-        this.ToggleAudio();
+        ToggleAudio(this);
       })
       ?.setDepth(1);
     const pauseControl = this.add
@@ -255,15 +255,6 @@ class GameScene extends Phaser.Scene {
 
   PlayMissedSound() {
     this.sound.get("missed").play();
-  }
-
-  ToggleAudio() {
-    if (!this.sound.mute) {
-      this.soundControl.setTexture("gui", "sound_off_light.svg");
-    } else {
-      this.soundControl.setTexture("gui", "sound_on.svg");
-    }
-    this.sound.mute = !this.sound.mute;
   }
 
   SetScore() {

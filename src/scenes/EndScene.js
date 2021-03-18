@@ -6,7 +6,7 @@ import {
   SCORE_NUMBERS_STYLE,
   SCORE_TEXT_STYLE,
 } from "../utils/constants";
-import { SetAudio } from "../sceneHooks/SetAudio";
+import { SetAudio, ToggleAudio } from "../sceneHooks/SetAudio";
 class EndScene extends Phaser.Scene {
   constructor() {
     super({
@@ -27,7 +27,7 @@ class EndScene extends Phaser.Scene {
       .setOrigin(0)
       .setInteractive({ useHandCursor: true })
       .on("pointerdown", () => {
-        this.ToggleAudio();
+        ToggleAudio(this);
       })
       ?.setDepth(1);
     this.add.image(0, 0, "background", "background.png").setOrigin(0);
@@ -96,15 +96,6 @@ class EndScene extends Phaser.Scene {
     }
 
     return `Your best Score is ${prevBestScore}`;
-  }
-
-  ToggleAudio() {
-    if (!this.sound.mute) {
-      this.soundControl.setTexture("gui", "sound_off_light.svg");
-    } else {
-      this.soundControl.setTexture("gui", "sound_on.svg");
-    }
-    this.sound.mute = !this.sound.mute;
   }
 
   RestartGame() {
