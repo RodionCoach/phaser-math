@@ -178,7 +178,10 @@ class GameScene extends Phaser.Scene {
 
   update(time, delta) {
     const renderedLily = Phaser.Math.Clamp(this.lilySpawner.currentLiliesCount - 1, 0, TOTAL_LILIES);
-    if (this.lilySpawner.lilies[renderedLily].y < this.game?.config?.height - 200) {
+    if (
+      this.lilySpawner.lilies[renderedLily].y < this.game?.config?.height - 200 ||
+      !this.lilySpawner.visibleLiliesCount
+    ) {
       this.lilySpawner.GetLily(() => {
         this.HeartsCallBack();
       });
@@ -249,9 +252,10 @@ class GameScene extends Phaser.Scene {
 
   CheckAnswer(inputTextObject, inputFieldObject) {
     if (inputTextObject.text !== "") {
-      if (this.lilySpawner.checkSomeExample(+inputTextObject.text)) {
+      const guessedCount = this.lilySpawner.checkSomeExample(+inputTextObject.text);
+      if (guessedCount) {
         this.PlaySolvedSound();
-        this.UpdateScore(100);
+        this.UpdateScore(100 * guessedCount);
         this.ResetAnswerText(inputTextObject, inputFieldObject, "");
       } else {
         this.PlayWrongSound();
