@@ -1,6 +1,7 @@
 import uiWidgets from "phaser-ui-tools";
 import LilySpawner from "../sprites/lily/lilySpawner";
 import { BUTTON_STYLE, GAME_RESOLUTION } from "../utils/constants";
+import SoundButton from "../objects/soundButton";
 class PauseScene extends Phaser.Scene {
   constructor() {
     super({
@@ -11,14 +12,7 @@ class PauseScene extends Phaser.Scene {
   }
 
   create() {
-    this.soundControl = this.add
-      .image(20, 20, "gui", this.sound.mute ? "sound_off_light.svg" : "sound_on.svg")
-      .setOrigin(0)
-      .setInteractive({ useHandCursor: true })
-      .on("pointerdown", () => {
-        this.ToggleAudio();
-      })
-      ?.setDepth(1);
+    this.soundControl = new SoundButton(this, 20, 20, "gui", "sound_on.svg", "sound_off_light.svg");
     this.add.image(0, 0, "background", "background.png").setOrigin(0);
     this.add.shader(
       "cartoonWaterShader",
@@ -29,11 +23,6 @@ class PauseScene extends Phaser.Scene {
       ["cartoonWater", "noiseWater", "noise"],
     );
     this.add.image(770, 670, "actors", "water_lily.png").setOrigin(0).setAngle(-135.0).setFlipY(true);
-
-    const soundControl = this.add
-      .image(20, 20, "gui", "sound_on.svg")
-      .setOrigin(0)
-      .setInteractive({ useHandCursor: true });
 
     const buttonResume = new uiWidgets.TextButton(
       this,
@@ -79,15 +68,6 @@ class PauseScene extends Phaser.Scene {
     column.addNode(buttonResume, 0, distanceBetweenButtons);
     column.addNode(buttonRestart, 0, distanceBetweenButtons);
     column.addNode(buttonReturn, 0, distanceBetweenButtons);
-  }
-
-  ToggleAudio() {
-    if (!this.sound.mute) {
-      this.soundControl.setTexture("gui", "sound_off_light.svg");
-    } else {
-      this.soundControl.setTexture("gui", "sound_on.svg");
-    }
-    this.sound.mute = !this.sound.mute;
   }
 
   ResumeGame() {

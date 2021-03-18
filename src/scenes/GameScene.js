@@ -1,6 +1,7 @@
 import LilySpawner from "../sprites/lily/lilySpawner";
 import { GUIContainer } from "../objects/GUIContainer";
 import { SetKeyboardKeys } from "../sceneHooks/SetKeyboardKeys";
+import { SetAudio } from "../sceneHooks/SetAudio";
 import {
   BUTTON_NUMBER_STYLE,
   GAME_RESOLUTION,
@@ -8,6 +9,7 @@ import {
   GAME_HEALTH_POINTS,
   TOTAL_LILIES,
 } from "../utils/constants";
+import SoundButton from "../objects/soundButton";
 
 class GameScene extends Phaser.Scene {
   constructor() {
@@ -25,14 +27,7 @@ class GameScene extends Phaser.Scene {
   }
 
   create() {
-    this.soundControl = this.add
-      .image(20, 20, "gui", this.sound.mute ? "sound_off_light.svg" : "sound_on.svg")
-      .setOrigin(0)
-      .setInteractive({ useHandCursor: true })
-      .on("pointerdown", () => {
-        this.ToggleAudio();
-      })
-      ?.setDepth(1);
+    this.soundControl = new SoundButton(this, 20, 20, "gui", "sound_on.svg", "sound_off_light.svg");
     const pauseControl = this.add
       .image(752, 24, "gui", "pause.svg")
       .setOrigin(0)
@@ -132,7 +127,7 @@ class GameScene extends Phaser.Scene {
     for (let i = 0; i < 10; i++) {
       const digitalButton = new GUIContainer({
         scene: this,
-        x: i * 70,
+        x: i === 0 ? 9 * 70 : (i - 1) * 70,
         y: 0,
       })
         .setName("digitalButton")
@@ -150,7 +145,7 @@ class GameScene extends Phaser.Scene {
 
     this.SpawnObjects();
     this.SetScore();
-    this.SetAudio();
+    SetAudio(this, "background", 0.4, true);
     SetKeyboardKeys(this, inputField);
   }
 
@@ -244,12 +239,6 @@ class GameScene extends Phaser.Scene {
     }
   }
 
-  SetAudio() {
-    // Add and play the music
-    this.sound.get("background").play({ loop: true });
-    this.sound.get("background").volume = 0.4;
-  }
-
   PlaySolvedSound() {
     this.sound.get("solved").play();
   }
@@ -260,15 +249,6 @@ class GameScene extends Phaser.Scene {
 
   PlayMissedSound() {
     this.sound.get("missed").play();
-  }
-
-  ToggleAudio() {
-    if (!this.sound.mute) {
-      this.soundControl.setTexture("gui", "sound_off_light.svg");
-    } else {
-      this.soundControl.setTexture("gui", "sound_on.svg");
-    }
-    this.sound.mute = !this.sound.mute;
   }
 
   SetScore() {

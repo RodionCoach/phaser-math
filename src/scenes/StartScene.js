@@ -1,5 +1,7 @@
 import uiWidgets from "phaser-ui-tools";
 import { BUTTON_STYLE, GAME_RESOLUTION } from "../utils/constants";
+import { SetAudio } from "../sceneHooks/SetAudio";
+import SoundButton from "../objects/soundButton";
 class StartScene extends Phaser.Scene {
   startGameKey = null;
 
@@ -12,14 +14,7 @@ class StartScene extends Phaser.Scene {
   }
 
   create() {
-    this.soundControl = this.add
-      .image(20, 20, "gui", this.sound.mute ? "sound_off_light.svg" : "sound_on.svg")
-      .setOrigin(0)
-      .setInteractive({ useHandCursor: true })
-      .on("pointerdown", () => {
-        this.ToggleAudio();
-      })
-      ?.setDepth(1);
+    this.soundControl = new SoundButton(this, 20, 20, "gui", "sound_on.svg", "sound_off_light.svg");
     this.add.image(0, 0, "background", "background.png").setOrigin(0);
     this.add.shader(
       "cartoonWaterShader",
@@ -62,27 +57,13 @@ class StartScene extends Phaser.Scene {
     column.addNode(buttonOne, 0, 40);
     column.addNode(buttonTwo, 0, 40);
 
-    this.SetAudio();
+    SetAudio(this, "background", 1.0, true);
   }
 
   update() {
     if (this.startGameKey && Phaser.Input.Keyboard.JustDown(this.startGameKey)) {
       this.StartGame();
     }
-  }
-
-  SetAudio() {
-    // Add and play the music
-    this.sound.get("background").play({ loop: true });
-  }
-
-  ToggleAudio() {
-    if (!this.sound.mute) {
-      this.soundControl.setTexture("gui", "sound_off_light.svg");
-    } else {
-      this.soundControl.setTexture("gui", "sound_on.svg");
-    }
-    this.sound.mute = !this.sound.mute;
   }
 
   StartGame() {
