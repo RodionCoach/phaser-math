@@ -1,6 +1,7 @@
 import uiWidgets from "phaser-ui-tools";
 import { BUTTON_STYLE, RULES_STYLE, RULES_TEXT, GAME_RESOLUTION, TEXT_AREA_CONFIG_FOR_RULES } from "../utils/constants";
 import SoundButton from "../objects/soundButton";
+
 class RulesScene extends Phaser.Scene {
   constructor() {
     super({
