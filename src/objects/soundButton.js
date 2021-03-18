@@ -1,26 +1,15 @@
-export default class TextButton extends Phaser.GameObjects.Text {
-  constructor({ scene, x, y, text, style, clb }) {
-    super(scene, x, y, text, style);
+import { ToggleAudio } from "../sceneHooks/ToggleAudio";
 
-    this.setInteractive({ useHandCursor: true })
-      .on("pointerout", () => this.enterButtonRestState())
-      .on("pointerdown", () => this.enterButtonActiveState())
-      .on("pointerup", () => {
-        this.enterButtonHoverState();
+export default class SoundButton extends Phaser.GameObjects.Image {
+  constructor(scene, x, y, texture, frameOn, frameOff) {
+    super(scene, x, y, texture, scene.sound.mute ? frameOff : frameOn);
+    scene.add.existing(this);
 
-        if (clb) clb();
-      });
-  }
-
-  enterButtonHoverState() {
-    this.setStyle({ backgroundColor: BUTTON_BACKGROUND_COLOR });
-  }
-
-  enterButtonRestState() {
-    this.setStyle({ backgroundColor: BUTTON_BACKGROUND_COLOR });
-  }
-
-  enterButtonActiveState() {
-    this.setStyle({ backgroundColor: BUTTON_BACKGROUND_COLOR_CLICK });
+    this.setOrigin(0)
+      .setInteractive({ useHandCursor: true })
+      .on("pointerdown", () => {
+        ToggleAudio(scene, texture, frameOn, frameOff);
+      })
+      ?.setDepth(1);
   }
 }

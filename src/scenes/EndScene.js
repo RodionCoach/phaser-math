@@ -6,6 +6,8 @@ import {
   SCORE_NUMBERS_STYLE,
   SCORE_TEXT_STYLE,
 } from "../utils/constants";
+import { SetAudio } from "../sceneHooks/SetAudio";
+import SoundButton from "../objects/soundButton";
 class EndScene extends Phaser.Scene {
   constructor() {
     super({
@@ -21,14 +23,7 @@ class EndScene extends Phaser.Scene {
   }
 
   create() {
-    this.soundControl = this.add
-      .image(20, 20, "gui", this.sound.mute ? "sound_off_light.svg" : "sound_on.svg")
-      .setOrigin(0)
-      .setInteractive({ useHandCursor: true })
-      .on("pointerdown", () => {
-        this.ToggleAudio();
-      })
-      ?.setDepth(1);
+    this.soundControl = new SoundButton(this, 20, 20, "gui", "sound_on.svg", "sound_off_light.svg");
     this.add.image(0, 0, "background", "background.png").setOrigin(0);
     this.add.shader(
       "cartoonWaterShader",
@@ -79,7 +74,7 @@ class EndScene extends Phaser.Scene {
     column.addNode(buttonRestart, 0, 120);
     column.addNode(buttonReturn, 0, distanceBetweenButtons);
 
-    this.SetAudio();
+    SetAudio(this, "gameOver", 1.0, false);
   }
 
   IsBestScore() {
@@ -95,20 +90,6 @@ class EndScene extends Phaser.Scene {
     }
 
     return `Your best Score is ${prevBestScore}`;
-  }
-
-  SetAudio() {
-    // Add and play the music
-    this.sound.get("gameOver").play();
-  }
-
-  ToggleAudio() {
-    if (!this.sound.mute) {
-      this.soundControl.setTexture("gui", "sound_off_light.svg");
-    } else {
-      this.soundControl.setTexture("gui", "sound_on.svg");
-    }
-    this.sound.mute = !this.sound.mute;
   }
 
   RestartGame() {
