@@ -14,7 +14,7 @@ class StartScene extends Phaser.Scene {
   }
 
   create() {
-    this.soundControl = new SoundButton(this, 20, 20, "gui", this.sound.mute ? "sound_off_light.svg" : "sound_on.svg");
+    this.soundControl = new SoundButton(this, 20, 20, "gui", "sound_on.svg", "sound_off_light.svg");
     this.add.image(0, 0, "background", "background.png").setOrigin(0);
     this.add.shader(
       "cartoonWaterShader",

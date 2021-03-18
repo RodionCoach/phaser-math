@@ -1,14 +1,14 @@
-import { ToggleAudio } from "../sceneHooks/SetAudio";
+import { ToggleAudio } from "../sceneHooks/ToggleAudio";
 
 export default class SoundButton extends Phaser.GameObjects.Image {
-  constructor(scene, x, y, texture, frame) {
-    super(scene, x, y, texture, frame);
+  constructor(scene, x, y, texture, frameOn, frameOff) {
+    super(scene, x, y, texture, scene.sound.mute ? frameOff : frameOn);
     scene.add.existing(this);
 
     this.setOrigin(0)
       .setInteractive({ useHandCursor: true })
       .on("pointerdown", () => {
-        ToggleAudio(scene);
+        ToggleAudio(scene, texture, frameOn, frameOff);
       })
       ?.setDepth(1);
   }
