@@ -73,7 +73,7 @@ export const SCORE_TEXT_STYLE = {
 
 export const EXAMPLES_STYLE = {
   fontFamily: "Lato",
-  fontSize: "28px",
+  fontSize: "32px",
   fontWeight: "900",
   fontStyle: "bold",
   lineSpacing: 0,

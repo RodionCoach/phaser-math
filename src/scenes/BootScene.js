@@ -30,6 +30,7 @@ class BootScene extends Phaser.Scene {
     this.load.multiatlas("background", `${PATH_SPRITES}/background/background.json`, `${PATH_SPRITES}/background`);
     this.load.multiatlas("gui", `${PATH_SPRITES}/gui/gui.json`, `${PATH_SPRITES}/gui`);
     this.load.multiatlas("buttonBackground", `${PATH_SPRITES}/button/button.json`, `${PATH_SPRITES}/button`);
+    this.load.image("divisionSign", "./assets/img/divisionSign.png");
     this.load.image("answerButton", "./assets/img/GUI_digit_button.png");
     this.load.image("resetButton", "./assets/img/GUI_reset_btn.png");
     this.load.image("setButton", "./assets/img/GUI_submit_btn.png");
