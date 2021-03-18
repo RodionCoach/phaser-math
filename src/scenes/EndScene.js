@@ -6,6 +6,7 @@ import {
   SCORE_NUMBERS_STYLE,
   SCORE_TEXT_STYLE,
 } from "../utils/constants";
+import { SetAudio } from "../sceneHooks/SetAudio";
 class EndScene extends Phaser.Scene {
   constructor() {
     super({
@@ -79,7 +80,7 @@ class EndScene extends Phaser.Scene {
     column.addNode(buttonRestart, 0, 120);
     column.addNode(buttonReturn, 0, distanceBetweenButtons);
 
-    this.SetAudio();
+    SetAudio(this, "gameOver", 1.0, false);
   }
 
   IsBestScore() {
@@ -95,11 +96,6 @@ class EndScene extends Phaser.Scene {
     }
 
     return `Your best Score is ${prevBestScore}`;
-  }
-
-  SetAudio() {
-    // Add and play the music
-    this.sound.get("gameOver").play();
   }
 
   ToggleAudio() {

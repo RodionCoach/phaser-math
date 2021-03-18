@@ -1,6 +1,7 @@
 import LilySpawner from "../sprites/lily/lilySpawner";
 import { GUIContainer } from "../objects/GUIContainer";
 import { SetKeyboardKeys } from "../sceneHooks/SetKeyboardKeys";
+import { SetAudio } from "../sceneHooks/SetAudio";
 import {
   BUTTON_NUMBER_STYLE,
   GAME_RESOLUTION,
@@ -150,7 +151,7 @@ class GameScene extends Phaser.Scene {
 
     this.SpawnObjects();
     this.SetScore();
-    this.SetAudio();
+    SetAudio(this, "background", 0.4, true);
     SetKeyboardKeys(this, inputField);
   }
 
@@ -242,12 +243,6 @@ class GameScene extends Phaser.Scene {
     } else {
       this.WrongAnswerText(inputTextObject, inputFieldObject);
     }
-  }
-
-  SetAudio() {
-    // Add and play the music
-    this.sound.get("background").play({ loop: true });
-    this.sound.get("background").volume = 0.4;
   }
 
   PlaySolvedSound() {

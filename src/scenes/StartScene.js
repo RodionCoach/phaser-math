@@ -1,5 +1,6 @@
 import uiWidgets from "phaser-ui-tools";
 import { BUTTON_STYLE, GAME_RESOLUTION } from "../utils/constants";
+import { SetAudio } from "../sceneHooks/SetAudio";
 class StartScene extends Phaser.Scene {
   startGameKey = null;
 
@@ -62,18 +63,13 @@ class StartScene extends Phaser.Scene {
     column.addNode(buttonOne, 0, 40);
     column.addNode(buttonTwo, 0, 40);
 
-    this.SetAudio();
+    SetAudio(this, "background", 1.0, true);
   }
 
   update() {
     if (this.startGameKey && Phaser.Input.Keyboard.JustDown(this.startGameKey)) {
       this.StartGame();
     }
-  }
-
-  SetAudio() {
-    // Add and play the music
-    this.sound.get("background").play({ loop: true });
   }
 
   ToggleAudio() {
