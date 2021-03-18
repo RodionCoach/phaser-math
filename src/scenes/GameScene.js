@@ -1,6 +1,6 @@
 import LilySpawner from "../sprites/lily/lilySpawner";
 import { GUIContainer } from "../objects/GUIContainer";
-import { SetKeyboardKeys } from "../objects/SetKeyboardKeys";
+import { SetKeyboardKeys } from "../sceneHooks/SetKeyboardKeys";
 import {
   BUTTON_NUMBER_STYLE,
   GAME_RESOLUTION,
