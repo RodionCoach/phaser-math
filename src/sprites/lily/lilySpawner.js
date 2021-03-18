@@ -1,7 +1,6 @@
 import LilyContainer from "./lilyContainer";
 import { exampleGenerator } from "../../utils/generators/numbers";
-import { signGenerator } from "../../utils/generators/signs";
-import { LILY_BONDARY_LIMIT, EXAMPLES_STYLE, EXAMPLES, TOTAL_LILIES, SIGNS } from "../../utils/constants";
+import { LILY_BONDARY_LIMIT, EXAMPLES_STYLE, TOTAL_LILIES } from "../../utils/constants";
 
 export default class LilySpawner extends Phaser.GameObjects.GameObject {
   constructor(scene) {
@@ -12,7 +11,6 @@ export default class LilySpawner extends Phaser.GameObjects.GameObject {
     this.delta = 1;
     this.currentLiliesCount = 0;
     this.lilies = [];
-    this.currentExample = 0;
     this.notGuessedCount = 0;
     this.guessedCount = 0;
     this.visibleLiliesCount = 0;
@@ -86,12 +84,11 @@ export default class LilySpawner extends Phaser.GameObjects.GameObject {
   }
 
   GetLily(HeartsCallBack = () => {}) {
-    this.currentExample = Phaser.Math.Between(0, EXAMPLES.length - 1);
     this.currentLiliesCount %= TOTAL_LILIES;
     const randInt = Phaser.Math.RND.integerInRange(186, 650);
     const lily = this.lilies[this.currentLiliesCount];
     this.visibleLiliesCount += 1;
-    const example = exampleGenerator(signGenerator(SIGNS));
+    const example = exampleGenerator();
     lily.SetStatus(true, example.answer);
     lily.x = randInt;
     lily.spriteText.setVisible(true);
