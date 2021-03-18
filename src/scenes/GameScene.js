@@ -133,7 +133,7 @@ class GameScene extends Phaser.Scene {
     for (let i = 0; i < 10; i++) {
       const digitalButton = new GUIContainer({
         scene: this,
-        x: i * 70,
+        x: i === 0 ? 9 * 70 : (i - 1) * 70,
         y: 0,
       })
         .setName("digitalButton")
