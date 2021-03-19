@@ -282,7 +282,7 @@ class GameScene extends Phaser.Scene {
   }
 
   ResetGame() {
-    LilySpawner.notGuessedCount = 0;
+    this.scene.stop("GameScene");
     this.sound.stopAll();
     this.scene.start("EndScene", {
       currentScore: this.score.pts,

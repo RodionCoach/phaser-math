@@ -1,5 +1,4 @@
 import uiWidgets from "phaser-ui-tools";
-import LilySpawner from "../sprites/lily/lilySpawner";
 import { BUTTON_STYLE, GAME_RESOLUTION } from "../utils/constants";
 import SoundButton from "../objects/soundButton";
 class PauseScene extends Phaser.Scene {
@@ -77,7 +76,6 @@ class PauseScene extends Phaser.Scene {
 
   RestartGame() {
     this.sound.stopAll();
-    LilySpawner.notGuessedCount = 0;
     this.scene.stop("GameScene");
     this.scene.start("CountdownScene");
   }

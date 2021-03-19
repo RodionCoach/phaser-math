@@ -67,6 +67,7 @@ class CountdownScene extends Phaser.Scene {
         countdownText.setText(`${count}`);
       },
       onComplete: () => {
+        this.scene.stop("CountdownScene");
         this.scene.start("GameScene");
       },
     });
