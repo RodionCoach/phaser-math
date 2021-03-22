@@ -15,13 +15,12 @@ class StartScene extends Phaser.Scene {
 
   create() {
     this.soundControl = new SoundButton(this, 20, 20, "gui", "sound_on.svg", "sound_off_light.svg");
-    this.add.image(0, 0, "background", "background.png").setOrigin(0);
     this.add.shader(
       "cartoonWaterShader",
       GAME_RESOLUTION.width / 2,
-      GAME_RESOLUTION.height / 2 - 75,
+      GAME_RESOLUTION.height / 2,
       GAME_RESOLUTION.width,
-      GAME_RESOLUTION.height + 150,
+      GAME_RESOLUTION.height,
       ["cartoonWater", "noiseWater", "noise"],
     );
     this.add.image(770, 670, "actors", "water_lily.png").setOrigin(0).setAngle(-135.0).setFlipY(true);
