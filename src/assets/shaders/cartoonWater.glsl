@@ -1,3 +1,7 @@
+---
+uniform.isFoam: { "type": "1f", "value": 0.0 }
+---
+
 #ifdef GL_ES
 precision mediump float;
 #endif
@@ -7,6 +11,7 @@ precision mediump float;
 uniform float time;
 uniform vec2 mouse;
 uniform vec2 resolution;
+uniform float isFoam;
 
 uniform sampler2D iChannel0;
 uniform sampler2D iChannel1;
@@ -18,6 +23,8 @@ vec3 lig = normalize(vec3(0.9,0.35,-0.2));
 
 void main( void ) {
   vec2 vUv = 2.0 * fragCoord.xy/resolution;
+
+  vec3 gradient = texture2D(iChannel0, -vUv * 0.498).rgb;
 
   vec2 position = vUv * 10.0;
   float speed = 5.0;
@@ -48,6 +55,6 @@ void main( void ) {
   0.4*(1.0-smoothstep( 0.0, 0.15, abs(cc2-0.4)));
 
   vec3 col2 = vec3(1.0) * cc2;
-
-  gl_FragColor = max(clamp(vec4(col2, cc2), 0.0, 0.75), vec4(col, max(col.r, max(col.g, col.b))));
+  vec3 totalColor = col2 + col * isFoam;
+  gl_FragColor = max(clamp(vec4(totalColor, 1.0), 0.0, 0.75) * max(totalColor.r, max(totalColor.g, totalColor.b)) + vec4(gradient, 1.0), vec4(col * isFoam, 1.0));
 }
