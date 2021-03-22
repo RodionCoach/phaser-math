@@ -8,13 +8,12 @@ class CountdownScene extends Phaser.Scene {
   }
 
   create() {
-    this.add.image(0, 0, "background", "background.png").setOrigin(0);
     this.add.shader(
       "cartoonWaterShader",
       GAME_RESOLUTION.width / 2,
-      GAME_RESOLUTION.height / 2 - 75,
+      GAME_RESOLUTION.height / 2,
       GAME_RESOLUTION.width,
-      GAME_RESOLUTION.height + 150,
+      GAME_RESOLUTION.height,
       ["cartoonWater", "noiseWater", "noise"],
     );
     this.add.image(770, 670, "actors", "water_lily.png").setOrigin(0).setAngle(-135.0).setFlipY(true);
@@ -67,6 +66,7 @@ class CountdownScene extends Phaser.Scene {
         countdownText.setText(`${count}`);
       },
       onComplete: () => {
+        this.scene.stop("CountdownScene");
         this.scene.start("GameScene");
       },
     });

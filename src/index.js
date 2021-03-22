@@ -17,6 +17,9 @@ const config = {
   parent: "content",
   width: GAME_RESOLUTION.width,
   height: GAME_RESOLUTION.height,
+  scale: {
+    mode: Phaser.Scale.FIT,
+  },
   backgroundColor: BACKGROUND_COLOR,
   physics: {
     default: "arcade",

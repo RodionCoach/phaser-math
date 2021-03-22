@@ -39,15 +39,16 @@ class GameScene extends Phaser.Scene {
     });
 
     this.plusPts = this.add.text(60, 395, "", SCORE_STYLE).setOrigin(0.5).setDepth(1).setVisible(false);
-    this.add.image(0, 0, "background", "background.png").setOrigin(0);
-    this.add.shader(
-      "cartoonWaterShader",
-      GAME_RESOLUTION.width / 2,
-      GAME_RESOLUTION.height / 2,
-      GAME_RESOLUTION.width - 75,
-      GAME_RESOLUTION.height,
-      ["cartoonWater", "noiseWater", "noise"],
-    );
+    this.add
+      .shader(
+        "cartoonWaterShader",
+        GAME_RESOLUTION.width / 2,
+        GAME_RESOLUTION.height / 2,
+        GAME_RESOLUTION.width,
+        GAME_RESOLUTION.height,
+        ["cartoonWater", "noiseWater", "noise"],
+      )
+      .setUniform("isFoam.value", 1.0);
 
     this.add.image(0, 0, "background", "sand_left_side.png").setOrigin(0);
     this.add.image(698, 0, "background", "sand_right_side.png").setOrigin(0);
@@ -282,7 +283,7 @@ class GameScene extends Phaser.Scene {
   }
 
   ResetGame() {
-    LilySpawner.notGuessedCount = 0;
+    this.scene.stop("GameScene");
     this.sound.stopAll();
     this.scene.start("EndScene", {
       currentScore: this.score.pts,

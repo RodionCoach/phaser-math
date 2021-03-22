@@ -1,4 +1,5 @@
 export const SetKeyboardKeys = (scene, inputField) => {
+  scene.input.keyboard.removeAllKeys(true);
   scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.NUMPAD_ZERO).on("down", event => {
     scene.SetAnswerText(event.originalEvent.key, inputField.textObject, inputField.sprite);
   });
@@ -59,13 +60,13 @@ export const SetKeyboardKeys = (scene, inputField) => {
   scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.NINE).on("down", event => {
     scene.SetAnswerText(event.originalEvent.key, inputField.textObject, inputField.sprite);
   });
-  scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.ENTER).on("down", event => {
+  scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.ENTER).on("down", () => {
     scene.CheckAnswer(inputField.textObject, inputField.sprite);
   });
-  scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.BACKSPACE).on("down", event => {
+  scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.BACKSPACE).on("down", () => {
     scene.ResetAnswerText(inputField.textObject, inputField.sprite);
   });
-  scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.DELETE).on("down", event => {
+  scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.DELETE).on("down", () => {
     scene.ResetAnswerText(inputField.textObject, inputField.sprite);
   });
 };
