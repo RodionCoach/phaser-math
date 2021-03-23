@@ -2,14 +2,11 @@ import LilySpawner from "../sprites/lily/lilySpawner";
 import { GUIContainer } from "../objects/GUIContainer";
 import { SetKeyboardKeys } from "../sceneHooks/SetKeyboardKeys";
 import { SetAudio } from "../sceneHooks/SetAudio";
-import {
-  BUTTON_NUMBER_STYLE,
-  GAME_RESOLUTION,
-  SCORE_STYLE,
-  GAME_HEALTH_POINTS,
-  TOTAL_LILIES,
-} from "../utils/constants";
+import { GAME_RESOLUTION, GAME_HEALTH_POINTS, TOTAL_LILIES } from "../utils/constants";
+import { BUTTON_NUMBER_STYLE, SCORE_STYLE } from "../utils/stylies";
 import SoundButton from "../objects/soundButton";
+import { delay } from "../utils/delay";
+import { configObjects } from "../utils/configObjects";
 
 class GameScene extends Phaser.Scene {
   constructor() {
@@ -27,133 +24,227 @@ class GameScene extends Phaser.Scene {
   }
 
   create() {
-    this.soundControl = new SoundButton(this, 20, 20, "gui", "sound_on.svg", "sound_off_light.svg");
+    this.soundControl = new SoundButton(
+      this,
+      configObjects.soundControl.x,
+      configObjects.soundControl.y,
+      configObjects.soundControl.texture,
+      configObjects.soundControl.frameOn,
+      configObjects.soundControl.frameOff,
+    );
     const pauseControl = this.add
-      .image(752, 24, "gui", "pause.svg")
-      .setOrigin(0)
+      .image(
+        configObjects.pauseControl.x,
+        configObjects.pauseControl.y,
+        configObjects.pauseControl.texture,
+        configObjects.pauseControl.frame,
+      )
+      .setOrigin(configObjects.pauseControl.origin.x, configObjects.pauseControl.origin.y)
       .setInteractive({ useHandCursor: true })
-      ?.setDepth(1);
+      ?.setDepth(configObjects.pauseControl.depth);
     pauseControl.on("pointerdown", () => {
       this.scene.launch("PauseScene");
       this.scene.pause();
     });
 
-    this.plusPts = this.add.text(60, 395, "", SCORE_STYLE).setOrigin(0.5).setDepth(1).setVisible(false);
+    this.plusPts = this.add
+      .text(configObjects.scoreText.plusPts.x, configObjects.scoreText.plusPts.y, "", SCORE_STYLE)
+      .setOrigin(configObjects.scoreText.plusPts.origin.x, configObjects.scoreText.plusPts.origin.y)
+      .setDepth(configObjects.scoreText.plusPts.depth)
+      .setVisible(false);
     this.add
       .shader(
-        "cartoonWaterShader",
+        configObjects.waterShader.name,
         GAME_RESOLUTION.width / 2,
         GAME_RESOLUTION.height / 2,
         GAME_RESOLUTION.width,
         GAME_RESOLUTION.height,
-        ["cartoonWater", "noiseWater", "noise"],
+        [configObjects.waterShader.iChannel0, configObjects.waterShader.iChannel1, configObjects.waterShader.iChannel2],
       )
       .setUniform("isFoam.value", 1.0);
 
-    this.add.image(0, 0, "background", "sand_left_side.png").setOrigin(0);
-    this.add.image(698, 0, "background", "sand_right_side.png").setOrigin(0);
-    this.add.image(56, 347, "actors", "boat.png").setAngle(-5.5);
-    this.add.text(60, 335, "Score", SCORE_STYLE).setOrigin(0.5).setDepth(1);
+    this.add
+      .image(
+        configObjects.leftSand.x,
+        configObjects.leftSand.y,
+        configObjects.leftSand.texture,
+        configObjects.leftSand.frame,
+      )
+      .setOrigin(configObjects.leftSand.origin.x, configObjects.leftSand.origin.y);
+    this.add
+      .image(
+        configObjects.rightSand.x,
+        configObjects.rightSand.y,
+        configObjects.rightSand.texture,
+        configObjects.rightSand.frame,
+      )
+      .setOrigin(configObjects.rightSand.origin.x, configObjects.rightSand.origin.y);
+    this.add
+      .image(configObjects.boat.x, configObjects.boat.y, configObjects.boat.texture, configObjects.boat.frame)
+      .setAngle(configObjects.boat.angle);
+    this.add
+      .text(
+        configObjects.scoreText.label.x,
+        configObjects.scoreText.label.y,
+        configObjects.scoreText.label.text,
+        SCORE_STYLE,
+      )
+      .setOrigin(configObjects.scoreText.label.origin.x, configObjects.scoreText.label.origin.y)
+      .setDepth(configObjects.scoreText.label.depth);
+    this.add
+      .image(configObjects.bridge.x, configObjects.bridge.y, configObjects.bridge.texture, configObjects.bridge.frame)
+      .setOrigin(configObjects.bridge.origin.x, configObjects.bridge.origin.y)
+      .setDepth(configObjects.bridge.depth);
+    this.add
+      .image(
+        configObjects.rightStones.x,
+        configObjects.rightStones.y,
+        configObjects.rightStones.texture,
+        configObjects.rightStones.frame,
+      )
+      .setOrigin(configObjects.rightStones.origin.x, configObjects.rightStones.origin.y)
+      .setDepth(configObjects.rightStones.depth);
+    this.add
+      .image(
+        configObjects.leftStones.x,
+        configObjects.leftStones.y,
+        configObjects.leftStones.texture,
+        configObjects.leftStones.frame,
+      )
+      .setOrigin(configObjects.leftStones.origin.x, configObjects.leftStones.origin.y)
+      .setDepth(configObjects.leftStones.depth);
 
-    this.add.image(0, 449, "actors", "bridge.png").setOrigin(0).setDepth(1);
-    this.add.image(765, 483, "actors", "leaves_stones_right.png").setOrigin(0).setDepth(1);
-    this.add.image(0, 541, "actors", "leaves_stones_left.png").setOrigin(0).setDepth(1);
+    this.sound.add(configObjects.soundsName.background);
+    this.sound.add(configObjects.soundsName.wrong);
+    this.sound.add(configObjects.soundsName.missed);
+    this.sound.add(configObjects.soundsName.solved);
 
-    this.sound.add("background");
-    this.sound.add("wrong");
-    this.sound.add("missed");
-    this.sound.add("solved");
-
-    this.heartsGroup = this.add.container(765, 355).setName("heartsGroup").setDepth(1);
+    this.heartsGroup = this.add
+      .container(configObjects.heartsGroupContainer.x, configObjects.heartsGroupContainer.y)
+      .setName(configObjects.heartsGroupContainer.name)
+      .setDepth(configObjects.heartsGroupContainer.depth);
     for (let i = 0; i < this.currentLifes; i++) {
       const heartFilled = this.add
-        .sprite(0, i * 30, "gui", "filled_heart.svg")
-        .setOrigin(0.5, 0.5)
+        .sprite(
+          0,
+          i * configObjects.heartsGroupContainer.distance,
+          configObjects.heartsGroupContainer.texture,
+          configObjects.heartsGroupContainer.frame,
+        )
+        .setOrigin(configObjects.heartsGroupContainer.origin.x, configObjects.heartsGroupContainer.origin.y)
         .disableInteractive();
       this.heartsGroup.add(heartFilled);
     }
 
     const containerInputGUI = this.add
-      .container(GAME_RESOLUTION.width / 2, 477)
-      .setName("containerInputGUI")
-      .setDepth(1);
+      .container(GAME_RESOLUTION.width / 2, configObjects.containerInputGUI.y)
+      .setName(configObjects.containerInputGUI.name)
+      .setDepth(configObjects.containerInputGUI.depth);
 
     const inputField = new GUIContainer({
       scene: this,
-      x: 0,
-      y: 0,
+      x: configObjects.containerInputGUI.inputField.x,
+      y: configObjects.containerInputGUI.inputField.y,
     })
-      .setName("setButton")
-      .setDepth(1)
-      .setSize(100, 100)
+      .setName(configObjects.containerInputGUI.inputField.name)
+      .setDepth(configObjects.containerInputGUI.inputField.depth)
+      .setSize(configObjects.containerInputGUI.inputField.size.x, configObjects.containerInputGUI.inputField.size.y)
       .disableInteractive();
-    inputField.sprite.setTexture("gui", "inpul_field.png");
-    inputField.textObject.setStyle(BUTTON_NUMBER_STYLE).setOrigin(0.5, 0.5);
+    inputField.sprite.setTexture(
+      configObjects.containerInputGUI.inputField.texture,
+      configObjects.containerInputGUI.inputField.frame,
+    );
+    inputField.textObject
+      .setStyle(BUTTON_NUMBER_STYLE)
+      .setOrigin(
+        configObjects.containerInputGUI.inputField.origin.x,
+        configObjects.containerInputGUI.inputField.origin.y,
+      );
     containerInputGUI.add(inputField);
 
     const resetButton = new GUIContainer({
       scene: this,
-      x: -inputField.sprite.width / 2 - 40,
-      y: 0,
+      x: -inputField.sprite.width / 2 - configObjects.containerInputGUI.resetButton.distance,
+      y: configObjects.containerInputGUI.resetButton.y,
     })
-      .setName("resetButton")
-      .setDepth(1)
-      .setSize(100, 100)
+      .setName(configObjects.containerInputGUI.resetButton.name)
+      .setDepth(configObjects.containerInputGUI.resetButton.depth)
+      .setSize(configObjects.containerInputGUI.resetButton.size.x, configObjects.containerInputGUI.resetButton.size.y)
       .setInteractive({ useHandCursor: true })
       .on("pointerdown", () => {
         this.ResetAnswerText(inputField.textObject, inputField.sprite);
       });
-    resetButton.sprite.setTexture("gui", "reset_btn.png");
+    resetButton.sprite.setTexture(
+      configObjects.containerInputGUI.resetButton.texture,
+      configObjects.containerInputGUI.resetButton.frame,
+    );
     containerInputGUI.add(resetButton);
 
     const setButton = new GUIContainer({
       scene: this,
-      x: inputField.sprite.width / 2 + 40,
-      y: 0,
+      x: inputField.sprite.width / 2 + configObjects.containerInputGUI.setButton.distance,
+      y: configObjects.containerInputGUI.setButton.y,
     })
-      .setName("setButton")
-      .setDepth(1)
-      .setSize(100, 100)
+      .setName(configObjects.containerInputGUI.setButton.name)
+      .setDepth(configObjects.containerInputGUI.setButton.depth)
+      .setSize(configObjects.containerInputGUI.setButton.size.x, configObjects.containerInputGUI.setButton.size.y)
       .setInteractive({ useHandCursor: true })
       .on("pointerdown", () => {
         this.CheckAnswer(inputField.textObject, inputField.sprite);
       });
-    setButton.sprite.setTexture("gui", "submit_btn.png");
+    setButton.sprite.setTexture(
+      configObjects.containerInputGUI.setButton.texture,
+      configObjects.containerInputGUI.setButton.frame,
+    );
     containerInputGUI.add(setButton);
 
     const containerDigitalGUI = this.add
-      .container(GAME_RESOLUTION.width / 2 - 316, 547)
-      .setName("containerDigitalGUI")
-      .setDepth(1);
+      .container(GAME_RESOLUTION.width / 2 - configObjects.containerDigitalGUI.x, configObjects.containerDigitalGUI.y)
+      .setName(configObjects.containerDigitalGUI.name)
+      .setDepth(configObjects.containerDigitalGUI.depth);
     for (let i = 0; i < 10; i++) {
       const digitalButton = new GUIContainer({
         scene: this,
-        x: i === 0 ? 9 * 70 : (i - 1) * 70,
-        y: 0,
+        x:
+          i === 0
+            ? 9 * configObjects.containerDigitalGUI.digitalButton.distance
+            : (i - 1) * configObjects.containerDigitalGUI.digitalButton.distance,
+        y: configObjects.containerDigitalGUI.digitalButton.y,
       })
-        .setName("digitalButton")
-        .setDepth(1)
-        .setSize(100, 100)
+        .setName(configObjects.containerDigitalGUI.digitalButton.name)
+        .setDepth(configObjects.containerDigitalGUI.digitalButton.depth)
+        .setSize(
+          configObjects.containerDigitalGUI.digitalButton.size.x,
+          configObjects.containerDigitalGUI.digitalButton.size.y,
+        )
         .setInteractive({ useHandCursor: true })
         .on("pointerdown", () => {
           this.SetAnswerText(i, inputField.textObject, inputField.sprite);
         });
-      digitalButton.sprite.setTexture("gui", "digit_button.png");
-      digitalButton.textObject.setStyle(BUTTON_NUMBER_STYLE).setOrigin(0.5, 0.5);
+      digitalButton.sprite.setTexture(
+        configObjects.containerDigitalGUI.digitalButton.texture,
+        configObjects.containerDigitalGUI.digitalButton.frame,
+      );
+      digitalButton.textObject
+        .setStyle(BUTTON_NUMBER_STYLE)
+        .setOrigin(
+          configObjects.containerDigitalGUI.digitalButton.origin.x,
+          configObjects.containerDigitalGUI.digitalButton.origin.y,
+        );
       digitalButton.textObject.setText(i);
       containerDigitalGUI.add(digitalButton);
     }
 
     this.SpawnObjects();
     this.SetScore();
-    SetAudio(this, "background", 0.4, true);
+    SetAudio(this, configObjects.soundsName.background, 0.4, true);
     SetKeyboardKeys(this, inputField);
   }
 
   update(time, delta) {
     const renderedLily = Phaser.Math.Clamp(this.lilySpawner.currentLiliesCount - 1, 0, TOTAL_LILIES);
     if (
-      this.lilySpawner.lilies[renderedLily].y < this.game?.config?.height - 200 ||
+      this.lilySpawner.lilies[renderedLily].y < this.game?.config?.height - configObjects.logic.lineSpawn ||
       !this.lilySpawner.visibleLiliesCount
     ) {
       this.lilySpawner.GetLily(() => {
@@ -167,7 +258,10 @@ class GameScene extends Phaser.Scene {
       }
     });
 
-    this.soundControl.setTexture("gui", this.sound.mute ? "sound_off_light.svg" : "sound_on.svg");
+    this.soundControl.setTexture(
+      configObjects.soundControl.texture,
+      this.sound.mute ? configObjects.soundControl.frameOff : configObjects.soundControl.frameOn,
+    );
   }
 
   HeartsCallBack() {
@@ -175,24 +269,25 @@ class GameScene extends Phaser.Scene {
       this.prevNotGuessed = this.lilySpawner.notGuessedCount;
       this.tweens.add({
         targets: this.heartsGroup.getAll()[this.prevNotGuessed - 1],
-        scaleX: 1.2,
-        scaleY: 1.2,
-        duration: 170,
+        scaleX: configObjects.heartsGroupContainer.tweenConfig.scale.x,
+        scaleY: configObjects.heartsGroupContainer.tweenConfig.scale.y,
+        duration: configObjects.heartsGroupContainer.tweenConfig.duration,
         yoyo: true,
-        ease: "Quad.easeInOut",
+        ease: configObjects.heartsGroupContainer.tweenConfig.ease,
         repeat: 0,
         onComplete: () => {
           this.PlayMissedSound();
-          this.heartsGroup.getAll()[this.prevNotGuessed - 1].setTexture("gui", "empty_heart.svg");
+          this.heartsGroup
+            .getAll()
+            [this.prevNotGuessed - 1].setTexture(
+              configObjects.heartsGroupContainer.texture,
+              configObjects.heartsGroupContainer.frameEmpty,
+            );
         },
       });
       if (this.prevNotGuessed === this.currentLifes) {
         //ToDo: move it out
-        this.time.addEvent({
-          delay: 500,
-          callback: () => this.ResetGame(),
-          callbackScope: this,
-        });
+        delay(this, 500, () => this.ResetGame());
       }
     }
   }
@@ -206,17 +301,23 @@ class GameScene extends Phaser.Scene {
 
   ResetAnswerText(inputTextObject, inputFieldObject, text) {
     inputTextObject.setText(text);
-    inputFieldObject.setTexture("inputField", "0001.png");
+    inputFieldObject.setTexture(
+      configObjects.containerInputGUI.inputField.texture,
+      configObjects.containerInputGUI.inputField.frame,
+    );
   }
 
   WrongAnswerText(inputTextObject, inputFieldObject) {
     inputTextObject.setText("");
-    inputFieldObject.setTexture("inputField", "0002.png");
+    inputFieldObject.setTexture(
+      configObjects.containerInputGUI.inputField.texture,
+      configObjects.containerInputGUI.inputField.wrongFrame,
+    );
   }
 
   SetAnswerText(subString, inputTextObject, inputFieldObject) {
     let text = "";
-    if (inputTextObject.text.length <= 5) {
+    if (inputTextObject.text.length <= configObjects.containerInputGUI.inputField.length) {
       text = inputTextObject.text + subString;
     } else {
       text = subString;
@@ -229,7 +330,7 @@ class GameScene extends Phaser.Scene {
       const guessedCount = this.lilySpawner.checkSomeExample(+inputTextObject.text);
       if (guessedCount) {
         this.PlaySolvedSound();
-        this.UpdateScore(100 * guessedCount);
+        this.UpdateScore(configObjects.scoreText.plusPts.value * guessedCount);
         this.ResetAnswerText(inputTextObject, inputFieldObject, "");
       } else {
         this.PlayWrongSound();
@@ -241,27 +342,27 @@ class GameScene extends Phaser.Scene {
   }
 
   PlaySolvedSound() {
-    this.sound.get("solved").play();
+    this.sound.get(configObjects.soundsName.solved).play();
   }
 
   PlayWrongSound() {
-    this.sound.get("wrong").play();
+    this.sound.get(configObjects.soundsName.wrong).play();
   }
 
   PlayMissedSound() {
-    this.sound.get("missed").play();
+    this.sound.get(configObjects.soundsName.missed).play();
   }
 
   SetScore() {
     this.score = {
       pts: 0,
       textObject: this.make.text({
-        x: 60,
-        y: 355,
+        x: configObjects.scoreText.valueText.x,
+        y: configObjects.scoreText.valueText.y,
         textObject: "0",
         origin: {
-          x: 0.5,
-          y: 0.5,
+          x: configObjects.scoreText.valueText.origin.x,
+          y: configObjects.scoreText.valueText.origin.y,
         },
         style: SCORE_STYLE,
         add: true,
@@ -275,11 +376,7 @@ class GameScene extends Phaser.Scene {
     this.score.pts += scores;
     this.score.textObject.setText(this.score.pts);
     this.plusPts.setText(`+${scores}`).setVisible(true);
-    this.time.addEvent({
-      delay: 1000,
-      callback: () => this.plusPts.setVisible(false),
-      callbackScope: this,
-    });
+    delay(this, 1000, () => this.plusPts.setVisible(false));
   }
 
   ResetGame() {

@@ -1,6 +1,8 @@
 import LilyContainer from "./lilyContainer";
 import { exampleGenerator } from "../../utils/generators/numbers";
-import { LILY_BONDARY_LIMIT, EXAMPLES_STYLE, TOTAL_LILIES } from "../../utils/constants";
+import { LILY_BONDARY_LIMIT, TOTAL_LILIES } from "../../utils/constants";
+import { EXAMPLES_STYLE } from "../../utils/stylies";
+import { configObjects } from "../../utils/configObjects";
 
 export default class LilySpawner extends Phaser.GameObjects.GameObject {
   constructor(scene) {
@@ -18,8 +20,8 @@ export default class LilySpawner extends Phaser.GameObjects.GameObject {
       start: 1,
       end: 4,
       zeroPad: 4,
-      prefix: "wave/",
-      suffix: ".png",
+      prefix: configObjects.lilySpawner.animation.prefixWave,
+      suffix: configObjects.lilySpawner.animation.suffix,
     });
     scene.anims.create({ key: "wave", frames: frameNamesWave, frameRate: 4, repeat: -1 });
 
@@ -27,8 +29,8 @@ export default class LilySpawner extends Phaser.GameObjects.GameObject {
       start: 1,
       end: 11,
       zeroPad: 4,
-      prefix: "solved/",
-      suffix: ".png",
+      prefix: configObjects.lilySpawner.animation.prefixSolved,
+      suffix: configObjects.lilySpawner.animation.suffix,
     });
     scene.anims.create({ key: "solved", frames: frameNamesSolved, frameRate: 10, repeat: 0 });
 
@@ -36,8 +38,8 @@ export default class LilySpawner extends Phaser.GameObjects.GameObject {
       start: 1,
       end: 5,
       zeroPad: 4,
-      prefix: "line/",
-      suffix: ".png",
+      prefix: configObjects.lilySpawner.animation.prefixLine,
+      suffix: configObjects.lilySpawner.animation.suffix,
     });
     scene.anims.create({ key: "line", frames: frameNamesLine, frameRate: 15, repeat: 0 });
 
@@ -47,7 +49,9 @@ export default class LilySpawner extends Phaser.GameObjects.GameObject {
         x: LilyContainer.config.startPos.x,
         y: LilyContainer.config.startPos.y,
       });
-      lilyContainer.sprite.setTexture("lily", "wave/0001.png").setScale(1.2, 1.2);
+      lilyContainer.sprite
+        .setTexture(configObjects.lilySpawner.texture, configObjects.lilySpawner.frame)
+        .setScale(configObjects.lilySpawner.divisionSign.scale.x, configObjects.lilySpawner.divisionSign.scale.y);
       lilyContainer.sprite.on(
         Phaser.Animations.Events.ANIMATION_COMPLETE,
         () => {
@@ -55,16 +59,22 @@ export default class LilySpawner extends Phaser.GameObjects.GameObject {
         },
         this,
       );
-      lilyContainer.textObject.setStyle(EXAMPLES_STYLE).setOrigin(1, 0.5).setPosition(20, 0);
-      lilyContainer.textObjectForSign.setStyle(EXAMPLES_STYLE).setOrigin(0, 0.5);
+      lilyContainer.textObject
+        .setStyle(EXAMPLES_STYLE)
+        .setOrigin(configObjects.lilySpawner.textObject.origin.x, configObjects.lilySpawner.textObject.origin.y)
+        .setPosition(configObjects.lilySpawner.textObject.x, configObjects.lilySpawner.textObject.y);
+      lilyContainer.textObjectForSign
+        .setStyle(EXAMPLES_STYLE)
+        .setOrigin(
+          configObjects.lilySpawner.textObjectForSign.origin.x,
+          configObjects.lilySpawner.textObjectForSign.origin.y,
+        );
       this.lilies.push(lilyContainer);
     }
   }
 
   checkSomeExample(answerText) {
-    const guessedLilyIndex = this.lilies.filter(
-      (lily, index) => lily.answer === answerText,
-    );
+    const guessedLilyIndex = this.lilies.filter(lily => lily.answer === answerText);
 
     guessedLilyIndex.forEach(lily => {
       this.visibleLiliesCount -= 1;
@@ -85,7 +95,10 @@ export default class LilySpawner extends Phaser.GameObjects.GameObject {
 
   GetLily(HeartsCallBack = () => {}) {
     this.currentLiliesCount %= TOTAL_LILIES;
-    const randInt = Phaser.Math.RND.integerInRange(186, 650);
+    const randInt = Phaser.Math.RND.integerInRange(
+      configObjects.lilySpawner.rangeX.min,
+      configObjects.lilySpawner.rangeX.max,
+    );
     const lily = this.lilies[this.currentLiliesCount];
     this.visibleLiliesCount += 1;
     const example = exampleGenerator();
