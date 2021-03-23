@@ -12,25 +12,20 @@ import { GAME_RESOLUTION, BACKGROUND_COLOR } from "./utils/constants";
 
 const config = {
   type: Phaser.WEBGL,
-  pixelArt: true,
+  pixelArt: false,
   roundPixels: true,
   parent: "content",
   width: GAME_RESOLUTION.width,
   height: GAME_RESOLUTION.height,
   scale: {
     mode: Phaser.Scale.FIT,
-  },
-  backgroundColor: BACKGROUND_COLOR,
-  physics: {
-    default: "arcade",
-    arcade: {
-      gravity: {
-        x: 0,
-        y: 0,
-      },
-      debug: false,
+    autoCenter: Phaser.Scale.CENTER_BOTH,
+    max: {
+      width: 800,
+      height: 600,
     },
   },
+  backgroundColor: BACKGROUND_COLOR,
   plugins: {
     global: [
       {
