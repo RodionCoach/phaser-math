@@ -90,7 +90,7 @@ class GameScene extends Phaser.Scene {
     const resetButton = new GUIContainer({
       scene: this,
       name: "resetButton",
-      x: -inputField.sprite.width / 2 - 40,
+      x: -(inputField.sprite.width / 2) - 40,
       y: 0,
       text: "",
       texture: "gui",
@@ -145,7 +145,7 @@ class GameScene extends Phaser.Scene {
     SetKeyboardKeys(this, inputField);
   }
 
-  update(time, delta) {
+  update() {
     const renderedLily = Phaser.Math.Clamp(this.lilySpawner.currentLiliesCount - 1, 0, TOTAL_LILIES);
     if (
       this.lilySpawner.lilies[renderedLily].y < this.game?.config?.height - 200 ||

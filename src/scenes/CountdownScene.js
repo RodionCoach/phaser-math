@@ -63,7 +63,7 @@ class CountdownScene extends Phaser.Scene {
       },
       loop: count - 1,
       onLoop: () => {
-        count--;
+        count -= 1;
         countdownText.setText(`${count}`);
       },
       onComplete: () => {
