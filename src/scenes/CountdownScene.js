@@ -1,4 +1,6 @@
-import { COUNTDOWN_STYLE, GAME_RESOLUTION } from "../utils/constants";
+import { GAME_RESOLUTION } from "../utils/constants";
+import { COUNTDOWN_STYLE } from "../utils/stylies";
+import { configObjects } from "../utils/configObjects";
 
 class CountdownScene extends Phaser.Scene {
   constructor() {
@@ -9,55 +11,71 @@ class CountdownScene extends Phaser.Scene {
 
   create() {
     this.add.shader(
-      "cartoonWaterShader",
+      configObjects.waterShader.name,
       GAME_RESOLUTION.width / 2,
       GAME_RESOLUTION.height / 2,
       GAME_RESOLUTION.width,
       GAME_RESOLUTION.height,
-      ["cartoonWater", "noiseWater", "noise"],
+      [configObjects.waterShader.iChannel0, configObjects.waterShader.iChannel1, configObjects.waterShader.iChannel2],
     );
-    this.add.image(770, 670, "actors", "water_lily.png").setOrigin(0).setAngle(-135.0).setFlipY(true);
+    this.add
+      .image(
+        configObjects.menuWaterLily.x,
+        configObjects.menuWaterLily.y,
+        configObjects.menuWaterLily.texture,
+        configObjects.menuWaterLily.frame,
+      )
+      .setOrigin(configObjects.menuWaterLily.origin.x, configObjects.menuWaterLily.origin.y)
+      .setAngle(configObjects.menuWaterLily.angle)
+      .setFlipY(configObjects.menuWaterLily.setFlipY);
 
-    let count = 3;
+    let count = configObjects.countDown.count;
 
     const halfScreenWidth = GAME_RESOLUTION.width / 2;
     const halfScreenHeight = GAME_RESOLUTION.height / 2;
-    const countdownText = this.add.text(0, 0, `${count}`, COUNTDOWN_STYLE);
-    countdownText.setPosition(halfScreenWidth, halfScreenHeight).setOrigin(0.5, 0.5);
-    countdownText.setScale(0.4, 0.4);
+    const countdownText = this.add.text(
+      configObjects.countDown.x,
+      configObjects.countDown.y,
+      `${count}`,
+      COUNTDOWN_STYLE,
+    );
+    countdownText
+      .setPosition(halfScreenWidth, halfScreenHeight)
+      .setOrigin(configObjects.countDown.origin.x, configObjects.countDown.origin.y);
+    countdownText.setScale(configObjects.countDown.scale.x, configObjects.countDown.scale.y);
     this.tweens.add({
       targets: countdownText,
       props: {
         alpha: {
           value: {
             getStart: (target, key, value) => {
-              return value + 0.75;
+              return value + configObjects.countDown.startedDelta;
             },
             getEnd: () => {
               return 0;
             },
           },
-          duration: 1000,
+          duration: configObjects.countDown.alphaDuration,
           yoyo: false,
           repeat: 0,
           loop: count - 1,
-          ease: "Quad.easeInOut",
+          ease: configObjects.countDown.ease,
         },
         scaleX: {
-          value: "1.0",
-          duration: 500,
+          value: configObjects.countDown.scaleTween.x,
+          duration: configObjects.countDown.scaleDuration,
           yoyo: true,
           repeat: 0,
           loop: count - 1,
-          ease: "Quad.easeInOut",
+          ease: configObjects.countDown.ease,
         },
         scaleY: {
-          value: "1.0",
-          duration: 500,
+          value: configObjects.countDown.scaleTween.y,
+          duration: configObjects.countDown.scaleDuration,
           yoyo: true,
           repeat: 0,
           loop: count - 1,
-          ease: "Quad.easeInOut",
+          ease: configObjects.countDown.ease,
         },
       },
       loop: count - 1,

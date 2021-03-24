@@ -1,10 +1,11 @@
 import { SIGNS } from "../../utils/constants";
+import { configObjects } from "../../utils/configObjects";
 
 export default class lilyContainer extends Phaser.GameObjects.Container {
   static config = {
     startPos: {
-      x: 0,
-      y: 600,
+      x: configObjects.lilySpawner.startPos.x,
+      y: configObjects.lilySpawner.startPos.y,
     },
   };
 
@@ -18,9 +19,13 @@ export default class lilyContainer extends Phaser.GameObjects.Container {
     this.textObjectForSign = scene.add.text(0, 0, "", {}).disableInteractive().setVisible(false);
 
     this.divisionSign = scene.add
-      .sprite(0, 0, "divisionSign")
-      .setOrigin(0.5, 0.5)
-      .setScale(1.1, 1.1)
+      .sprite(
+        configObjects.lilySpawner.divisionSign.x,
+        configObjects.lilySpawner.divisionSign.y,
+        configObjects.lilySpawner.divisionSign.texture,
+      )
+      .setOrigin(configObjects.lilySpawner.divisionSign.origin.x, configObjects.lilySpawner.divisionSign.origin.y)
+      .setScale(configObjects.lilySpawner.divisionSign.scale.x, configObjects.lilySpawner.divisionSign.scale.y)
       .disableInteractive()
       .setVisible(false);
     this.add(this.divisionSign);
@@ -28,7 +33,14 @@ export default class lilyContainer extends Phaser.GameObjects.Container {
     this.canMove = false;
     this.answer = null;
 
-    this.rt = this.scene.add.renderTexture(400, 300, 128, 128).setVisible(false);
+    this.rt = this.scene.add
+      .renderTexture(
+        configObjects.lilySpawner.rt.x,
+        configObjects.lilySpawner.rt.y,
+        configObjects.lilySpawner.rt.width,
+        configObjects.lilySpawner.rt.height,
+      )
+      .setVisible(false);
     this.rt.saveTexture("spriteText");
     this.spriteText = this.scene.add.sprite(0, 0, "spriteText");
     this.add(this.spriteText);
@@ -37,11 +49,23 @@ export default class lilyContainer extends Phaser.GameObjects.Container {
   UpdateExampleTexture() {
     this.rt.clear();
     this.rt.beginDraw();
-    this.rt.batchDraw(this.textObject, 64 + 23, 64);
+    this.rt.batchDraw(
+      this.textObject,
+      configObjects.lilySpawner.rt.textObject.x,
+      configObjects.lilySpawner.rt.textObject.y,
+    );
     if (this.textObjectForSign.text !== SIGNS[3]) {
-      this.rt.batchDraw(this.textObjectForSign, 64 - 37, 64);
+      this.rt.batchDraw(
+        this.textObjectForSign,
+        configObjects.lilySpawner.rt.textObjectForSign.x,
+        configObjects.lilySpawner.rt.textObjectForSign.y,
+      );
     } else {
-      this.rt.batchDraw(this.divisionSign, 64 - 28, 65);
+      this.rt.batchDraw(
+        this.divisionSign,
+        configObjects.lilySpawner.rt.divisionSign.x,
+        configObjects.lilySpawner.rt.divisionSign.y,
+      );
     }
     this.rt.endDraw();
   }

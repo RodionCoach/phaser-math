@@ -1,6 +1,8 @@
 import uiWidgets from "phaser-ui-tools";
-import { BUTTON_STYLE, RULES_STYLE, RULES_TEXT, GAME_RESOLUTION, TEXT_AREA_CONFIG_FOR_RULES } from "../utils/constants";
+import { GAME_RESOLUTION } from "../utils/constants";
+import { BUTTON_STYLE, RULES_STYLE } from "../utils/stylies";
 import SoundButton from "../objects/soundButton";
+import { configObjects } from "../utils/configObjects";
 
 class RulesScene extends Phaser.Scene {
   constructor() {
@@ -12,47 +14,77 @@ class RulesScene extends Phaser.Scene {
   }
 
   create() {
-    this.soundControl = new SoundButton(this, 20, 20, "gui", "sound_on.svg", "sound_off_light.svg");
+    this.soundControl = new SoundButton(
+      this,
+      configObjects.soundControl.x,
+      configObjects.soundControl.y,
+      configObjects.soundControl.texture,
+      configObjects.soundControl.frameOn,
+      configObjects.soundControl.frameOff,
+    );
     this.add.shader(
-      "cartoonWaterShader",
+      configObjects.waterShader.name,
       GAME_RESOLUTION.width / 2,
       GAME_RESOLUTION.height / 2,
       GAME_RESOLUTION.width,
       GAME_RESOLUTION.height,
-      ["cartoonWater", "noiseWater", "noise"],
+      [configObjects.waterShader.iChannel0, configObjects.waterShader.iChannel1, configObjects.waterShader.iChannel2],
     );
-    this.add.image(770, 670, "actors", "water_lily.png").setOrigin(0).setAngle(-135.0).setFlipY(true);
-    const rulesText = this.add.text(44, 32, RULES_TEXT, RULES_STYLE);
+    this.add
+      .image(
+        configObjects.menuWaterLily.x,
+        configObjects.menuWaterLily.y,
+        configObjects.menuWaterLily.texture,
+        configObjects.menuWaterLily.frame,
+      )
+      .setOrigin(configObjects.menuWaterLily.origin.x, configObjects.menuWaterLily.origin.y)
+      .setAngle(configObjects.menuWaterLily.angle)
+      .setFlipY(configObjects.menuWaterLily.setFlipY);
+    const rulesText = this.add.text(
+      configObjects.rulesTextArea.text.x,
+      configObjects.rulesTextArea.text.y,
+      configObjects.rulesTextArea.text.value,
+      RULES_STYLE,
+    );
 
     const container = this.add
-      .container(TEXT_AREA_CONFIG_FOR_RULES.x, TEXT_AREA_CONFIG_FOR_RULES.y)
-      .setName("textArea");
+      .container(configObjects.rulesTextArea.x, configObjects.rulesTextArea.y)
+      .setName(configObjects.rulesTextArea.name);
 
     const graphics = this.add.graphics();
-    graphics.fillStyle(0xffffff, 1);
-    graphics.fillRoundedRect(0, 0, TEXT_AREA_CONFIG_FOR_RULES.width, TEXT_AREA_CONFIG_FOR_RULES.height, 8);
+    graphics.fillStyle(configObjects.rulesTextArea.background.color, configObjects.rulesTextArea.background.alpha);
+    graphics.fillRoundedRect(
+      configObjects.rulesTextArea.background.x,
+      configObjects.rulesTextArea.background.y,
+      configObjects.rulesTextArea.background.width,
+      configObjects.rulesTextArea.background.height,
+      configObjects.rulesTextArea.background.borderRadius,
+    );
     container.add(graphics);
     container.add(rulesText);
 
     const buttonReturn = new uiWidgets.TextButton(
       this,
-      0,
-      0,
-      "buttonBackground",
+      configObjects.menuButton.x,
+      configObjects.menuButton.y,
+      configObjects.menuButton.texture,
       this.ReturnToMainMenu,
       this,
-      "hover.png",
-      "default.png",
-      "pressed.png",
-      "default.png",
+      configObjects.menuButton.hoverFrame,
+      configObjects.menuButton.defaultFrame,
+      configObjects.menuButton.pressedFrame,
+      configObjects.menuButton.defaultFrame,
     ).setText("MAIN MENU", BUTTON_STYLE);
     const halfHeightOfButton = buttonReturn.height / 2;
     const column = new uiWidgets.Column(
       this,
       GAME_RESOLUTION.width / 2,
-      TEXT_AREA_CONFIG_FOR_RULES.y + TEXT_AREA_CONFIG_FOR_RULES.height + halfHeightOfButton + 40,
+      configObjects.rulesTextArea.y +
+        configObjects.rulesTextArea.background.height +
+        halfHeightOfButton +
+        configObjects.buttonContainer.buttonDistance.y,
     );
-    column.addNode(buttonReturn, 0, 0);
+    column.addNode(buttonReturn);
   }
 
   ReturnToMainMenu() {
