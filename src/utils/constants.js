@@ -13,8 +13,8 @@ export const RULES_TEXT =
   "Nam imperdiet fermentum felis, venenatis mattis justo ultrices vitae. Maecenas odio orci, vehicula in egestas a, ultrices quis risus. Etiam posuere rhoncus erat, in suscipit erat dignissim at.";
 
 export const TEXT_AREA_CONFIG_FOR_RULES = {
-  x: 100,
-  y: 75,
+  x: 0,
+  y: 40,
   width: 600,
   height: 350,
 };
