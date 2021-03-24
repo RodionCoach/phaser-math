@@ -75,45 +75,46 @@ class GameScene extends Phaser.Scene {
 
     const inputField = new GUIContainer({
       scene: this,
+      name: "inputField",
       x: 0,
       y: 0,
-    })
-      .setName("setButton")
-      .setDepth(DEPTH_LAYERS.one)
-      .setSize(100, 100)
-      .disableInteractive();
-    inputField.sprite.setTexture("gui", "inpul_field.png");
-    inputField.textObject.setStyle(BUTTON_NUMBER_STYLE).setOrigin(0.5, 0.5);
+      text: "",
+      textStyle: BUTTON_NUMBER_STYLE,
+      texture: "gui",
+      defaultFrame: "inpul_field.png",
+      depth: DEPTH_LAYERS.one,
+    });
+    inputField.sprite.disableInteractive();
     containerInputGUI.add(inputField);
 
     const resetButton = new GUIContainer({
       scene: this,
+      name: "resetButton",
       x: -inputField.sprite.width / 2 - 40,
       y: 0,
-    })
-      .setName("resetButton")
-      .setDepth(DEPTH_LAYERS.one)
-      .setSize(100, 100)
-      .setInteractive({ useHandCursor: true })
-      .on("pointerdown", () => {
+      text: "",
+      texture: "gui",
+      defaultFrame: "reset_btn.png",
+      depth: DEPTH_LAYERS.one,
+      pointerDown: () => {
         this.ResetAnswerText(inputField.textObject, inputField.sprite);
-      });
-    resetButton.sprite.setTexture("gui", "reset_btn.png");
+      },
+    });
     containerInputGUI.add(resetButton);
 
     const setButton = new GUIContainer({
       scene: this,
+      name: "setButton",
       x: inputField.sprite.width / 2 + 40,
       y: 0,
-    })
-      .setName("setButton")
-      .setDepth(DEPTH_LAYERS.one)
-      .setSize(100, 100)
-      .setInteractive({ useHandCursor: true })
-      .on("pointerdown", () => {
+      text: "",
+      texture: "gui",
+      defaultFrame: "submit_btn.png",
+      depth: DEPTH_LAYERS.one,
+      pointerDown: () => {
         this.CheckAnswer(inputField.textObject, inputField.sprite);
-      });
-    setButton.sprite.setTexture("gui", "submit_btn.png");
+      },
+    });
     containerInputGUI.add(setButton);
 
     const containerDigitalGUI = this.add
@@ -123,19 +124,18 @@ class GameScene extends Phaser.Scene {
     for (let i = 0; i < 10; i++) {
       const digitalButton = new GUIContainer({
         scene: this,
+        name: `digital-${i}`,
         x: i === 0 ? 9 * 70 : (i - 1) * 70,
         y: 0,
-      })
-        .setName("digitalButton")
-        .setDepth(DEPTH_LAYERS.one)
-        .setSize(100, 100)
-        .setInteractive({ useHandCursor: true })
-        .on("pointerdown", () => {
+        text: `${i}`,
+        textStyle: BUTTON_NUMBER_STYLE,
+        texture: "gui",
+        defaultFrame: "digit_button.png",
+        depth: DEPTH_LAYERS.one,
+        pointerDown: () => {
           this.SetAnswerText(i, inputField.textObject, inputField.sprite);
-        });
-      digitalButton.sprite.setTexture("gui", "digit_button.png");
-      digitalButton.textObject.setStyle(BUTTON_NUMBER_STYLE).setOrigin(0.5, 0.5);
-      digitalButton.textObject.setText(i);
+        },
+      });
       containerDigitalGUI.add(digitalButton);
     }
 

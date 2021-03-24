@@ -1207,7 +1207,7 @@ eventemitter3@^3.1.2:
   resolved "https://registry.yarnpkg.com/eventemitter3/-/eventemitter3-3.1.2.tgz#2d3d48f9c346698fce83a85d7d664e98535df6e7"
   integrity sha512-tvtQIeLVHjDkJYnzf2dgVMxfuSGJeM/7UCG17TT4EumTfNtF+0nebF/4zWOIkCreAbtNqhGEboB6BWrwqNaw4Q==
 
-eventemitter3@^4.0.0, eventemitter3@^4.0.7:
+eventemitter3@^4.0.7:
   version "4.0.7"
   resolved "https://registry.yarnpkg.com/eventemitter3/-/eventemitter3-4.0.7.tgz#2de9b68f6528d5644ef5c59526a1b4a07306169f"
   integrity sha512-8guHBZCwKnFhYdHr2ysuRWErTwhoN2X8XELRlrRwpmfeY2jjuUN4taQMsULKUVo1K4DvZl+0pgfyoysHxvmvEw==
@@ -1901,18 +1901,10 @@ path@^0.12.7:
     process "^0.11.1"
     util "^0.10.3"
 
-phaser-ui-tools@^2.0.0-beta:
-  version "2.0.0-beta"
-  resolved "https://registry.yarnpkg.com/phaser-ui-tools/-/phaser-ui-tools-2.0.0-beta.tgz#6470a8cd2bc65cdde05fd17319f2738280f15e59"
-  integrity sha512-QvASkbUVMEwBnFmXe/zy1gNACqr5vGt3glUgCpjU6FkxkRlS/lOvsoWJld6y/4budhYynE9xkIYWQy+JlBZPgQ==
-  dependencies:
-    eventemitter3 "^4.0.0"
-
-phaser3-rex-plugins/@^1.1.41:
-  name phaser3-rex-plugins
-  version "1.1.41"
-  resolved "https://registry.yarnpkg.com/phaser3-rex-plugins/-/phaser3-rex-plugins-1.1.41.tgz#15e8ac710ee9631c9be1913fd2226386cf4bf53c"
-  integrity sha512-EbvpmGAcxGlHL4sAgiJLmw7mz70BdLP/J0hWDPL/nWzf51W2cK0hPhjndVqwMRAV6Xv/2aVBnULYLHmPDUF6uA==
+phaser3-rex-plugins@^1.1.41:
+  version "1.1.42"
+  resolved "https://registry.yarnpkg.com/phaser3-rex-plugins/-/phaser3-rex-plugins-1.1.42.tgz#c9136f1fcc6eade20e94807ad147e9449dc7e7f8"
+  integrity sha512-szUW9u44jX0CC7ukKLtcIbr/zMwtbyzRVHxmDcjblZchPfiQI51/A0rUVBM02Rt2hmXEGq490aZUAFkvMN8UVg==
   dependencies:
     eventemitter3 "^3.1.2"
     lokijs "^1.5.11"
