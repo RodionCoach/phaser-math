@@ -32,8 +32,8 @@ class RulesScene extends Phaser.Scene {
     const graphics = this.add.graphics();
     graphics.fillStyle(0xffffff, 1);
     graphics.fillRoundedRect(
-      -TEXT_AREA_CONFIG_FOR_RULES.width / 2,
-      -TEXT_AREA_CONFIG_FOR_RULES.height / 2 - TEXT_AREA_CONFIG_FOR_RULES.y,
+      -(TEXT_AREA_CONFIG_FOR_RULES.width / 2),
+      -(TEXT_AREA_CONFIG_FOR_RULES.height / 2) - TEXT_AREA_CONFIG_FOR_RULES.y,
       TEXT_AREA_CONFIG_FOR_RULES.width,
       TEXT_AREA_CONFIG_FOR_RULES.height,
       8,
