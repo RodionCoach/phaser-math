@@ -1,13 +1,9 @@
 import uiWidgets from "phaser-ui-tools";
-import {
-  BUTTON_STYLE,
-  GAME_RESOLUTION,
-  SCORE_TITLE_STYLE,
-  SCORE_NUMBERS_STYLE,
-  SCORE_TEXT_STYLE,
-} from "../utils/constants";
+import { GAME_RESOLUTION } from "../utils/constants";
+import { BUTTON_STYLE, SCORE_TITLE_STYLE, SCORE_NUMBERS_STYLE, SCORE_TEXT_STYLE } from "../utils/styles";
 import { SetAudio } from "../sceneHooks/SetAudio";
 import SoundButton from "../objects/soundButton";
+
 class EndScene extends Phaser.Scene {
   constructor() {
     super({

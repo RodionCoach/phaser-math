@@ -1,5 +1,6 @@
 import uiWidgets from "phaser-ui-tools";
-import { BUTTON_STYLE, GAME_RESOLUTION } from "../utils/constants";
+import { GAME_RESOLUTION } from "../utils/constants";
+import { BUTTON_STYLE } from "../utils/styles";
 import { SetAudio } from "../sceneHooks/SetAudio";
 import SoundButton from "../objects/soundButton";
 class StartScene extends Phaser.Scene {
