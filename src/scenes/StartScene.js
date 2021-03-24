@@ -1,7 +1,8 @@
-import uiWidgets from "phaser-ui-tools";
-import { BUTTON_STYLE, GAME_RESOLUTION } from "../utils/constants";
+import { DEPTH_LAYERS, GAME_RESOLUTION } from "../utils/constants";
+import { BUTTON_STYLE } from "../utils/styles";
 import { SetAudio } from "../sceneHooks/SetAudio";
 import SoundButton from "../objects/soundButton";
+import { GUIContainer } from "../objects/GUIContainer";
 class StartScene extends Phaser.Scene {
   startGameKey = null;
 
@@ -27,34 +28,46 @@ class StartScene extends Phaser.Scene {
 
     this.sound.add("background");
 
-    const buttonOne = new uiWidgets.TextButton(
-      this,
-      0,
-      0,
-      "buttonBackground",
-      this.StartGame,
-      this,
-      "hover.png",
-      "default.png",
-      "pressed.png",
-      "default.png",
-    ).setText("NEW GAME", BUTTON_STYLE);
-    const buttonTwo = new uiWidgets.TextButton(
-      this,
-      0,
-      0,
-      "buttonBackground",
-      this.HowToPlay,
-      this,
-      "hover.png",
-      "default.png",
-      "pressed.png",
-      "default.png",
-    ).setText("HOW TO PLAY", BUTTON_STYLE);
+    const containerButton = this.add
+      .container(GAME_RESOLUTION.width / 2, GAME_RESOLUTION.height / 2)
+      .setName("containerButton")
+      .setDepth(DEPTH_LAYERS.one);
 
-    const column = new uiWidgets.Column(this, GAME_RESOLUTION.width / 2, GAME_RESOLUTION.height / 2 - 40);
-    column.addNode(buttonOne, 0, 40);
-    column.addNode(buttonTwo, 0, 40);
+    const newGameButton = new GUIContainer({
+      scene: this,
+      name: "newGameButton",
+      x: 0,
+      y: -50,
+      text: "NEW GAME",
+      textStyle: BUTTON_STYLE,
+      texture: "buttonBackground",
+      defaultFrame: "default.png",
+      frameHover: "hover.png",
+      pressedFrame: "pressed.png",
+      depth: DEPTH_LAYERS.one,
+      pointerDown: () => {
+        this.StartGame();
+      },
+    });
+    containerButton.add(newGameButton);
+
+    const rulesGameButton = new GUIContainer({
+      scene: this,
+      name: "rulesGameButton",
+      x: 0,
+      y: 50,
+      text: "HOW TO PLAY",
+      textStyle: BUTTON_STYLE,
+      texture: "buttonBackground",
+      defaultFrame: "default.png",
+      frameHover: "hover.png",
+      pressedFrame: "pressed.png",
+      depth: DEPTH_LAYERS.one,
+      pointerDown: () => {
+        this.HowToPlay();
+      },
+    });
+    containerButton.add(rulesGameButton);
 
     SetAudio(this, "background", 1.0, true);
   }

@@ -1,6 +1,7 @@
 import LilyContainer from "./lilyContainer";
 import { exampleGenerator } from "../../utils/generators/numbers";
-import { LILY_BONDARY_LIMIT, EXAMPLES_STYLE, TOTAL_LILIES } from "../../utils/constants";
+import { LILY_BONDARY_LIMIT, TOTAL_LILIES } from "../../utils/constants";
+import { EXAMPLES_STYLE } from "../../utils/styles";
 
 export default class LilySpawner extends Phaser.GameObjects.GameObject {
   constructor(scene) {
@@ -62,9 +63,7 @@ export default class LilySpawner extends Phaser.GameObjects.GameObject {
   }
 
   checkSomeExample(answerText) {
-    const guessedLilyIndex = this.lilies.filter(
-      (lily, index) => lily.answer === answerText,
-    );
+    const guessedLilyIndex = this.lilies.filter(lily => lily.answer === answerText);
 
     guessedLilyIndex.forEach(lily => {
       this.visibleLiliesCount -= 1;

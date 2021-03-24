@@ -1,6 +1,7 @@
-import uiWidgets from "phaser-ui-tools";
-import { BUTTON_STYLE, RULES_STYLE, RULES_TEXT, GAME_RESOLUTION, TEXT_AREA_CONFIG_FOR_RULES } from "../utils/constants";
+import { RULES_TEXT, GAME_RESOLUTION, TEXT_AREA_CONFIG_FOR_RULES, DEPTH_LAYERS } from "../utils/constants";
+import { BUTTON_STYLE, RULES_STYLE } from "../utils/styles";
 import SoundButton from "../objects/soundButton";
+import { GUIContainer } from "../objects/GUIContainer";
 
 class RulesScene extends Phaser.Scene {
   constructor() {
@@ -22,37 +23,43 @@ class RulesScene extends Phaser.Scene {
       ["cartoonWater", "noiseWater", "noise"],
     );
     this.add.image(770, 670, "actors", "water_lily.png").setOrigin(0).setAngle(-135.0).setFlipY(true);
-    const rulesText = this.add.text(44, 32, RULES_TEXT, RULES_STYLE);
 
     const container = this.add
-      .container(TEXT_AREA_CONFIG_FOR_RULES.x, TEXT_AREA_CONFIG_FOR_RULES.y)
-      .setName("textArea");
+      .container(GAME_RESOLUTION.width / 2, GAME_RESOLUTION.height / 2)
+      .setName("textArea")
+      .setDepth(DEPTH_LAYERS.one);
 
     const graphics = this.add.graphics();
     graphics.fillStyle(0xffffff, 1);
-    graphics.fillRoundedRect(0, 0, TEXT_AREA_CONFIG_FOR_RULES.width, TEXT_AREA_CONFIG_FOR_RULES.height, 8);
+    graphics.fillRoundedRect(
+      -(TEXT_AREA_CONFIG_FOR_RULES.width / 2),
+      -(TEXT_AREA_CONFIG_FOR_RULES.height / 2) - TEXT_AREA_CONFIG_FOR_RULES.y,
+      TEXT_AREA_CONFIG_FOR_RULES.width,
+      TEXT_AREA_CONFIG_FOR_RULES.height,
+      8,
+    );
     container.add(graphics);
+
+    const rulesText = this.add.text(0, -TEXT_AREA_CONFIG_FOR_RULES.y, RULES_TEXT, RULES_STYLE).setOrigin(0.5);
     container.add(rulesText);
 
-    const buttonReturn = new uiWidgets.TextButton(
-      this,
-      0,
-      0,
-      "buttonBackground",
-      this.ReturnToMainMenu,
-      this,
-      "hover.png",
-      "default.png",
-      "pressed.png",
-      "default.png",
-    ).setText("MAIN MENU", BUTTON_STYLE);
-    const halfHeightOfButton = buttonReturn.height / 2;
-    const column = new uiWidgets.Column(
-      this,
-      GAME_RESOLUTION.width / 2,
-      TEXT_AREA_CONFIG_FOR_RULES.y + TEXT_AREA_CONFIG_FOR_RULES.height + halfHeightOfButton + 40,
-    );
-    column.addNode(buttonReturn, 0, 0);
+    const buttonReturn = new GUIContainer({
+      scene: this,
+      name: "buttonReturn",
+      x: 0,
+      y: TEXT_AREA_CONFIG_FOR_RULES.height / 2 + TEXT_AREA_CONFIG_FOR_RULES.y,
+      text: "MAIN MENU",
+      textStyle: BUTTON_STYLE,
+      texture: "buttonBackground",
+      defaultFrame: "default.png",
+      frameHover: "hover.png",
+      pressedFrame: "pressed.png",
+      depth: DEPTH_LAYERS.one,
+      pointerDown: () => {
+        this.ReturnToMainMenu();
+      },
+    });
+    container.add(buttonReturn);
   }
 
   ReturnToMainMenu() {

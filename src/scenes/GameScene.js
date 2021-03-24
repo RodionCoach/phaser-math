@@ -2,13 +2,8 @@ import LilySpawner from "../sprites/lily/lilySpawner";
 import { GUIContainer } from "../objects/GUIContainer";
 import { SetKeyboardKeys } from "../sceneHooks/SetKeyboardKeys";
 import { SetAudio } from "../sceneHooks/SetAudio";
-import {
-  BUTTON_NUMBER_STYLE,
-  GAME_RESOLUTION,
-  SCORE_STYLE,
-  GAME_HEALTH_POINTS,
-  TOTAL_LILIES,
-} from "../utils/constants";
+import { GAME_RESOLUTION, GAME_HEALTH_POINTS, TOTAL_LILIES, DEPTH_LAYERS } from "../utils/constants";
+import { BUTTON_NUMBER_STYLE, SCORE_STYLE } from "../utils/styles";
 import SoundButton from "../objects/soundButton";
 
 class GameScene extends Phaser.Scene {
@@ -32,13 +27,13 @@ class GameScene extends Phaser.Scene {
       .image(752, 24, "gui", "pause.svg")
       .setOrigin(0)
       .setInteractive({ useHandCursor: true })
-      ?.setDepth(1);
+      ?.setDepth(DEPTH_LAYERS.one);
     pauseControl.on("pointerdown", () => {
       this.scene.launch("PauseScene");
       this.scene.pause();
     });
 
-    this.plusPts = this.add.text(60, 395, "", SCORE_STYLE).setOrigin(0.5).setDepth(1).setVisible(false);
+    this.plusPts = this.add.text(60, 395, "", SCORE_STYLE).setOrigin(0.5).setDepth(DEPTH_LAYERS.one).setVisible(false);
     this.add
       .shader(
         "cartoonWaterShader",
@@ -53,18 +48,18 @@ class GameScene extends Phaser.Scene {
     this.add.image(0, 0, "background", "sand_left_side.png").setOrigin(0);
     this.add.image(698, 0, "background", "sand_right_side.png").setOrigin(0);
     this.add.image(56, 347, "actors", "boat.png").setAngle(-5.5);
-    this.add.text(60, 335, "Score", SCORE_STYLE).setOrigin(0.5).setDepth(1);
+    this.add.text(60, 335, "Score", SCORE_STYLE).setOrigin(0.5).setDepth(DEPTH_LAYERS.one);
 
-    this.add.image(0, 449, "actors", "bridge.png").setOrigin(0).setDepth(1);
-    this.add.image(765, 483, "actors", "leaves_stones_right.png").setOrigin(0).setDepth(1);
-    this.add.image(0, 541, "actors", "leaves_stones_left.png").setOrigin(0).setDepth(1);
+    this.add.image(0, 449, "actors", "bridge.png").setOrigin(0).setDepth(DEPTH_LAYERS.one);
+    this.add.image(765, 483, "actors", "leaves_stones_right.png").setOrigin(0).setDepth(DEPTH_LAYERS.one);
+    this.add.image(0, 541, "actors", "leaves_stones_left.png").setOrigin(0).setDepth(DEPTH_LAYERS.one);
 
     this.sound.add("background");
     this.sound.add("wrong");
     this.sound.add("missed");
     this.sound.add("solved");
 
-    this.heartsGroup = this.add.container(765, 355).setName("heartsGroup").setDepth(1);
+    this.heartsGroup = this.add.container(765, 355).setName("heartsGroup").setDepth(DEPTH_LAYERS.one);
     for (let i = 0; i < this.currentLifes; i++) {
       const heartFilled = this.add
         .sprite(0, i * 30, "gui", "filled_heart.svg")
@@ -76,71 +71,71 @@ class GameScene extends Phaser.Scene {
     const containerInputGUI = this.add
       .container(GAME_RESOLUTION.width / 2, 477)
       .setName("containerInputGUI")
-      .setDepth(1);
+      .setDepth(DEPTH_LAYERS.one);
 
     const inputField = new GUIContainer({
       scene: this,
+      name: "inputField",
       x: 0,
       y: 0,
-    })
-      .setName("setButton")
-      .setDepth(1)
-      .setSize(100, 100)
-      .disableInteractive();
-    inputField.sprite.setTexture("gui", "inpul_field.png");
-    inputField.textObject.setStyle(BUTTON_NUMBER_STYLE).setOrigin(0.5, 0.5);
+      text: "",
+      textStyle: BUTTON_NUMBER_STYLE,
+      texture: "gui",
+      defaultFrame: "inpul_field.png",
+      depth: DEPTH_LAYERS.one,
+    });
+    inputField.sprite.disableInteractive();
     containerInputGUI.add(inputField);
 
     const resetButton = new GUIContainer({
       scene: this,
-      x: -inputField.sprite.width / 2 - 40,
+      name: "resetButton",
+      x: -(inputField.sprite.width / 2) - 40,
       y: 0,
-    })
-      .setName("resetButton")
-      .setDepth(1)
-      .setSize(100, 100)
-      .setInteractive({ useHandCursor: true })
-      .on("pointerdown", () => {
+      text: "",
+      texture: "gui",
+      defaultFrame: "reset_btn.png",
+      depth: DEPTH_LAYERS.one,
+      pointerDown: () => {
         this.ResetAnswerText(inputField.textObject, inputField.sprite);
-      });
-    resetButton.sprite.setTexture("gui", "reset_btn.png");
+      },
+    });
     containerInputGUI.add(resetButton);
 
     const setButton = new GUIContainer({
       scene: this,
+      name: "setButton",
       x: inputField.sprite.width / 2 + 40,
       y: 0,
-    })
-      .setName("setButton")
-      .setDepth(1)
-      .setSize(100, 100)
-      .setInteractive({ useHandCursor: true })
-      .on("pointerdown", () => {
+      text: "",
+      texture: "gui",
+      defaultFrame: "submit_btn.png",
+      depth: DEPTH_LAYERS.one,
+      pointerDown: () => {
         this.CheckAnswer(inputField.textObject, inputField.sprite);
-      });
-    setButton.sprite.setTexture("gui", "submit_btn.png");
+      },
+    });
     containerInputGUI.add(setButton);
 
     const containerDigitalGUI = this.add
       .container(GAME_RESOLUTION.width / 2 - 316, 547)
       .setName("containerDigitalGUI")
-      .setDepth(1);
+      .setDepth(DEPTH_LAYERS.one);
     for (let i = 0; i < 10; i++) {
       const digitalButton = new GUIContainer({
         scene: this,
+        name: `digital-${i}`,
         x: i === 0 ? 9 * 70 : (i - 1) * 70,
         y: 0,
-      })
-        .setName("digitalButton")
-        .setDepth(1)
-        .setSize(100, 100)
-        .setInteractive({ useHandCursor: true })
-        .on("pointerdown", () => {
+        text: `${i}`,
+        textStyle: BUTTON_NUMBER_STYLE,
+        texture: "gui",
+        defaultFrame: "digit_button.png",
+        depth: DEPTH_LAYERS.one,
+        pointerDown: () => {
           this.SetAnswerText(i, inputField.textObject, inputField.sprite);
-        });
-      digitalButton.sprite.setTexture("gui", "digit_button.png");
-      digitalButton.textObject.setStyle(BUTTON_NUMBER_STYLE).setOrigin(0.5, 0.5);
-      digitalButton.textObject.setText(i);
+        },
+      });
       containerDigitalGUI.add(digitalButton);
     }
 
@@ -150,7 +145,7 @@ class GameScene extends Phaser.Scene {
     SetKeyboardKeys(this, inputField);
   }
 
-  update(time, delta) {
+  update() {
     const renderedLily = Phaser.Math.Clamp(this.lilySpawner.currentLiliesCount - 1, 0, TOTAL_LILIES);
     if (
       this.lilySpawner.lilies[renderedLily].y < this.game?.config?.height - 200 ||
@@ -215,13 +210,11 @@ class GameScene extends Phaser.Scene {
   }
 
   SetAnswerText(subString, inputTextObject, inputFieldObject) {
-    let text = "";
-    if (inputTextObject.text.length <= 5) {
-      text = inputTextObject.text + subString;
-    } else {
-      text = subString;
-    }
-    this.ResetAnswerText(inputTextObject, inputFieldObject, text);
+    this.ResetAnswerText(
+      inputTextObject,
+      inputFieldObject,
+      inputTextObject.text.length <= 5 ? inputTextObject.text + subString : subString,
+    );
   }
 
   CheckAnswer(inputTextObject, inputFieldObject) {
