@@ -2,10 +2,11 @@ import commonjs from "rollup-plugin-commonjs";
 import replace from "@rollup/plugin-replace";
 import { terser } from "rollup-plugin-terser";
 import resolve from "rollup-plugin-node-resolve";
+import typescript from "rollup-plugin-typescript2";
 import copy from "rollup-plugin-copy-assets";
 
 export default {
-  input: ["./src/index.js"],
+  input: ["./src/index.ts"],
 
   output: {
     file: "./build/index.js",
@@ -26,8 +27,10 @@ export default {
       preventAssignment: true,
     }),
 
+    typescript(),
+
     resolve({
-      extensions: [".js"],
+      extensions: [".js", ".ts", ".tsx"],
     }),
 
     commonjs({

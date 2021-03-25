@@ -1,20 +1,18 @@
 import { DEPTH_LAYERS, GAME_RESOLUTION } from "../utils/constants";
 import { BUTTON_STYLE } from "../utils/styles";
-import { SetAudio } from "../sceneHooks/SetAudio";
 import SoundButton from "../objects/soundButton";
 import { GUIContainer } from "../objects/GUIContainer";
-class StartScene extends Phaser.Scene {
-  startGameKey = null;
+
+class PauseScene extends Phaser.Scene {
+  soundControl: SoundButton;
 
   constructor() {
     super({
-      key: "StartScene",
+      key: "PauseScene",
     });
-
-    this.soundControl = null;
   }
 
-  create() {
+  create(): void {
     this.soundControl = new SoundButton(this, 20, 20, "gui", "sound_on.svg", "sound_off_light.svg");
     this.add.shader(
       "cartoonWaterShader",
@@ -26,19 +24,19 @@ class StartScene extends Phaser.Scene {
     );
     this.add.image(770, 670, "actors", "water_lily.png").setOrigin(0).setAngle(-135.0).setFlipY(true);
 
-    this.sound.add("background");
-
     const containerButton = this.add
       .container(GAME_RESOLUTION.width / 2, GAME_RESOLUTION.height / 2)
       .setName("containerButton")
       .setDepth(DEPTH_LAYERS.one);
 
-    const newGameButton = new GUIContainer({
+    const distanceBetweenButtons = 40;
+
+    const buttonRestart = new GUIContainer({
       scene: this,
-      name: "newGameButton",
+      name: "buttonRestart",
       x: 0,
-      y: -50,
-      text: "NEW GAME",
+      y: 0,
+      text: "RESTART",
       textStyle: BUTTON_STYLE,
       texture: "buttonBackground",
       defaultFrame: "default.png",
@@ -46,17 +44,17 @@ class StartScene extends Phaser.Scene {
       pressedFrame: "pressed.png",
       depth: DEPTH_LAYERS.one,
       pointerDown: () => {
-        this.StartGame();
+        this.RestartGame();
       },
     });
-    containerButton.add(newGameButton);
+    containerButton.add(buttonRestart);
 
-    const rulesGameButton = new GUIContainer({
+    const buttonResume = new GUIContainer({
       scene: this,
-      name: "rulesGameButton",
+      name: "buttonResume",
       x: 0,
-      y: 50,
-      text: "HOW TO PLAY",
+      y: -buttonRestart.sprite.height - distanceBetweenButtons,
+      text: "RESUME",
       textStyle: BUTTON_STYLE,
       texture: "buttonBackground",
       defaultFrame: "default.png",
@@ -64,27 +62,47 @@ class StartScene extends Phaser.Scene {
       pressedFrame: "pressed.png",
       depth: DEPTH_LAYERS.one,
       pointerDown: () => {
-        this.HowToPlay();
+        this.ResumeGame();
       },
     });
-    containerButton.add(rulesGameButton);
+    containerButton.add(buttonResume);
 
-    SetAudio(this, "background", 1.0, true);
+    const buttonReturn = new GUIContainer({
+      scene: this,
+      name: "buttonReturn",
+      x: 0,
+      y: buttonRestart.sprite.height + distanceBetweenButtons,
+      text: "MAIN MENU",
+      textStyle: BUTTON_STYLE,
+      texture: "buttonBackground",
+      defaultFrame: "default.png",
+      frameHover: "hover.png",
+      pressedFrame: "pressed.png",
+      depth: DEPTH_LAYERS.one,
+      pointerDown: () => {
+        this.ReturnToMainMenu();
+      },
+    });
+    containerButton.add(buttonReturn);
   }
 
-  update() {
-    if (this.startGameKey && Phaser.Input.Keyboard.JustDown(this.startGameKey)) {
-      this.StartGame();
-    }
+  ResumeGame(): void {
+    this.scene.resume("GameScene");
+    this.scene.stop("PauseScene");
   }
 
-  StartGame() {
+  RestartGame(): void {
+    this.sound.stopAll();
+    this.scene.stop("GameScene");
     this.scene.start("CountdownScene");
   }
 
-  HowToPlay() {
-    this.scene.start("RulesScene");
+  ReturnToMainMenu(): void {
+    this.sound.stopAll();
+    this.scene.stop("GameScene");
+    this.scene.stop("PauseScene");
+    this.scene.start("StartScene");
   }
 }
 
-export default StartScene;
+export default PauseScene;

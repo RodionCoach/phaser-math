@@ -6,7 +6,21 @@ import { GAME_RESOLUTION, GAME_HEALTH_POINTS, TOTAL_LILIES, DEPTH_LAYERS } from 
 import { BUTTON_NUMBER_STYLE, SCORE_STYLE } from "../utils/styles";
 import SoundButton from "../objects/soundButton";
 
+interface Score {
+  pts: number;
+  textObject: Phaser.GameObjects.Text;
+}
+
 class GameScene extends Phaser.Scene {
+  currentLifes: number;
+  prevHealthPoints: number;
+  heartsGroup: Phaser.GameObjects.Container;
+  lilySpawner: LilySpawner;
+  plusPts: Phaser.GameObjects.Text;
+  soundControl: SoundButton;
+  prevNotGuessed: number;
+  score: Score;
+
   constructor() {
     super({
       key: "GameScene",
@@ -14,14 +28,9 @@ class GameScene extends Phaser.Scene {
 
     this.currentLifes = GAME_HEALTH_POINTS;
     this.prevHealthPoints = 0;
-    this.heartsGroup = null;
-    this.lilySpawner = null;
-    this.music = null;
-    this.plusPts = null;
-    this.soundControl = null;
   }
 
-  create() {
+  create(): void {
     this.soundControl = new SoundButton(this, 20, 20, "gui", "sound_on.svg", "sound_off_light.svg");
     const pauseControl = this.add
       .image(752, 24, "gui", "pause.svg")
@@ -61,7 +70,7 @@ class GameScene extends Phaser.Scene {
 
     this.heartsGroup = this.add.container(765, 355).setName("heartsGroup").setDepth(DEPTH_LAYERS.one);
     for (let i = 0; i < this.currentLifes; i++) {
-      const heartFilled = this.add
+      const heartFilled: Phaser.GameObjects.Sprite = this.add
         .sprite(0, i * 30, "gui", "filled_heart.svg")
         .setOrigin(0.5, 0.5)
         .disableInteractive();
@@ -133,7 +142,7 @@ class GameScene extends Phaser.Scene {
         defaultFrame: "digit_button.png",
         depth: DEPTH_LAYERS.one,
         pointerDown: () => {
-          this.SetAnswerText(i, inputField.textObject, inputField.sprite);
+          this.SetAnswerText(`${i}`, inputField.textObject, inputField.sprite);
         },
       });
       containerDigitalGUI.add(digitalButton);
@@ -145,10 +154,10 @@ class GameScene extends Phaser.Scene {
     SetKeyboardKeys(this, inputField);
   }
 
-  update() {
+  update(): void {
     const renderedLily = Phaser.Math.Clamp(this.lilySpawner.currentLiliesCount - 1, 0, TOTAL_LILIES);
     if (
-      this.lilySpawner.lilies[renderedLily].y < this.game?.config?.height - 200 ||
+      this.lilySpawner.lilies[renderedLily].y < +this.game?.config?.height - 200 ||
       !this.lilySpawner.visibleLiliesCount
     ) {
       this.lilySpawner.GetLily(() => {
@@ -165,7 +174,7 @@ class GameScene extends Phaser.Scene {
     this.soundControl.setTexture("gui", this.sound.mute ? "sound_off_light.svg" : "sound_on.svg");
   }
 
-  HeartsCallBack() {
+  HeartsCallBack(): void {
     if (this.prevHealthPoints !== this.lilySpawner.notGuessedCount) {
       this.prevNotGuessed = this.lilySpawner.notGuessedCount;
       this.tweens.add({
@@ -178,7 +187,8 @@ class GameScene extends Phaser.Scene {
         repeat: 0,
         onComplete: () => {
           this.PlayMissedSound();
-          this.heartsGroup.getAll()[this.prevNotGuessed - 1].setTexture("gui", "empty_heart.svg");
+          const heart = <Phaser.GameObjects.Sprite>this.heartsGroup.getAll()[this.prevNotGuessed - 1];
+          heart.setTexture("gui", "empty_heart.svg");
         },
       });
       if (this.prevNotGuessed === this.currentLifes) {
@@ -192,24 +202,32 @@ class GameScene extends Phaser.Scene {
     }
   }
 
-  SpawnObjects() {
+  SpawnObjects(): void {
     this.lilySpawner = new LilySpawner(this);
     this.lilySpawner.GetLily(() => {
       this.HeartsCallBack();
     });
   }
 
-  ResetAnswerText(inputTextObject, inputFieldObject, text) {
+  ResetAnswerText(
+    inputTextObject: Phaser.GameObjects.Text,
+    inputFieldObject: Phaser.GameObjects.Sprite,
+    text = "",
+  ): void {
     inputTextObject.setText(text);
     inputFieldObject.setTexture("inputField", "0001.png");
   }
 
-  WrongAnswerText(inputTextObject, inputFieldObject) {
+  WrongAnswerText(inputTextObject: Phaser.GameObjects.Text, inputFieldObject: Phaser.GameObjects.Sprite): void {
     inputTextObject.setText("");
     inputFieldObject.setTexture("inputField", "0002.png");
   }
 
-  SetAnswerText(subString, inputTextObject, inputFieldObject) {
+  SetAnswerText(
+    subString: string,
+    inputTextObject: Phaser.GameObjects.Text,
+    inputFieldObject: Phaser.GameObjects.Sprite,
+  ): void {
     this.ResetAnswerText(
       inputTextObject,
       inputFieldObject,
@@ -217,7 +235,7 @@ class GameScene extends Phaser.Scene {
     );
   }
 
-  CheckAnswer(inputTextObject, inputFieldObject) {
+  CheckAnswer(inputTextObject: Phaser.GameObjects.Text, inputFieldObject: Phaser.GameObjects.Sprite): void {
     if (inputTextObject.text !== "") {
       const guessedCount = this.lilySpawner.checkSomeExample(+inputTextObject.text);
       if (guessedCount) {
@@ -233,25 +251,25 @@ class GameScene extends Phaser.Scene {
     }
   }
 
-  PlaySolvedSound() {
+  PlaySolvedSound(): void {
     this.sound.get("solved").play();
   }
 
-  PlayWrongSound() {
+  PlayWrongSound(): void {
     this.sound.get("wrong").play();
   }
 
-  PlayMissedSound() {
+  PlayMissedSound(): void {
     this.sound.get("missed").play();
   }
 
-  SetScore() {
+  SetScore(): void {
     this.score = {
       pts: 0,
       textObject: this.make.text({
         x: 60,
         y: 355,
-        textObject: "0",
+        text: "0",
         origin: {
           x: 0.5,
           y: 0.5,
@@ -261,12 +279,12 @@ class GameScene extends Phaser.Scene {
       }),
     };
 
-    this.score.textObject.setText(this.score.pts);
+    this.score.textObject.setText(`${this.score.pts}`);
   }
 
-  UpdateScore(scores) {
+  UpdateScore(scores: number): void {
     this.score.pts += scores;
-    this.score.textObject.setText(this.score.pts);
+    this.score.textObject.setText(`${this.score.pts}`);
     this.plusPts.setText(`+${scores}`).setVisible(true);
     this.time.addEvent({
       delay: 1000,
@@ -275,7 +293,7 @@ class GameScene extends Phaser.Scene {
     });
   }
 
-  ResetGame() {
+  ResetGame(): void {
     this.scene.stop("GameScene");
     this.sound.stopAll();
     this.scene.start("EndScene", {

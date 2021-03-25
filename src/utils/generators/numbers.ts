@@ -1,7 +1,14 @@
 import { SIGNS } from "../constants";
 import { signGenerator } from "./signs";
 
-const division = sign => {
+interface Example {
+  number1: number;
+  sign: string;
+  number2: number;
+  answer: number;
+}
+
+const division = (sign: string): Example => {
   const example = multiplication(SIGNS[2], 4);
   return {
     number1: example.answer,
@@ -10,7 +17,7 @@ const division = sign => {
     answer: example.answer / example.number1,
   };
 };
-const multiplication = (sign, max) => {
+const multiplication = (sign: string, max: number): Example => {
   const number1 = Phaser.Math.Between(1, 9);
   const number2 = number1 > max ? Phaser.Math.Between(1, 9 - (number1 - max)) : Phaser.Math.Between(1, 9);
   return {
@@ -20,7 +27,7 @@ const multiplication = (sign, max) => {
     answer: number1 * number2,
   };
 };
-const subtraction = sign => {
+const subtraction = (sign: string): Example => {
   const number1 = Phaser.Math.Between(1, 25);
   const number2 = Phaser.Math.Between(1, number1);
   return {
@@ -30,7 +37,7 @@ const subtraction = sign => {
     answer: number1 - number2,
   };
 };
-const addition = sign => {
+const addition = (sign: string): Example => {
   const number1 = Phaser.Math.Between(1, 25);
   const number2 = Phaser.Math.Between(1, 9);
   return {
@@ -41,26 +48,18 @@ const addition = sign => {
   };
 };
 
-export const exampleGenerator = () => {
+export const exampleGenerator = (): Example => {
   const sign = signGenerator(SIGNS);
   switch (sign) {
     case SIGNS[0]:
       return addition(sign);
-      break;
-
     case SIGNS[1]:
       return subtraction(sign);
-      break;
-
     case SIGNS[2]:
       return multiplication(sign, 9);
-      break;
-
     case SIGNS[3]:
       return division(sign);
-      break;
-
     default:
-      break;
+      return addition(SIGNS[0]);
   }
 };

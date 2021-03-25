@@ -4,15 +4,15 @@ import SoundButton from "../objects/soundButton";
 import { GUIContainer } from "../objects/GUIContainer";
 
 class RulesScene extends Phaser.Scene {
+  soundControl: SoundButton;
+
   constructor() {
     super({
       key: "RulesScene",
     });
-
-    this.soundControl = null;
   }
 
-  create() {
+  create(): void {
     this.soundControl = new SoundButton(this, 20, 20, "gui", "sound_on.svg", "sound_off_light.svg");
     this.add.shader(
       "cartoonWaterShader",
@@ -62,7 +62,7 @@ class RulesScene extends Phaser.Scene {
     container.add(buttonReturn);
   }
 
-  ReturnToMainMenu() {
+  ReturnToMainMenu(): void {
     this.scene.start("StartScene");
   }
 }

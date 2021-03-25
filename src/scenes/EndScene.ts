@@ -4,21 +4,27 @@ import { SetAudio } from "../sceneHooks/SetAudio";
 import SoundButton from "../objects/soundButton";
 import { GUIContainer } from "../objects/GUIContainer";
 
+interface InitData {
+  currentScore: number;
+}
+
 class EndScene extends Phaser.Scene {
+  currentScore: number;
+  soundControl: Phaser.GameObjects.Image;
+
   constructor() {
     super({
       key: "EndScene",
     });
 
     this.currentScore = 0;
-    this.soundControl = null;
   }
 
-  init({ currentScore }) {
-    this.currentScore = currentScore;
+  init(data: InitData): void {
+    this.currentScore = data.currentScore;
   }
 
-  create() {
+  create(): void {
     this.soundControl = new SoundButton(this, 20, 20, "gui", "sound_on.svg", "sound_off_light.svg");
     this.add.shader(
       "cartoonWaterShader",
@@ -85,14 +91,14 @@ class EndScene extends Phaser.Scene {
     SetAudio(this, "gameOver", 1.0, false);
   }
 
-  IsBestScore() {
+  IsBestScore(): void {
     let prevBestScore = window.localStorage.getItem("best_score");
     if (prevBestScore === "undefined" || prevBestScore === null) {
-      prevBestScore = 0;
+      prevBestScore = "0";
     }
 
-    if (prevBestScore < this.currentScore) {
-      window.localStorage.setItem("best_score", this.currentScore);
+    if (+prevBestScore < this.currentScore) {
+      window.localStorage.setItem("best_score", `${this.currentScore}`);
 
       return "It is your best score!";
     }
@@ -100,12 +106,12 @@ class EndScene extends Phaser.Scene {
     return `Your best Score is ${prevBestScore}`;
   }
 
-  RestartGame() {
+  RestartGame(): void {
     this.sound.stopAll();
     this.scene.start("CountdownScene");
   }
 
-  ReturnToMainMenu() {
+  ReturnToMainMenu(): void {
     this.sound.stopAll();
     this.scene.start("StartScene");
   }

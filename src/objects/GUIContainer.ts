@@ -1,4 +1,7 @@
 class GUIContainer extends Phaser.GameObjects.Container {
+  sprite: Phaser.GameObjects.Sprite;
+  textObject: Phaser.GameObjects.Text;
+
   constructor({
     scene,
     name,
@@ -15,8 +18,24 @@ class GUIContainer extends Phaser.GameObjects.Container {
     pointerUp = () => {},
     pointerOver = () => {},
     pointerOut = () => {},
+  }: {
+    scene: Phaser.Scene;
+    name: string;
+    x: number;
+    y: number;
+    text?: string;
+    textStyle?: any;
+    texture: string;
+    defaultFrame: string;
+    frameHover?: string;
+    pressedFrame?: string;
+    depth?: number;
+    pointerDown?: () => void;
+    pointerUp?: () => void;
+    pointerOver?: () => void;
+    pointerOut?: () => void;
   }) {
-    super(scene, x, y, null);
+    super(scene, x, y);
     scene.add.existing(this);
 
     this.setName(name).setDepth(depth).setSize(1, 1);
