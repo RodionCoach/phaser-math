@@ -54,7 +54,7 @@ export default {
     }),
 
     livereload({
-      watch: path.resolve(__dirname, "src"),
+      watch: path.resolve(__dirname, "build"),
       exts: ["html", "js"],
     }),
   ],
