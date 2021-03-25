@@ -10,7 +10,7 @@ class GUIContainer extends Phaser.GameObjects.Container {
     x,
     y,
     text = "",
-    textStyle = {},
+    textStyle,
     texture,
     defaultFrame,
     frameHover = defaultFrame,
