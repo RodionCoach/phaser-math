@@ -3,6 +3,7 @@ import { BUTTON_STYLE } from "../utils/styles";
 import { SetAudio } from "../sceneHooks/SetAudio";
 import SoundButton from "../objects/soundButton";
 import { GUIContainer } from "../objects/GUIContainer";
+
 class StartScene extends Phaser.Scene {
   soundControl: SoundButton;
 

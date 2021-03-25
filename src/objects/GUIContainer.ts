@@ -1,3 +1,5 @@
+import { GUIContainerConfig } from "../types";
+
 class GUIContainer extends Phaser.GameObjects.Container {
   sprite: Phaser.GameObjects.Sprite;
   textObject: Phaser.GameObjects.Text;
@@ -18,23 +20,7 @@ class GUIContainer extends Phaser.GameObjects.Container {
     pointerUp = () => {},
     pointerOver = () => {},
     pointerOut = () => {},
-  }: {
-    scene: Phaser.Scene;
-    name: string;
-    x: number;
-    y: number;
-    text?: string;
-    textStyle?: any;
-    texture: string;
-    defaultFrame: string;
-    frameHover?: string;
-    pressedFrame?: string;
-    depth?: number;
-    pointerDown?: () => void;
-    pointerUp?: () => void;
-    pointerOver?: () => void;
-    pointerOut?: () => void;
-  }) {
+  }: GUIContainerConfig) {
     super(scene, x, y);
     scene.add.existing(this);
 

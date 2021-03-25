@@ -1,4 +1,5 @@
 import { PATH_SPRITES } from "../utils/constants";
+
 class BootScene extends Phaser.Scene {
   constructor() {
     super({

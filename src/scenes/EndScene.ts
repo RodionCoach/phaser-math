@@ -3,10 +3,7 @@ import { BUTTON_STYLE, SCORE_TITLE_STYLE, SCORE_NUMBERS_STYLE, SCORE_TEXT_STYLE 
 import { SetAudio } from "../sceneHooks/SetAudio";
 import SoundButton from "../objects/soundButton";
 import { GUIContainer } from "../objects/GUIContainer";
-
-interface InitData {
-  currentScore: number;
-}
+import { InitData } from "../types";
 
 class EndScene extends Phaser.Scene {
   currentScore: number;

@@ -1,12 +1,6 @@
 import { SIGNS } from "../constants";
 import { signGenerator } from "./signs";
-
-interface Example {
-  number1: number;
-  sign: string;
-  number2: number;
-  answer: number;
-}
+import { Example } from "../../types";
 
 const division = (sign: string): Example => {
   const example = multiplication(SIGNS[2], 4);
