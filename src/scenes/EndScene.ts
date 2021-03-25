@@ -91,7 +91,7 @@ class EndScene extends Phaser.Scene {
     SetAudio(this, "gameOver", 1.0, false);
   }
 
-  IsBestScore(): void {
+  IsBestScore(): string {
     let prevBestScore = window.localStorage.getItem("best_score");
     if (prevBestScore === "undefined" || prevBestScore === null) {
       prevBestScore = "0";
