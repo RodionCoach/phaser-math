@@ -10,6 +10,9 @@ Thumbs.db
 # Vendors
 node_modules/
 
+.env
+.eslintignore
+
 # Build
 build/
 /npm-debug.log
