@@ -3,7 +3,7 @@ interface ButtonStyle {
   fixedHeight: number;
   fontFamily: string;
   fontWeight: string;
-  fontStyle: string;
+  fontStyle?: string;
   color: string;
   align: string;
 }
