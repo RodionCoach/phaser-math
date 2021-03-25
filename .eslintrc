@@ -4,9 +4,13 @@
     "es6": true,
     "browser": true
   },
-  "extends": ["plugin:prettier/recommended"],
-  "plugins": ["prettier"],
-  "parser": "babel-eslint",
+  "extends": [
+    "plugin:prettier/recommended",
+    "plugin:@typescript-eslint/eslint-recommended",
+    "plugin:@typescript-eslint/recommended"
+  ],
+  "plugins": ["prettier", "@typescript-eslint"],
+  "parser": "@typescript-eslint/parser",
   "parserOptions": {
     "ecmaVersion": 9,
     "sourceType": "module"
@@ -22,7 +26,9 @@
         "endOfLine": "auto"
       }
     ],
-    "no-console": ["error", { "allow": ["warn", "error"] }]
+    "no-console": ["error", { "allow": ["warn", "error"] }],
+    "no-empty-function" : "off" ,
+    "@typescript-eslint/no-empty-function" : [ "error", { "allow": ["arrowFunctions"] } ]
   },
   "settings": {
     "import/resolver": {
