@@ -8,7 +8,7 @@ class CountdownScene extends Phaser.Scene {
     });
   }
 
-  create(): void {
+  create() {
     this.add.shader(
       "cartoonWaterShader",
       GAME_RESOLUTION.width / 2,

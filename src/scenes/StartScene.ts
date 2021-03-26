@@ -13,8 +13,15 @@ class StartScene extends Phaser.Scene {
     });
   }
 
-  create(): void {
-    this.soundControl = new SoundButton(this, 20, 20, "gui", "sound_on.svg", "sound_off_light.svg");
+  create() {
+    this.soundControl = new SoundButton({
+      scene: this,
+      x: 20,
+      y: 20,
+      texture: "gui",
+      frameOn: "sound_on.svg",
+      frameOff: "sound_off_light.svg",
+    });
     this.add.shader(
       "cartoonWaterShader",
       GAME_RESOLUTION.width / 2,
@@ -71,11 +78,11 @@ class StartScene extends Phaser.Scene {
     SetAudio(this, "background", 1.0, true);
   }
 
-  StartGame(): void {
+  StartGame() {
     this.scene.start("CountdownScene");
   }
 
-  HowToPlay(): void {
+  HowToPlay() {
     this.scene.start("RulesScene");
   }
 }

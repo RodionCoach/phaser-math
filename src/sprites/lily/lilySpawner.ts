@@ -90,7 +90,7 @@ export default class LilySpawner extends Phaser.GameObjects.GameObject {
     return guessedLilyIndex.length;
   }
 
-  GetLily(HeartsCallBack = () => {}): void {
+  GetLily(HeartsCallBack = () => {}) {
     this.currentLiliesCount %= TOTAL_LILIES;
     const randInt = Phaser.Math.RND.integerInRange(186, 650);
     const lily = this.lilies[this.currentLiliesCount];

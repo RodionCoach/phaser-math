@@ -12,8 +12,15 @@ class PauseScene extends Phaser.Scene {
     });
   }
 
-  create(): void {
-    this.soundControl = new SoundButton(this, 20, 20, "gui", "sound_on.svg", "sound_off_light.svg");
+  create() {
+    this.soundControl = new SoundButton({
+      scene: this,
+      x: 20,
+      y: 20,
+      texture: "gui",
+      frameOn: "sound_on.svg",
+      frameOff: "sound_off_light.svg",
+    });
     this.add.shader(
       "cartoonWaterShader",
       GAME_RESOLUTION.width / 2,
@@ -86,18 +93,18 @@ class PauseScene extends Phaser.Scene {
     containerButton.add(buttonReturn);
   }
 
-  ResumeGame(): void {
+  ResumeGame() {
     this.scene.resume("GameScene");
     this.scene.stop("PauseScene");
   }
 
-  RestartGame(): void {
+  RestartGame() {
     this.sound.stopAll();
     this.scene.stop("GameScene");
     this.scene.start("CountdownScene");
   }
 
-  ReturnToMainMenu(): void {
+  ReturnToMainMenu() {
     this.sound.stopAll();
     this.scene.stop("GameScene");
     this.scene.stop("PauseScene");

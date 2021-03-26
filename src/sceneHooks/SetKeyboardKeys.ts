@@ -1,7 +1,7 @@
 import { GUIContainer } from "../objects/GUIContainer";
 import GameScene from "../scenes/GameScene";
 
-export const SetKeyboardKeys = (scene: GameScene, inputField: GUIContainer): void => {
+export const SetKeyboardKeys = (scene: GameScene, inputField: GUIContainer) => {
   scene.input.keyboard.removeAllKeys(true);
   scene.input.keyboard
     .addKey(Phaser.Input.Keyboard.KeyCodes.NUMPAD_ZERO)

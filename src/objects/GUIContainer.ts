@@ -1,4 +1,30 @@
-import { GUIContainerConfig } from "../types";
+interface ButtonStyle {
+  fontSize: string;
+  fixedHeight: number;
+  fontFamily: string;
+  fontWeight: string;
+  fontStyle?: string;
+  color: string;
+  align: string;
+}
+
+interface GUIContainerConfig {
+  scene: Phaser.Scene;
+  name: string;
+  x: number;
+  y: number;
+  text?: string;
+  textStyle?: ButtonStyle;
+  texture: string;
+  defaultFrame: string;
+  frameHover?: string;
+  pressedFrame?: string;
+  depth?: number;
+  pointerDown?: () => void;
+  pointerUp?: () => void;
+  pointerOver?: () => void;
+  pointerOut?: () => void;
+}
 
 class GUIContainer extends Phaser.GameObjects.Container {
   sprite: Phaser.GameObjects.Sprite;

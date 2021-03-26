@@ -1,30 +1,8 @@
-interface ButtonStyle {
-  fontSize: string;
-  fixedHeight: number;
-  fontFamily: string;
-  fontWeight: string;
-  fontStyle?: string;
-  color: string;
-  align: string;
-}
-
-export interface GUIContainerConfig {
-  scene: Phaser.Scene;
-  name: string;
-  x: number;
-  y: number;
-  text?: string;
-  textStyle?: ButtonStyle;
-  texture: string;
-  defaultFrame: string;
-  frameHover?: string;
-  pressedFrame?: string;
-  depth?: number;
-  pointerDown?: () => void;
-  pointerUp?: () => void;
-  pointerOver?: () => void;
-  pointerOut?: () => void;
-}
+import GameScene from "./scenes/GameScene";
+import PauseScene from "./scenes/PauseScene";
+import RulesScene from "./scenes/RulesScene";
+import StartScene from "./scenes/StartScene";
+import EndScene from "./scenes/EndScene";
 
 export interface InitData {
   currentScore: number;
@@ -35,9 +13,11 @@ export interface Score {
   textObject: Phaser.GameObjects.Text;
 }
 
-export interface Example {
-  number1: number;
-  sign: string;
-  number2: number;
-  answer: number;
+type AllScenes = GameScene | PauseScene | RulesScene | StartScene | EndScene;
+
+export interface ToggleAudioConfig {
+  scene: AllScenes;
+  texture: string;
+  frameOn: string;
+  frameOff: string;
 }

@@ -17,12 +17,19 @@ class EndScene extends Phaser.Scene {
     this.currentScore = 0;
   }
 
-  init(data: InitData): void {
+  init(data: InitData) {
     this.currentScore = data.currentScore;
   }
 
-  create(): void {
-    this.soundControl = new SoundButton(this, 20, 20, "gui", "sound_on.svg", "sound_off_light.svg");
+  create() {
+    this.soundControl = new SoundButton({
+      scene: this,
+      x: 20,
+      y: 20,
+      texture: "gui",
+      frameOn: "sound_on.svg",
+      frameOff: "sound_off_light.svg",
+    });
     this.add.shader(
       "cartoonWaterShader",
       GAME_RESOLUTION.width / 2,
@@ -88,7 +95,7 @@ class EndScene extends Phaser.Scene {
     SetAudio(this, "gameOver", 1.0, false);
   }
 
-  IsBestScore(): string {
+  IsBestScore() {
     let prevBestScore = window.localStorage.getItem("best_score");
     if (prevBestScore === "undefined" || prevBestScore === null) {
       prevBestScore = "0";
@@ -103,12 +110,12 @@ class EndScene extends Phaser.Scene {
     return `Your best Score is ${prevBestScore}`;
   }
 
-  RestartGame(): void {
+  RestartGame() {
     this.sound.stopAll();
     this.scene.start("CountdownScene");
   }
 
-  ReturnToMainMenu(): void {
+  ReturnToMainMenu() {
     this.sound.stopAll();
     this.scene.start("StartScene");
   }

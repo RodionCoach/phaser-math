@@ -1,15 +1,6 @@
-import GameScene from "../scenes/GameScene";
-import PauseScene from "../scenes/PauseScene";
-import RulesScene from "../scenes/RulesScene";
-import StartScene from "../scenes/StartScene";
-import EndScene from "../scenes/EndScene";
+import { ToggleAudioConfig } from "../types";
 
-export const ToggleAudio = (
-  scene: GameScene | PauseScene | RulesScene | StartScene | EndScene,
-  texture: string,
-  frameOn: string,
-  frameOff: string,
-): void => {
+export const ToggleAudio = ({ scene, texture, frameOn, frameOff }: ToggleAudioConfig) => {
   if (!scene.sound.mute) {
     scene.soundControl.setTexture(texture, frameOff);
   } else {

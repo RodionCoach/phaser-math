@@ -6,7 +6,7 @@ class BootScene extends Phaser.Scene {
       key: "BootScene",
     });
   }
-  preload(): void {
+  preload() {
     const progressBox = this.add.graphics();
     const progress = this.add.graphics();
 

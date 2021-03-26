@@ -43,7 +43,7 @@ export default class lilyContainer extends Phaser.GameObjects.Container {
     this.add(this.spriteText);
   }
 
-  UpdateExampleTexture(): void {
+  UpdateExampleTexture() {
     this.rt.clear();
     this.rt.beginDraw();
     this.rt.batchDraw(this.textObject, 64 + 23, 64);
@@ -55,7 +55,7 @@ export default class lilyContainer extends Phaser.GameObjects.Container {
     this.rt.endDraw();
   }
 
-  SetStatus(status: boolean, answer: number): void {
+  SetStatus(status: boolean, answer: number) {
     this.canMove = status;
     this.y = lilyContainer.config.startPos.y;
     if (status) {
