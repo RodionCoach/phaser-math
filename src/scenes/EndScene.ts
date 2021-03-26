@@ -2,7 +2,7 @@ import { DEPTH_LAYERS, GAME_RESOLUTION } from "../utils/constants";
 import { BUTTON_STYLE, SCORE_TITLE_STYLE, SCORE_NUMBERS_STYLE, SCORE_TEXT_STYLE } from "../utils/styles";
 import { SetAudio } from "../sceneHooks/SetAudio";
 import SoundButton from "../objects/soundButton";
-import { GUIContainer } from "../objects/GUIContainer";
+import { GUIContainer } from "../objects/guiContainer";
 import { InitData } from "../types";
 
 class EndScene extends Phaser.Scene {

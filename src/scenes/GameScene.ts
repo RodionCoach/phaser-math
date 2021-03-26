@@ -1,5 +1,5 @@
 import LilySpawner from "../sprites/lily/lilySpawner";
-import { GUIContainer } from "../objects/GUIContainer";
+import { GUIContainer } from "../objects/guiContainer";
 import { SetKeyboardKeys } from "../sceneHooks/SetKeyboardKeys";
 import { SetAudio } from "../sceneHooks/SetAudio";
 import { GAME_RESOLUTION, GAME_HEALTH_POINTS, TOTAL_LILIES, DEPTH_LAYERS } from "../utils/constants";

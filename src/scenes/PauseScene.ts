@@ -1,7 +1,7 @@
 import { DEPTH_LAYERS, GAME_RESOLUTION } from "../utils/constants";
 import { BUTTON_STYLE } from "../utils/styles";
 import SoundButton from "../objects/soundButton";
-import { GUIContainer } from "../objects/GUIContainer";
+import { GUIContainer } from "../objects/guiContainer";
 
 class PauseScene extends Phaser.Scene {
   soundControl: SoundButton;

@@ -1,7 +1,7 @@
 import { RULES_TEXT, GAME_RESOLUTION, TEXT_AREA_CONFIG_FOR_RULES, DEPTH_LAYERS } from "../utils/constants";
 import { BUTTON_STYLE, RULES_STYLE } from "../utils/styles";
 import SoundButton from "../objects/soundButton";
-import { GUIContainer } from "../objects/GUIContainer";
+import { GUIContainer } from "../objects/guiContainer";
 
 class RulesScene extends Phaser.Scene {
   soundControl: SoundButton;

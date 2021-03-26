@@ -1,4 +1,4 @@
-import { GUIContainer } from "../objects/GUIContainer";
+import { GUIContainer } from "../objects/guiContainer";
 import GameScene from "../scenes/GameScene";
 
 export const SetKeyboardKeys = (scene: GameScene, inputField: GUIContainer) => {

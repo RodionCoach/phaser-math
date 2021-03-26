@@ -1,6 +1,6 @@
 import { SIGNS } from "../../utils/constants";
 
-export default class lilyContainer extends Phaser.GameObjects.Container {
+export default class LilyContainer extends Phaser.GameObjects.Container {
   tweenMove: Phaser.Tweens.Tween;
   sprite: Phaser.GameObjects.Sprite;
   textObject: Phaser.GameObjects.Text;
@@ -57,7 +57,7 @@ export default class lilyContainer extends Phaser.GameObjects.Container {
 
   SetStatus(status: boolean, answer: number) {
     this.canMove = status;
-    this.y = lilyContainer.config.startPos.y;
+    this.y = LilyContainer.config.startPos.y;
     if (status) {
       this.answer = answer;
     }
