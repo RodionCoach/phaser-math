@@ -1,19 +1,26 @@
 import { DEPTH_LAYERS, GAME_RESOLUTION } from "../utils/constants";
 import { BUTTON_STYLE } from "../utils/styles";
 import SoundButton from "../objects/soundButton";
-import { GUIContainer } from "../objects/GUIContainer";
+import { GUIContainer } from "../objects/guiContainer";
 
 class PauseScene extends Phaser.Scene {
+  soundControl: SoundButton;
+
   constructor() {
     super({
       key: "PauseScene",
     });
-
-    this.soundControl = null;
   }
 
   create() {
-    this.soundControl = new SoundButton(this, 20, 20, "gui", "sound_on.svg", "sound_off_light.svg");
+    this.soundControl = new SoundButton({
+      scene: this,
+      x: 20,
+      y: 20,
+      texture: "gui",
+      frameOn: "sound_on.svg",
+      frameOff: "sound_off_light.svg",
+    });
     this.add.shader(
       "cartoonWaterShader",
       GAME_RESOLUTION.width / 2,

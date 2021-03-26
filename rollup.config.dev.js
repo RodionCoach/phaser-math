@@ -2,12 +2,13 @@ import commonjs from "rollup-plugin-commonjs";
 import replace from "@rollup/plugin-replace";
 import serve from "rollup-plugin-serve";
 import resolve from "rollup-plugin-node-resolve";
+import typescript from "rollup-plugin-typescript2";
 import copy from "rollup-plugin-copy-assets";
 import livereload from "rollup-plugin-livereload";
 import path from "path";
 
 export default {
-  input: ["./src/index.js"],
+  input: ["./src/index.ts"],
 
   output: {
     file: "./build/index.js",
@@ -28,8 +29,10 @@ export default {
       preventAssignment: true,
     }),
 
+    typescript(),
+
     resolve({
-      extensions: [".js"],
+      extensions: [".js", ".ts", ".tsx"],
     }),
 
     commonjs({

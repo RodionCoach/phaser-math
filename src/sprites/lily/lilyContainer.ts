@@ -1,6 +1,16 @@
 import { SIGNS } from "../../utils/constants";
 
-export default class lilyContainer extends Phaser.GameObjects.Container {
+export default class LilyContainer extends Phaser.GameObjects.Container {
+  tweenMove: Phaser.Tweens.Tween;
+  sprite: Phaser.GameObjects.Sprite;
+  textObject: Phaser.GameObjects.Text;
+  textObjectForSign: Phaser.GameObjects.Text;
+  divisionSign: Phaser.GameObjects.Sprite;
+  canMove: boolean;
+  answer: number;
+  rt: Phaser.GameObjects.RenderTexture;
+  spriteText: Phaser.GameObjects.Sprite;
+
   static config = {
     startPos: {
       x: 0,
@@ -8,8 +18,8 @@ export default class lilyContainer extends Phaser.GameObjects.Container {
     },
   };
 
-  constructor({ scene, x, y, children }) {
-    super(scene, x, y, children);
+  constructor(scene: Phaser.Scene, x: number, y: number) {
+    super(scene, x, y);
     scene.add.existing(this);
 
     this.sprite = scene.add.sprite(0, 0, "", "").disableInteractive();
@@ -26,7 +36,6 @@ export default class lilyContainer extends Phaser.GameObjects.Container {
     this.add(this.divisionSign);
 
     this.canMove = false;
-    this.answer = null;
 
     this.rt = this.scene.add.renderTexture(400, 300, 128, 128).setVisible(false);
     this.rt.saveTexture("spriteText");
@@ -46,9 +55,9 @@ export default class lilyContainer extends Phaser.GameObjects.Container {
     this.rt.endDraw();
   }
 
-  SetStatus(status, answer) {
+  SetStatus(status: boolean, answer: number) {
     this.canMove = status;
-    this.y = lilyContainer.config.startPos.y;
+    this.y = LilyContainer.config.startPos.y;
     if (status) {
       this.answer = answer;
     }

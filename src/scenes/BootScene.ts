@@ -1,4 +1,5 @@
 import { PATH_SPRITES } from "../utils/constants";
+
 class BootScene extends Phaser.Scene {
   constructor() {
     super({
@@ -10,11 +11,11 @@ class BootScene extends Phaser.Scene {
     const progress = this.add.graphics();
 
     // Register a load progress event to show a load bar
-    this.load.on("progress", value => {
+    this.load.on("progress", (value: number) => {
       progress.clear();
       progressBox.fillStyle(0xfffffff, 0.8);
       progress.fillStyle(0xffffff, 1);
-      progress.fillRect(0, this.sys.game.config.height / 2, +this.sys.game.config.width * value, 60);
+      progress.fillRect(0, +this.sys.game.config.height / 2, +this.sys.game.config.width * value, 60);
     });
 
     // Register a load complete event to launch the title screen when all files are loaded

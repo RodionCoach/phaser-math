@@ -1,12 +1,22 @@
 import LilySpawner from "../sprites/lily/lilySpawner";
-import { GUIContainer } from "../objects/GUIContainer";
+import { GUIContainer } from "../objects/guiContainer";
 import { SetKeyboardKeys } from "../sceneHooks/SetKeyboardKeys";
 import { SetAudio } from "../sceneHooks/SetAudio";
 import { GAME_RESOLUTION, GAME_HEALTH_POINTS, TOTAL_LILIES, DEPTH_LAYERS } from "../utils/constants";
 import { BUTTON_NUMBER_STYLE, SCORE_STYLE } from "../utils/styles";
 import SoundButton from "../objects/soundButton";
+import { Score } from "../types";
 
 class GameScene extends Phaser.Scene {
+  currentLifes: number;
+  prevHealthPoints: number;
+  heartsGroup: Phaser.GameObjects.Container;
+  lilySpawner: LilySpawner;
+  plusPts: Phaser.GameObjects.Text;
+  soundControl: SoundButton;
+  prevNotGuessed: number;
+  score: Score;
+
   constructor() {
     super({
       key: "GameScene",
@@ -14,15 +24,17 @@ class GameScene extends Phaser.Scene {
 
     this.currentLifes = GAME_HEALTH_POINTS;
     this.prevHealthPoints = 0;
-    this.heartsGroup = null;
-    this.lilySpawner = null;
-    this.music = null;
-    this.plusPts = null;
-    this.soundControl = null;
   }
 
   create() {
-    this.soundControl = new SoundButton(this, 20, 20, "gui", "sound_on.svg", "sound_off_light.svg");
+    this.soundControl = this.soundControl = new SoundButton({
+      scene: this,
+      x: 20,
+      y: 20,
+      texture: "gui",
+      frameOn: "sound_on.svg",
+      frameOff: "sound_off_light.svg",
+    });
     const pauseControl = this.add
       .image(752, 24, "gui", "pause.svg")
       .setOrigin(0)
@@ -61,7 +73,7 @@ class GameScene extends Phaser.Scene {
 
     this.heartsGroup = this.add.container(765, 355).setName("heartsGroup").setDepth(DEPTH_LAYERS.one);
     for (let i = 0; i < this.currentLifes; i++) {
-      const heartFilled = this.add
+      const heartFilled: Phaser.GameObjects.Sprite = this.add
         .sprite(0, i * 30, "gui", "filled_heart.svg")
         .setOrigin(0.5, 0.5)
         .disableInteractive();
@@ -133,7 +145,7 @@ class GameScene extends Phaser.Scene {
         defaultFrame: "digit_button.png",
         depth: DEPTH_LAYERS.one,
         pointerDown: () => {
-          this.SetAnswerText(i, inputField.textObject, inputField.sprite);
+          this.SetAnswerText(`${i}`, inputField.textObject, inputField.sprite);
         },
       });
       containerDigitalGUI.add(digitalButton);
@@ -148,7 +160,7 @@ class GameScene extends Phaser.Scene {
   update() {
     const renderedLily = Phaser.Math.Clamp(this.lilySpawner.currentLiliesCount - 1, 0, TOTAL_LILIES);
     if (
-      this.lilySpawner.lilies[renderedLily].y < this.game?.config?.height - 200 ||
+      this.lilySpawner.lilies[renderedLily].y < +this.game?.config?.height - 200 ||
       !this.lilySpawner.visibleLiliesCount
     ) {
       this.lilySpawner.GetLily(() => {
@@ -178,7 +190,8 @@ class GameScene extends Phaser.Scene {
         repeat: 0,
         onComplete: () => {
           this.PlayMissedSound();
-          this.heartsGroup.getAll()[this.prevNotGuessed - 1].setTexture("gui", "empty_heart.svg");
+          const heart = <Phaser.GameObjects.Sprite>this.heartsGroup.getAll()[this.prevNotGuessed - 1];
+          heart.setTexture("gui", "empty_heart.svg");
         },
       });
       if (this.prevNotGuessed === this.currentLifes) {
@@ -199,17 +212,21 @@ class GameScene extends Phaser.Scene {
     });
   }
 
-  ResetAnswerText(inputTextObject, inputFieldObject, text) {
+  ResetAnswerText(inputTextObject: Phaser.GameObjects.Text, inputFieldObject: Phaser.GameObjects.Sprite, text = "") {
     inputTextObject.setText(text);
     inputFieldObject.setTexture("inputField", "0001.png");
   }
 
-  WrongAnswerText(inputTextObject, inputFieldObject) {
+  WrongAnswerText(inputTextObject: Phaser.GameObjects.Text, inputFieldObject: Phaser.GameObjects.Sprite) {
     inputTextObject.setText("");
     inputFieldObject.setTexture("inputField", "0002.png");
   }
 
-  SetAnswerText(subString, inputTextObject, inputFieldObject) {
+  SetAnswerText(
+    subString: string,
+    inputTextObject: Phaser.GameObjects.Text,
+    inputFieldObject: Phaser.GameObjects.Sprite,
+  ) {
     this.ResetAnswerText(
       inputTextObject,
       inputFieldObject,
@@ -217,7 +234,7 @@ class GameScene extends Phaser.Scene {
     );
   }
 
-  CheckAnswer(inputTextObject, inputFieldObject) {
+  CheckAnswer(inputTextObject: Phaser.GameObjects.Text, inputFieldObject: Phaser.GameObjects.Sprite) {
     if (inputTextObject.text !== "") {
       const guessedCount = this.lilySpawner.checkSomeExample(+inputTextObject.text);
       if (guessedCount) {
@@ -251,7 +268,7 @@ class GameScene extends Phaser.Scene {
       textObject: this.make.text({
         x: 60,
         y: 355,
-        textObject: "0",
+        text: "0",
         origin: {
           x: 0.5,
           y: 0.5,
@@ -261,12 +278,12 @@ class GameScene extends Phaser.Scene {
       }),
     };
 
-    this.score.textObject.setText(this.score.pts);
+    this.score.textObject.setText(`${this.score.pts}`);
   }
 
-  UpdateScore(scores) {
+  UpdateScore(scores: number) {
     this.score.pts += scores;
-    this.score.textObject.setText(this.score.pts);
+    this.score.textObject.setText(`${this.score.pts}`);
     this.plusPts.setText(`+${scores}`).setVisible(true);
     this.time.addEvent({
       delay: 1000,
