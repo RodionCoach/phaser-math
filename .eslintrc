@@ -26,6 +26,7 @@
         "endOfLine": "auto"
       }
     ],
+    "no-debugger": "warn",
     "no-console": ["error", { "allow": ["warn", "error"] }],
     "no-empty-function" : "off" ,
     "@typescript-eslint/no-empty-function" : [ "error", { "allow": ["arrowFunctions"] } ]
@@ -34,12 +35,27 @@
     "import/resolver": {
       "node": {
         "paths": ["src"],
-        "extensions": [".js"]
+        "extensions": [".js", ".ts"]
       }
     },
     "import/core-modules": ["phaser"]
   },
   "globals": {
     "Phaser": true
-  }
+  },
+  "overrides": [
+    {
+      "files": ["**/*.ts"],
+      "parserOptions": {
+        "project": ["./tsconfig.json"],
+        "tsconfigRootDir": "./"
+      },
+      "rules": {
+        "@typescript-eslint/no-explicit-any": "off",
+        "@typescript-eslint/explicit-module-boundary-types": "off",
+        "@typescript-eslint/no-floating-promises": "off",
+        "@typescript-eslint/ban-types": "off"
+      }
+    }
+  ]
 }
