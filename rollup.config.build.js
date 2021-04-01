@@ -3,6 +3,7 @@ import replace from "@rollup/plugin-replace";
 import { terser } from "rollup-plugin-terser";
 import resolve from "rollup-plugin-node-resolve";
 import typescript from "rollup-plugin-typescript2";
+import babel from "rollup-plugin-babel";
 import copy from "rollup-plugin-copy-assets";
 
 export default {
@@ -28,6 +29,8 @@ export default {
     }),
 
     typescript(),
+
+    babel({ exclude: "node_modules/**", extensions: [".ts"] }),
 
     resolve({
       extensions: [".js", ".ts", ".tsx"],
