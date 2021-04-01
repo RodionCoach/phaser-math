@@ -33,7 +33,7 @@ export default {
     babel({ exclude: "node_modules/**", extensions: [".ts"] }),
 
     resolve({
-      extensions: [".js", ".ts", ".tsx"],
+      extensions: [".ts", ".tsx"],
     }),
 
     commonjs({
