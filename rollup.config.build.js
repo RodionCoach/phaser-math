@@ -22,7 +22,7 @@ export default {
     babel({ exclude: "node_modules/**", extensions: [".ts"] }),
 
     resolve({
-      extensions: [".ts", ".tsx"],
+      extensions: [".ts"],
     }),
 
     commonjs({
