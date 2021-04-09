@@ -53,6 +53,11 @@ class BootScene extends Phaser.Scene {
       },
     });
   }
+  init() {
+    // eslint-disable-next-line no-console
+    console.log("ready to send", window?.frameElement?.getAttribute("id"), window.name);
+    window.parent.postMessage({ message: window?.frameElement?.getAttribute("id") }, "*");
+  }
 }
 
 export default BootScene;

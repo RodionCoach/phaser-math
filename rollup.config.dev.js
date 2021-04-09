@@ -1,6 +1,7 @@
 import serve from "rollup-plugin-serve";
 import typescript from "rollup-plugin-typescript2";
 import livereload from "rollup-plugin-livereload";
+import copy from "rollup-plugin-copy";
 import path from "path";
 
 export default {
@@ -18,7 +19,17 @@ export default {
     typescript(),
 
     copy({
-      assets: ["src/assets", "src/index.html"],
+      targets: [
+        {
+          src: "src/assets",
+          dest: "build",
+        },
+        {
+          src: "src/index.html",
+          dest: "build",
+        },
+      ],
+      copyOnce: true,
     }),
 
     serve({

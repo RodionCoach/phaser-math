@@ -1,6 +1,6 @@
 import { terser } from "rollup-plugin-terser";
 import typescript from "rollup-plugin-typescript2";
-import copy from "rollup-plugin-copy-assets";
+import copy from "rollup-plugin-copy";
 
 export default {
   input: ["./src/index.ts"],
@@ -19,7 +19,17 @@ export default {
     terser(),
 
     copy({
-      assets: ["src/assets", "src/index.html"],
+      targets: [
+        {
+          src: "src/assets",
+          dest: "build",
+        },
+        {
+          src: "src/index.html",
+          dest: "build",
+        },
+      ],
+      copyOnce: true,
     }),
   ],
 };
