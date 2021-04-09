@@ -4,8 +4,8 @@
   "description": "Aristek game",
   "main": "src/index.js",
   "scripts": {
-    "build": "rollup --config rollup.config.build.js",
-    "start": "rollup --watch --config rollup.config.dev.js",
+    "build": "cross-env NODE_ENV=production rollup -c",
+    "start": "rollup -cw",
     "verify": "run-p verify:ts verify:eslint verify:prettier",
     "verify:commit": "run-s verify:ts verify:staged",
     "verify:ts": "tsc --noEmit",
@@ -42,6 +42,8 @@
   "devDependencies": {
     "@babel/core": "^7.13.14",
     "@babel/preset-env": "7.4.5",
+    "@rollup/plugin-commonjs": "^18.0.0",
+    "@rollup/plugin-node-resolve": "^11.2.1",
     "@typescript-eslint/eslint-plugin": "^4.19.0",
     "@typescript-eslint/parser": "^4.19.0",
     "babel-eslint": "^10.1.0",
