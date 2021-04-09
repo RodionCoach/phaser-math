@@ -1,8 +1,5 @@
-import commonjs from "rollup-plugin-commonjs";
 import { terser } from "rollup-plugin-terser";
-import resolve from "rollup-plugin-node-resolve";
 import typescript from "rollup-plugin-typescript2";
-import babel from "rollup-plugin-babel";
 import copy from "rollup-plugin-copy-assets";
 
 export default {
@@ -18,19 +15,6 @@ export default {
 
   plugins: [
     typescript(),
-
-    babel({ exclude: "node_modules/**", extensions: [".ts"] }),
-
-    resolve({
-      extensions: [".ts"],
-    }),
-
-    commonjs({
-      include: ["node_modules/eventemitter3/**", "node_modules/phaser/**", "node_modules/**"],
-      exclude: ["node_modules/phaser/src/polyfills/requestAnimationFrame.js"],
-      sourceMap: false,
-      ignoreGlobal: true,
-    }),
 
     terser(),
 
