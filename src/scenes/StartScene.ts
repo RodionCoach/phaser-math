@@ -2,20 +2,26 @@ import { DEPTH_LAYERS, GAME_RESOLUTION } from "../utils/constants";
 import { BUTTON_STYLE } from "../utils/styles";
 import { SetAudio } from "../sceneHooks/SetAudio";
 import SoundButton from "../objects/soundButton";
-import { GUIContainer } from "../objects/GUIContainer";
+import { GUIContainer } from "../objects/guiContainer";
+
 class StartScene extends Phaser.Scene {
-  startGameKey = null;
+  soundControl: SoundButton;
 
   constructor() {
     super({
       key: "StartScene",
     });
-
-    this.soundControl = null;
   }
 
   create() {
-    this.soundControl = new SoundButton(this, 20, 20, "gui", "sound_on.svg", "sound_off_light.svg");
+    this.soundControl = new SoundButton({
+      scene: this,
+      x: 20,
+      y: 20,
+      texture: "gui",
+      frameOn: "sound_on.svg",
+      frameOff: "sound_off_light.svg",
+    });
     this.add.shader(
       "cartoonWaterShader",
       GAME_RESOLUTION.width / 2,
@@ -70,12 +76,6 @@ class StartScene extends Phaser.Scene {
     containerButton.add(rulesGameButton);
 
     SetAudio(this, "background", 1.0, true);
-  }
-
-  update() {
-    if (this.startGameKey && Phaser.Input.Keyboard.JustDown(this.startGameKey)) {
-      this.StartGame();
-    }
   }
 
   StartGame() {

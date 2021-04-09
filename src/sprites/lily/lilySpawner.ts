@@ -4,8 +4,16 @@ import { LILY_BONDARY_LIMIT, TOTAL_LILIES } from "../../utils/constants";
 import { EXAMPLES_STYLE } from "../../utils/styles";
 
 export default class LilySpawner extends Phaser.GameObjects.GameObject {
-  constructor(scene) {
-    super(scene);
+  speedIncrementer: number;
+  delta: number;
+  currentLiliesCount: number;
+  lilies: LilyContainer[];
+  notGuessedCount: number;
+  guessedCount: number;
+  visibleLiliesCount: number;
+
+  constructor(scene: Phaser.Scene) {
+    super(scene, "");
 
     scene.add.existing(this);
     this.speedIncrementer = 1;
@@ -15,7 +23,7 @@ export default class LilySpawner extends Phaser.GameObjects.GameObject {
     this.notGuessedCount = 0;
     this.guessedCount = 0;
     this.visibleLiliesCount = 0;
-    let frameNamesWave = scene.anims.generateFrameNames("lily", {
+    const frameNamesWave = scene.anims.generateFrameNames("lily", {
       start: 1,
       end: 4,
       zeroPad: 4,
@@ -24,7 +32,7 @@ export default class LilySpawner extends Phaser.GameObjects.GameObject {
     });
     scene.anims.create({ key: "wave", frames: frameNamesWave, frameRate: 4, repeat: -1 });
 
-    let frameNamesSolved = scene.anims.generateFrameNames("lily", {
+    const frameNamesSolved = scene.anims.generateFrameNames("lily", {
       start: 1,
       end: 11,
       zeroPad: 4,
@@ -33,7 +41,7 @@ export default class LilySpawner extends Phaser.GameObjects.GameObject {
     });
     scene.anims.create({ key: "solved", frames: frameNamesSolved, frameRate: 10, repeat: 0 });
 
-    let frameNamesLine = scene.anims.generateFrameNames("lily", {
+    const frameNamesLine = scene.anims.generateFrameNames("lily", {
       start: 1,
       end: 5,
       zeroPad: 4,
@@ -43,16 +51,16 @@ export default class LilySpawner extends Phaser.GameObjects.GameObject {
     scene.anims.create({ key: "line", frames: frameNamesLine, frameRate: 15, repeat: 0 });
 
     for (let i = 0; i < TOTAL_LILIES; i++) {
-      let lilyContainer = new LilyContainer({
+      const lilyContainer: LilyContainer = new LilyContainer(
         scene,
-        x: LilyContainer.config.startPos.x,
-        y: LilyContainer.config.startPos.y,
-      });
+        LilyContainer.config.startPos.x,
+        LilyContainer.config.startPos.y,
+      );
       lilyContainer.sprite.setTexture("lily", "wave/0001.png").setScale(1.2, 1.2);
       lilyContainer.sprite.on(
         Phaser.Animations.Events.ANIMATION_COMPLETE,
         () => {
-          lilyContainer.SetStatus(false);
+          lilyContainer.SetStatus(false, -1);
         },
         this,
       );
@@ -62,12 +70,12 @@ export default class LilySpawner extends Phaser.GameObjects.GameObject {
     }
   }
 
-  checkSomeExample(answerText) {
+  checkSomeExample(answerText: number): number {
     const guessedLilyIndex = this.lilies.filter(lily => lily.answer === answerText);
 
     guessedLilyIndex.forEach(lily => {
       this.visibleLiliesCount -= 1;
-      lily.answer = null;
+      lily.answer = -1;
       lily.tweenMove.stop();
       lily.spriteText.setVisible(false);
       lily.textObject.setText("");
@@ -106,7 +114,7 @@ export default class LilySpawner extends Phaser.GameObjects.GameObject {
       duration: 10000,
       ease: "Linear",
       onComplete: () => {
-        lily.answer = null;
+        lily.answer = -1;
         this.notGuessedCount++;
         HeartsCallBack();
         this.visibleLiliesCount -= 1;

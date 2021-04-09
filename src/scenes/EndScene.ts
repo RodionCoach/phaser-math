@@ -2,24 +2,34 @@ import { DEPTH_LAYERS, GAME_RESOLUTION } from "../utils/constants";
 import { BUTTON_STYLE, SCORE_TITLE_STYLE, SCORE_NUMBERS_STYLE, SCORE_TEXT_STYLE } from "../utils/styles";
 import { SetAudio } from "../sceneHooks/SetAudio";
 import SoundButton from "../objects/soundButton";
-import { GUIContainer } from "../objects/GUIContainer";
+import { GUIContainer } from "../objects/guiContainer";
+import { InitData } from "../types";
 
 class EndScene extends Phaser.Scene {
+  currentScore: number;
+  soundControl: Phaser.GameObjects.Image;
+
   constructor() {
     super({
       key: "EndScene",
     });
 
     this.currentScore = 0;
-    this.soundControl = null;
   }
 
-  init({ currentScore }) {
-    this.currentScore = currentScore;
+  init(data: InitData) {
+    this.currentScore = data.currentScore;
   }
 
   create() {
-    this.soundControl = new SoundButton(this, 20, 20, "gui", "sound_on.svg", "sound_off_light.svg");
+    this.soundControl = new SoundButton({
+      scene: this,
+      x: 20,
+      y: 20,
+      texture: "gui",
+      frameOn: "sound_on.svg",
+      frameOff: "sound_off_light.svg",
+    });
     this.add.shader(
       "cartoonWaterShader",
       GAME_RESOLUTION.width / 2,
@@ -88,11 +98,11 @@ class EndScene extends Phaser.Scene {
   IsBestScore() {
     let prevBestScore = window.localStorage.getItem("best_score");
     if (prevBestScore === "undefined" || prevBestScore === null) {
-      prevBestScore = 0;
+      prevBestScore = "0";
     }
 
-    if (prevBestScore < this.currentScore) {
-      window.localStorage.setItem("best_score", this.currentScore);
+    if (+prevBestScore < this.currentScore) {
+      window.localStorage.setItem("best_score", `${this.currentScore}`);
 
       return "It is your best score!";
     }
