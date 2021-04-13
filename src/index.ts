@@ -1,14 +1,15 @@
 import "phaser";
-import BootScene from "./scenes/BootScene";
-import StartScene from "./scenes/StartScene";
-import GameScene from "./scenes/GameScene";
-import PauseScene from "./scenes/PauseScene";
-import RulesScene from "./scenes/RulesScene";
-import CountdownScene from "./scenes/CountdownScene";
-import EndScene from "./scenes/EndScene";
+import BootScene from "scenes/BootScene";
+import StartScene from "scenes/StartScene";
+import GameScene from "scenes/GameScene";
+import PauseScene from "scenes/PauseScene";
+import RulesScene from "scenes/RulesScene";
+import CountdownScene from "scenes/CountdownScene";
+import EndScene from "scenes/EndScene";
 import WebFontLoaderPlugin from "phaser3-rex-plugins/plugins/webfontloader-plugin.js";
+import api from "api";
 
-import { GAME_RESOLUTION, BACKGROUND_COLOR } from "./utils/constants";
+import { GAME_RESOLUTION, BACKGROUND_COLOR } from "utils/constants";
 
 const config = {
   type: Phaser.WEBGL,
@@ -38,4 +39,7 @@ const config = {
   scene: [BootScene, CountdownScene, StartScene, GameScene, PauseScene, EndScene, RulesScene],
 };
 
-new Phaser.Game(config);
+const game = new Phaser.Game(config);
+
+api.init(game);
+api.onMessageHanlder(game);
