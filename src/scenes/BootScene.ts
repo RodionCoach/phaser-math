@@ -1,4 +1,4 @@
-import { PATH_SPRITES } from "../utils/constants";
+import { PATH_SPRITES } from "utils/constants";
 
 class BootScene extends Phaser.Scene {
   constructor() {
@@ -52,11 +52,6 @@ class BootScene extends Phaser.Scene {
         families: ["Lato:400,700,900"],
       },
     });
-  }
-  init() {
-    // eslint-disable-next-line no-console
-    console.log("ready to send", window?.frameElement?.getAttribute("id"), window.name);
-    window.parent.postMessage({ message: window?.frameElement?.getAttribute("id") }, "*");
   }
 }
 

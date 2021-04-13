@@ -4,6 +4,7 @@ import { SetAudio } from "../sceneHooks/SetAudio";
 import SoundButton from "../objects/soundButton";
 import { GUIContainer } from "../objects/guiContainer";
 import { InitData } from "../types";
+import api from "api";
 
 class EndScene extends Phaser.Scene {
   currentScore: number;
@@ -93,6 +94,8 @@ class EndScene extends Phaser.Scene {
     container.add(buttonReturn);
 
     SetAudio(this, "gameOver", 1.0, false);
+
+    api.onGameOver(this.game, this.currentScore);
   }
 
   IsBestScore() {
