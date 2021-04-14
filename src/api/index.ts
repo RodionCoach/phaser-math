@@ -1,24 +1,25 @@
 const init = (game: Phaser.Game) => {
-  game.registry.set("prevScore", 0);
+  game.registry.set("bestScore", 0);
   game.registry.set("gradingLevel", 5);
-  window.parent.postMessage({ eventName: "onReady", name: window.name }, "*");
-};
+  window.parent.postMessage({ eventName: "onReady", id: window.name }, "*");
 
-const onMessageHanlder = (game: Phaser.Game) => {
   window.addEventListener("message", (e: MessageEvent) => {
     if (e.data.eventName === "setCurrentState") {
-      game.registry.set("prevScore", e.data.prevScore);
+      game.registry.set("bestScore", e.data.score);
       game.registry.set("gradingLevel", e.data.gradingLevel);
+    }
+
+    if (e.data.eventName === "setBestScore") {
+      game.registry.set("bestScore", e.data.score);
     }
   });
 };
 
 const onGameOver = (game: Phaser.Game, score: number) => {
-  if (game.registry.get("prevScore") <= score) {
-    game.registry.set("prevScore", score);
+  if (game.registry.get("bestScore") <= score) {
+    game.registry.set("bestScore", score);
   }
-
-  window.parent.postMessage({ eventName: "updateScore", score }, "*");
+  window.parent.postMessage({ eventName: "updateScore", id: window.name, score }, "*");
 };
 
-export default { init, onMessageHanlder, onGameOver };
+export default { init, onGameOver };

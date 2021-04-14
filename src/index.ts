@@ -42,4 +42,3 @@ const config = {
 const game = new Phaser.Game(config);
 
 api.init(game);
-api.onMessageHanlder(game);
