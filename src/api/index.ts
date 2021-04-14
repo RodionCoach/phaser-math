@@ -1,24 +1,24 @@
 const init = (game: Phaser.Game) => {
-  game.registry.set("prevScore", 0);
+  game.registry.set("bestScore", 0);
   game.registry.set("gradingLevel", 5);
   window.parent.postMessage({ eventName: "onReady", id: window.name }, "*");
 
   window.addEventListener("message", (e: MessageEvent) => {
-    console.log("inside_game_e.data.eventName", e.data.prevScore, e.data.gradingLevel);
     if (e.data.eventName === "setCurrentState") {
-      console.log("inside_game_e.data.eventName", e.data.prevScore, e.data.gradingLevel);
-      game.registry.set("prevScore", e.data.prevScore);
+      game.registry.set("bestScore", e.data.score);
       game.registry.set("gradingLevel", e.data.gradingLevel);
     }
+
+    if (e.data.eventName === "setBestScore") {
+      game.registry.set("bestScore", e.data.score);
+    }
   });
-  debugger;
 };
 
 const onGameOver = (game: Phaser.Game, score: number) => {
-  if (game.registry.get("prevScore") <= score) {
-    game.registry.set("prevScore", score);
+  if (game.registry.get("bestScore") <= score) {
+    game.registry.set("bestScore", score);
   }
-  debugger;
   window.parent.postMessage({ eventName: "updateScore", id: window.name, score }, "*");
 };
 

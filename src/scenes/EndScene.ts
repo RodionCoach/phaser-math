@@ -99,18 +99,9 @@ class EndScene extends Phaser.Scene {
   }
 
   IsBestScore() {
-    let prevBestScore = window.localStorage.getItem("best_score");
-    if (prevBestScore === "undefined" || prevBestScore === null) {
-      prevBestScore = "0";
-    }
+    const bestScore = this.registry.get("bestScore");
 
-    if (+prevBestScore < this.currentScore) {
-      window.localStorage.setItem("best_score", `${this.currentScore}`);
-
-      return "It is your best score!";
-    }
-
-    return `Your best Score is ${prevBestScore}`;
+    return bestScore < this.currentScore ? "It is your best score!" : `Your best Score is ${bestScore}`;
   }
 
   RestartGame() {
