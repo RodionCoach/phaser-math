@@ -14,10 +14,6 @@ const init = (game: Phaser.Game) => {
     if (e.data.eventName === "setBestScore") {
       game.registry.set("bestScore", e.data.score);
     }
-
-    if (e.data.eventName === "setBestScore") {
-      game.registry.set("bestScore", e.data.score);
-    }
   });
 };
 
